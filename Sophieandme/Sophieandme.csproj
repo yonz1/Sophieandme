@@ -1,0 +1,55 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <ApplicationIcon>Lofi_Girl_logo_2024-removebg-preview.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="formula.png" />
+    <None Remove="images\Berserk-Logo %281%29.png" />
+    <None Remove="images\BERSERK-LOGO.png" />
+    <None Remove="images\Lofi_Girl_logo_2024-removebg-preview.png" />
+    <None Remove="milad-fakurian-_S-zZyQiOr8-unsplash.jpg" />
+    <None Remove="Ryan-Gosling_0.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Lofi_Girl_logo_2024-removebg-preview.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="HTML\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Aspose.TeX" Version="25.4.0" />
+    <PackageReference Include="CSharpMath" Version="0.5.1" />
+    <PackageReference Include="CSharpMath.Editor" Version="0.5.1" />
+    <PackageReference Include="CSharpMath.Forms" Version="0.5.1" />
+    <PackageReference Include="CSharpMath.Rendering" Version="0.5.1" />
+    <PackageReference Include="FontAwesome.Sharp" Version="6.6.0" />
+    <PackageReference Include="MahApps.Metro.IconPacks" Version="5.1.0" />
+    <PackageReference Include="MaterialDesignColors" Version="5.2.1" />
+    <PackageReference Include="MaterialDesignThemes" Version="5.2.1" />
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3240.44" />
+    <PackageReference Include="SQLite" Version="3.13.0" />
+    <PackageReference Include="SQLitePCLRaw.core" Version="2.1.11" />
+    <PackageReference Include="SQLitePCLRaw.lib.e_sqlite3" Version="2.1.11" />
+    <PackageReference Include="System.Data.SQLite" Version="1.0.119" />
+    <PackageReference Include="WpfMath" Version="2.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="images\Berserk-Logo (1).png" />
+    <Resource Include="images\BERSERK-LOGO.png" />
+    <Resource Include="images\Lofi_Girl_logo_2024-removebg-preview.png" />
+    <Resource Include="milad-fakurian-_S-zZyQiOr8-unsplash.jpg" />
+    <Resource Include="Ryan-Gosling_0.jpg" />
+  </ItemGroup>
+
+</Project>

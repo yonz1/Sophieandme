@@ -1,0 +1,462 @@
+﻿<Page
+    x:Class="WpfApp2.Pages.Settings.General"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:WpfApp2.Pages.Settings"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="General"
+    d:DesignHeight="600"
+    d:DesignWidth="1100"
+    Loaded="Page_Loaded"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Style/ButtonStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <!--  Animation pour name  -->
+
+            <Storyboard x:Key="Edit_name">
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="edit_name" Storyboard.TargetProperty="(UIElement.Visibility)">
+                    <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Hidden}" />
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="textBlock_name" Storyboard.TargetProperty="(UIElement.Visibility)">
+                    <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Hidden}" />
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Applybtn_name" Storyboard.TargetProperty="(UIElement.Visibility)">
+                    <DiscreteObjectKeyFrame KeyTime="00:00:00.1000000" Value="{x:Static Visibility.Visible}" />
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Cancel_name" Storyboard.TargetProperty="(UIElement.Visibility)">
+                    <DiscreteObjectKeyFrame KeyTime="00:00:00.1000000" Value="{x:Static Visibility.Visible}" />
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="textBox_name" Storyboard.TargetProperty="(UIElement.Visibility)">
+                    <DiscreteObjectKeyFrame KeyTime="00:00:00.1000000" Value="{x:Static Visibility.Visible}" />
+                </ObjectAnimationUsingKeyFrames>
+            </Storyboard>
+            <Storyboard x:Key="Edit_name_return_default">
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="textBox_name" Storyboard.TargetProperty="(UIElement.Visibility)">
+                    <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Hidden}" />
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Applybtn_name" Storyboard.TargetProperty="(UIElement.Visibility)">
+                    <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Hidden}" />
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Cancel_name" Storyboard.TargetProperty="(UIElement.Visibility)">
+                    <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Hidden}" />
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="textBlock_name" Storyboard.TargetProperty="(UIElement.Visibility)">
+                    <DiscreteObjectKeyFrame KeyTime="00:00:00.1000000" Value="{x:Static Visibility.Visible}" />
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="edit_name" Storyboard.TargetProperty="(UIElement.Visibility)">
+                    <DiscreteObjectKeyFrame KeyTime="00:00:00.1000000" Value="{x:Static Visibility.Visible}" />
+                </ObjectAnimationUsingKeyFrames>
+            </Storyboard>
+
+            <!--  Animation Pour email  -->
+
+            <Storyboard x:Key="Edit_email">
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="edit_email" Storyboard.TargetProperty="(UIElement.Visibility)">
+                    <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Hidden}" />
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="textBlock_email" Storyboard.TargetProperty="(UIElement.Visibility)">
+                    <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Hidden}" />
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Applybtn_email" Storyboard.TargetProperty="(UIElement.Visibility)">
+                    <DiscreteObjectKeyFrame KeyTime="00:00:00.1000000" Value="{x:Static Visibility.Visible}" />
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Cancel_email" Storyboard.TargetProperty="(UIElement.Visibility)">
+                    <DiscreteObjectKeyFrame KeyTime="00:00:00.1000000" Value="{x:Static Visibility.Visible}" />
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="textBox_email" Storyboard.TargetProperty="(UIElement.Visibility)">
+                    <DiscreteObjectKeyFrame KeyTime="00:00:00.1000000" Value="{x:Static Visibility.Visible}" />
+                </ObjectAnimationUsingKeyFrames>
+            </Storyboard>
+            <Storyboard x:Key="Edit_email_return_default">
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="textBox_email" Storyboard.TargetProperty="(UIElement.Visibility)">
+                    <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Hidden}" />
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Applybtn_email" Storyboard.TargetProperty="(UIElement.Visibility)">
+                    <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Hidden}" />
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Cancel_email" Storyboard.TargetProperty="(UIElement.Visibility)">
+                    <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Hidden}" />
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="textBlock_email" Storyboard.TargetProperty="(UIElement.Visibility)">
+                    <DiscreteObjectKeyFrame KeyTime="00:00:00.1000000" Value="{x:Static Visibility.Visible}" />
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="edit_email" Storyboard.TargetProperty="(UIElement.Visibility)">
+                    <DiscreteObjectKeyFrame KeyTime="00:00:00.1000000" Value="{x:Static Visibility.Visible}" />
+                </ObjectAnimationUsingKeyFrames>
+            </Storyboard>
+
+
+            <!--  Animation pour themes  -->
+
+            <Storyboard x:Key="Edit_themes">
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="edit_theme" Storyboard.TargetProperty="(UIElement.Visibility)">
+                    <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Hidden}" />
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="textBlock_theme" Storyboard.TargetProperty="(UIElement.Visibility)">
+                    <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Hidden}" />
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Applybtn_theme" Storyboard.TargetProperty="(UIElement.Visibility)">
+                    <DiscreteObjectKeyFrame KeyTime="00:00:00.1000000" Value="{x:Static Visibility.Visible}" />
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Cancel_theme" Storyboard.TargetProperty="(UIElement.Visibility)">
+                    <DiscreteObjectKeyFrame KeyTime="00:00:00.1000000" Value="{x:Static Visibility.Visible}" />
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Themecombo" Storyboard.TargetProperty="(UIElement.Visibility)">
+                    <DiscreteObjectKeyFrame KeyTime="00:00:00.1000000" Value="{x:Static Visibility.Visible}" />
+                </ObjectAnimationUsingKeyFrames>
+            </Storyboard>
+            <Storyboard x:Key="Edit_themes_return_default">
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Themecombo" Storyboard.TargetProperty="(UIElement.Visibility)">
+                    <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Hidden}" />
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Applybtn_theme" Storyboard.TargetProperty="(UIElement.Visibility)">
+                    <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Hidden}" />
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Cancel_theme" Storyboard.TargetProperty="(UIElement.Visibility)">
+                    <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Hidden}" />
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="textBlock_theme" Storyboard.TargetProperty="(UIElement.Visibility)">
+                    <DiscreteObjectKeyFrame KeyTime="00:00:00.1000000" Value="{x:Static Visibility.Visible}" />
+                </ObjectAnimationUsingKeyFrames>
+                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="edit_theme" Storyboard.TargetProperty="(UIElement.Visibility)">
+                    <DiscreteObjectKeyFrame KeyTime="00:00:00.1000000" Value="{x:Static Visibility.Visible}" />
+                </ObjectAnimationUsingKeyFrames>
+            </Storyboard>
+
+
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <Grid>
+        <ScrollViewer VerticalScrollBarVisibility="Hidden">
+            <DockPanel Margin="200,50,200,40" Background="Transparent">
+                <TextBlock
+                    Height="34"
+                    VerticalAlignment="Top"
+                    DockPanel.Dock="Top"
+                    FontSize="20"
+                    Foreground="White"
+                    Text="Profiles" />
+                <Rectangle
+                    Height="2"
+                    Margin="0,2,0,0"
+                    VerticalAlignment="Top"
+                    DockPanel.Dock="Top"
+                    Fill="White" />
+                <Ellipse
+                    x:Name="Profileellipse"
+                    Width="100"
+                    Height="100"
+                    Margin="0,40,0,0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    DockPanel.Dock="Top">
+                    <Ellipse.Fill>
+                        <ImageBrush x:Name="Profilepicture" ImageSource="/Ryan-Gosling_0.jpg" />
+                    </Ellipse.Fill>
+                </Ellipse>
+                <Button
+                    x:Name="PPbtn"
+                    Margin="20"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    materialDesign:ThemeAssist.Theme="Light"
+                    Click="PPbtn_Click"
+                    DockPanel.Dock="Top"
+                    Style="{StaticResource MaterialDesignIconButton}">
+                    <Icon:MaterialDesign Width="50" Kind="Edit" />
+                </Button>
+                <Button
+                    x:Name="Validatebtn"
+                    Margin="0,-68,130,0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    materialDesign:ThemeAssist.Theme="Light"
+                    Click="Validatebtn_Click"
+                    DockPanel.Dock="Top"
+                    Foreground="LightGreen"
+                    Style="{StaticResource MaterialDesignIconButton}"
+                    Visibility="Hidden">
+                    <Icon:MaterialDesign Width="50" Kind="Check" />
+                </Button>
+                <Button
+                    x:Name="Cancelbtn"
+                    Margin="130,-68,0,0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    materialDesign:ThemeAssist.Theme="Light"
+                    Click="Cancelbtn_Click"
+                    DockPanel.Dock="Top"
+                    Foreground="OrangeRed"
+                    Style="{StaticResource MaterialDesignIconButton}"
+                    Visibility="Hidden">
+                    <Icon:MaterialDesign Width="50" Kind="Cancel" />
+                </Button>
+
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="80" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition MaxHeight="70" />
+                        <RowDefinition MaxHeight="70" />
+                        <RowDefinition MaxHeight="70" />
+                    </Grid.RowDefinitions>
+
+                    <!--  Données correspondant au propriété du compte  -->
+                    <TextBlock
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        materialDesign:ThemeAssist.Theme="Dark"
+                        DockPanel.Dock="Top"
+                        Foreground="White"
+                        Style="{StaticResource MaterialDesignBody1TextBlock}"
+                        Text="Username" />
+                    <TextBlock
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        materialDesign:ThemeAssist.Theme="Dark"
+                        DockPanel.Dock="Top"
+                        Foreground="White"
+                        Style="{StaticResource MaterialDesignBody1TextBlock}"
+                        Text="Email address" />
+                    <TextBlock
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        materialDesign:ThemeAssist.Theme="Dark"
+                        DockPanel.Dock="Top"
+                        Foreground="White"
+                        Style="{StaticResource MaterialDesignBody1TextBlock}"
+                        Text="Themes" />
+
+                    <!--  Affcihage des propriétés du compte  -->
+                    <TextBlock
+                        x:Name="textBlock_name"
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        materialDesign:ThemeAssist.Theme="Dark"
+                        DockPanel.Dock="Top"
+                        Foreground="White"
+                        Style="{StaticResource MaterialDesignBody1TextBlock}"
+                        Text="Username"
+                        Visibility="Visible" />
+                    <TextBlock
+                        x:Name="textBlock_email"
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        materialDesign:ThemeAssist.Theme="Dark"
+                        DockPanel.Dock="Top"
+                        Foreground="White"
+                        Style="{StaticResource MaterialDesignBody1TextBlock}"
+                        Text="amdin@admin.com" />
+                    <TextBlock
+                        x:Name="textBlock_theme"
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        materialDesign:ThemeAssist.Theme="Dark"
+                        DockPanel.Dock="Top"
+                        Foreground="White"
+                        Style="{StaticResource MaterialDesignBody1TextBlock}"
+                        Text="Dark" />
+
+                    <!--  Bouton de modification des propriétés  -->
+                    <Button
+                        x:Name="edit_name"
+                        Grid.Row="0"
+                        Grid.Column="2"
+                        Click="edit_name_Click"
+                        Content="edit"
+                        Style="{StaticResource MaterialDesignOutlinedSecondaryDarkButton}"
+                        Visibility="Visible">
+                        <Button.Triggers>
+                            <EventTrigger RoutedEvent="ButtonBase.Click">
+                                <BeginStoryboard Storyboard="{StaticResource Edit_name}" />
+                                <BeginStoryboard Storyboard="{StaticResource Edit_email_return_default}" />
+                                <BeginStoryboard Storyboard="{StaticResource Edit_themes_return_default}" />
+                            </EventTrigger>
+                        </Button.Triggers>
+                    </Button>
+                    <Button
+                        x:Name="edit_email"
+                        Grid.Row="1"
+                        Grid.Column="2"
+                        Click="edit_email_Click"
+                        Content="edit"
+                        Style="{StaticResource MaterialDesignOutlinedSecondaryDarkButton}">
+                        <Button.Triggers>
+                            <EventTrigger RoutedEvent="ButtonBase.Click">
+                                <BeginStoryboard Storyboard="{StaticResource Edit_email}" />
+                                <BeginStoryboard Storyboard="{StaticResource Edit_name_return_default}" />
+                                <BeginStoryboard Storyboard="{StaticResource Edit_themes_return_default}" />
+                            </EventTrigger>
+                        </Button.Triggers>
+                    </Button>
+                    <Button
+                        x:Name="edit_theme"
+                        Grid.Row="2"
+                        Grid.Column="2"
+                        Click="edit_theme_Click"
+                        Content="edit"
+                        Style="{StaticResource MaterialDesignOutlinedSecondaryDarkButton}">
+                        <Button.Triggers>
+                            <EventTrigger RoutedEvent="ButtonBase.Click">
+                                <BeginStoryboard Storyboard="{StaticResource Edit_themes}" />
+                                <BeginStoryboard Storyboard="{StaticResource Edit_name_return_default}" />
+                                <BeginStoryboard Storyboard="{StaticResource Edit_email_return_default}" />
+                            </EventTrigger>
+                        </Button.Triggers>
+                    </Button>
+
+                    <!--  Seconde page pour la modification du nom  -->
+                    <TextBox
+                        x:Name="textBox_name"
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Width="150"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        materialDesign:HintAssist.Hint="Username"
+                        materialDesign:ThemeAssist.Theme="Dark"
+                        Foreground="White"
+                        Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                        Visibility="Hidden" />
+                    <Button
+                        x:Name="Applybtn_name"
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Width="80"
+                        Margin="0,0,20,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Click="Applybtn_name_Click"
+                        Content="Apply"
+                        Style="{StaticResource MaterialDesignOutlinedSecondaryDarkButton}"
+                        Visibility="Hidden" />
+                    <Button
+                        x:Name="Cancel_name"
+                        Grid.Row="0"
+                        Grid.Column="2"
+                        Click="Cancel_name_Click"
+                        Content="Cancel"
+                        Style="{StaticResource MaterialDesignOutlinedSecondaryDarkButton}"
+                        Visibility="Hidden">
+                        <Button.Triggers>
+                            <EventTrigger RoutedEvent="ButtonBase.Click">
+                                <BeginStoryboard Storyboard="{StaticResource Edit_name_return_default}" />
+                            </EventTrigger>
+                        </Button.Triggers>
+                    </Button>
+
+
+                    <!--  Seconde page pour la modification de l'addresse email  -->
+                    <TextBox
+                        x:Name="textBox_email"
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Width="150"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        materialDesign:HintAssist.Hint="Email address"
+                        materialDesign:ThemeAssist.Theme="Dark"
+                        Foreground="White"
+                        Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                        Visibility="Hidden" />
+                    <Button
+                        x:Name="Applybtn_email"
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Width="80"
+                        Margin="0,0,20,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Click="Applybtn_email_Click"
+                        Content="Apply"
+                        Style="{StaticResource MaterialDesignOutlinedSecondaryDarkButton}"
+                        Visibility="Hidden" />
+                    <Button
+                        x:Name="Cancel_email"
+                        Grid.Row="1"
+                        Grid.Column="2"
+                        Click="Cancel_name_Click"
+                        Content="Cancel"
+                        Style="{StaticResource MaterialDesignOutlinedSecondaryDarkButton}"
+                        Visibility="Hidden">
+                        <Button.Triggers>
+                            <EventTrigger RoutedEvent="ButtonBase.Click">
+                                <BeginStoryboard Storyboard="{StaticResource Edit_email_return_default}" />
+                            </EventTrigger>
+                        </Button.Triggers>
+                    </Button>
+
+                    <!--  Seconde page pour la modification du theme  -->
+                    <ComboBox
+                        x:Name="Themecombo"
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        Width="200"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        materialDesign:HintAssist.Hint="Select theme"
+                        materialDesign:ThemeAssist.Theme="Dark"
+                        FontSize="17"
+                        Foreground="White"
+                        Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                        Visibility="Hidden">
+                        <ComboBoxItem Content="Light" />
+                        <ComboBoxItem Content="Dark" />
+                    </ComboBox>
+                    <Button
+                        x:Name="Applybtn_theme"
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        Width="80"
+                        Margin="0,0,20,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Click="Applybtn_theme_Click"
+                        Content="Apply"
+                        Style="{StaticResource MaterialDesignOutlinedSecondaryDarkButton}"
+                        Visibility="Hidden" />
+                    <Button
+                        x:Name="Cancel_theme"
+                        Grid.Row="2"
+                        Grid.Column="2"
+                        Click="Cancel_name_Click"
+                        Content="Cancel"
+                        Style="{StaticResource MaterialDesignOutlinedSecondaryDarkButton}"
+                        Visibility="Hidden">
+                        <Button.Triggers>
+                            <EventTrigger RoutedEvent="ButtonBase.Click">
+                                <BeginStoryboard Storyboard="{StaticResource Edit_themes_return_default}" />
+                            </EventTrigger>
+                        </Button.Triggers>
+                    </Button>
+
+                </Grid>
+            </DockPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

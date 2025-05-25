@@ -1,0 +1,147 @@
+﻿<Page
+    x:Class="WpfApp2.Pages.Settings.Security"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:WpfApp2.Pages.Settings"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Security"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Style/ButtonStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+    <Grid>
+        <ScrollViewer VerticalScrollBarVisibility="Hidden">
+            <DockPanel Margin="200,50,200,40" Background="Transparent">
+                <TextBlock
+                    Height="34"
+                    VerticalAlignment="Top"
+                    DockPanel.Dock="Top"
+                    FontSize="20"
+                    Foreground="White"
+                    Text="Security configuration" />
+                <Rectangle
+                    Height="2"
+                    Margin="0,2,0,0"
+                    VerticalAlignment="Top"
+                    DockPanel.Dock="Top"
+                    Fill="White" />
+
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="80" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition MaxHeight="70" />
+                        <RowDefinition MaxHeight="70" />
+                        <RowDefinition MaxHeight="70" />
+                    </Grid.RowDefinitions>
+
+                    <!--  Données correspondant au propriété du compte  -->
+                    <TextBlock
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        materialDesign:ThemeAssist.Theme="Dark"
+                        DockPanel.Dock="Top"
+                        Foreground="White"
+                        Style="{StaticResource MaterialDesignBody1TextBlock}"
+                        Text="Password" />
+                    <TextBlock
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        materialDesign:ThemeAssist.Theme="Dark"
+                        DockPanel.Dock="Top"
+                        Foreground="White"
+                        Style="{StaticResource MaterialDesignBody1TextBlock}"
+                        Text="Firewall logs file" />
+                    <TextBlock
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        materialDesign:ThemeAssist.Theme="Dark"
+                        DockPanel.Dock="Top"
+                        Foreground="White"
+                        Style="{StaticResource MaterialDesignBody1TextBlock}"
+                        Text="Quarantine patch" />
+
+                    <!--  Affcihage des propriétés du compte  -->
+                    <TextBlock
+                        x:Name="textBlock_Password"
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        materialDesign:ThemeAssist.Theme="Dark"
+                        DockPanel.Dock="Top"
+                        Foreground="White"
+                        Style="{StaticResource MaterialDesignBody1TextBlock}"
+                        Text="*********"
+                        Visibility="Visible" />
+                    <TextBlock
+                        x:Name="textBlock_FWlogs"
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        materialDesign:ThemeAssist.Theme="Dark"
+                        DockPanel.Dock="Top"
+                        Foreground="White"
+                        Style="{StaticResource MaterialDesignBody1TextBlock}"
+                        Text="C:/Windows/...." />
+                    <TextBlock
+                        x:Name="textBlock_Quarantine"
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        materialDesign:ThemeAssist.Theme="Dark"
+                        DockPanel.Dock="Top"
+                        Foreground="White"
+                        Style="{StaticResource MaterialDesignBody1TextBlock}"
+                        Text="C:/Windows/....." />
+
+                    <!--  Bouton de modification des propriétés  -->
+                    <Button
+                        x:Name="edit_Password"
+                        Grid.Row="0"
+                        Grid.Column="2"
+                        Content="edit"
+                        Style="{StaticResource MaterialDesignOutlinedSecondaryDarkButton}"
+                        Visibility="Visible" />
+                    <Button
+                        x:Name="edit_FWlogs"
+                        Grid.Row="1"
+                        Grid.Column="2"
+                        Content="edit"
+                        Style="{StaticResource MaterialDesignOutlinedSecondaryDarkButton}" />
+                    <Button
+                        x:Name="edit_Quarantine"
+                        Grid.Row="2"
+                        Grid.Column="2"
+                        Content="edit"
+                        Style="{StaticResource MaterialDesignOutlinedSecondaryDarkButton}" />
+
+
+                </Grid>
+            </DockPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>
