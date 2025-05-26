@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+   <style>
+  img{
+  max-width: 60%;
+  max-height: 60%;
+  max-height: 7cm;
+  margin-top: 0.4cm;
+  border-radius: 3%;
+} .card {
+    margin-top: 0.2cm;
+     margin-left: 0.2cm;  
+ box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+    background-color: #161717;
+   width: 40%;
+  border-radius: 5px;
+  display: inline-block;
+  max-width: 13cm;
+}
+ p {
+    color: white;
+    padding: 0.2cm;
+  }
+   
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+
+.container {
+  padding: 2px 16px;
+}body {
+    color: #161717;
+    background-color: #242424;
+}
+ 
+</style>
+</head>
+<body> <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js"> </script> 
+ <div class="card">
+  <div class="container">
+    <p>Définition d'une base d'un espace vectoriel  \( \large E\) .</p> 
+ <hr>
+    <p>C'est une famille libre et génératrice de  \( \large E\) .</p> 
+  </div>
+</div>
+<div class="card">
+  <div class="container">
+    <p>Définition et caractérisation de deux sous-espaces vectoriels en somme directe.</p> 
+ <hr>
+    <p>Définition : Les espaces  \( \large F\)  et  \( \large G\)  sont en somme directe si, pour tout  \( \large w\in F+G\) , il existe un unique couple  \( \large (f,g)\in F\times G\)  tel que  \( \large w=f+g\) .<br><br>Caractérisation :  \( \large F\)  et  \( \large G\)  sont en somme directe si et seulement si  \( \large F\cap G =\{0\}\) .</p> 
+  </div>
+</div>
+<div class="card">
+  <div class="container">
+    <p>Définition de deux sous-espaces vectoriels supplémentaires.</p> 
+ <hr>
+    <p> \( \large F\)  et  \( \large G\)  sont supplémentaires dans  \( \large E\)  si  \( \large F\oplus G= E\) . Autrement dit, si  \( \large F\)  et  \( \large G\)  sont en somme directe et  \( \large F+G=E\) .</p> 
+  </div>
+</div>
+<div class="card">
+  <div class="container">
+    <p>Définition de l'espace vectoriel engendré par une famille de vecteurs.</p> 
+ <hr>
+    <p> \( \large \mathrm{Vect}(u_1,\dots,u_n)=\{\lambda_1u_1+\cdots+\lambda_nu_n,\quad \lambda_1,\dots,\lambda_n\in\mathbf{R}\}\) .<br><br>C'est le plus petit sous-espace vectoriel contenant les vecteurs  \( \large u_1,\dots,u_n\) .</p> 
+  </div>
+</div>
+<div class="card">
+  <div class="container">
+    <p>Définition d'un sous-espace vectoriel de E.</p> 
+ <hr>
+    <p>C'est une partie  \( \large F\)  d'un  \( \large \mathbf{R}\) -espace vectoriel  \( \large E\)  telle que :<br>--  \( \large 0_E\in F\) ;<br>-- pour tous  \( \large u,v\in F\)  et pour tout  \( \large \lambda \in\mathbf{R}\) ,  \( \large \lambda u + v\in F\) .</p> 
+  </div>
+</div>
+<div class="card">
+  <div class="container">
+    <p>Soit  \( \large E\)  un espace vectoriel. Que dire du cardinal des bases de  \( \large E\)  ?</p> 
+ <hr>
+    <p>Si elles existent (autrement dit, si  \( \large E\)  est de dimension finie), alors toutes les bases de  \( \large E\)  ont le même cardinal, qui est par définition égal à la dimension de  \( \large E\) .</p> 
+  </div>
+</div>
+<div class="card">
+  <div class="container">
+    <p>Définition d'une famille libre d'un espace vectoriel E</p> 
+ <hr>
+    <p>  \( \large (\vec{v_1}, \vec{v_2},...,\vec{v_p})\)  est libre si :<br> \( \large (\lambda_1 \vec{v_1}+\lambda_2 \vec{v_2}+...+\lambda_p \vec{v_p}=\vec{0})\)  impose  \( \large (\lambda_1=\lambda_2=...=\lambda_p=0)\) </p> 
+  </div>
+</div>
+<div class="card">
+  <div class="container">
+    <p>Une famille libre d'un ev E de dimension finie est-elle génératrice de E ?</p> 
+ <hr>
+    <p>En général non ! Mais si le cardinal de la famille libre correspond à la dimension de l'espace E, alors dans ce cas la famille constitue une base de E.</p> 
+  </div>
+</div>
+<div class="card">
+  <div class="container">
+    <p>Soit F un sev de E : on a  \( \large F \subset E\) . Comment montrer que F=E ?</p> 
+ <hr>
+    <p>Soit on montre l'inclusion inverse , à savoir  \( \large E \subset F\) <br>Soit on prouve que  \( \large \dim F=\dim E\) .</p> 
+  </div>
+</div>
+<div class="card">
+  <div class="container">
+    <p>Définition de la somme de deux sous-espaces vectoriels.</p> 
+ <hr>
+    <p> \( \large F+G=\{u+v\mid u\in F,\ v\in G\}\) .<br><br>C'est le plus petit sous-espace vectoriel contenant  \( \large F\cup G\) .</p> 
+  </div>
+</div>
+<div class="card">
+  <div class="container">
+    <p>Soit F un sev de E (en dimension finie). Comment construire un supplémentaire de F dans E ?</p> 
+ <hr>
+    <p>On complète une base de F en une base de E (théorème de la base incomplète). L'espace engendré par les vecteurs ajoutés à la base de F est un supplémentaire de F dans E.</p> 
+  </div>
+</div>
+<div class="card">
+  <div class="container">
+    <p>Soit  \( \large (u_1,\dots,u_n)\)  une famille de vecteurs d'un  \( \large \mathbf{K}\) -espace vectoriel  \( \large E\) . Exprimer de deux façons différentes le fait que  \( \large (u_1,\dots,u_n)\)  est liée.</p> 
+ <hr>
+    <p>Il existe  \( \large \lambda_1,\dots,\lambda_n\in\mathbf{K}\)  non tous nuls tels que  \( \large \lambda_1u_1+\cdots+\lambda_nu_n=0\) .<br><br>Alternativement, un des vecteurs  \( \large u_k\)  s'écrit comme combinaison linéaire des autres.<br><br>On rappelle qu'une famille qui n'est pas liée est dite libre.</p> 
+  </div>
+</div>
+<div class="card">
+  <div class="container">
+    <p>Définition de  \( \large (\vec{u_1}, \vec{u_2},...,\vec{u_p})\)  est génératrice de E ?</p> 
+ <hr>
+    <p>Tout vecteur  \( \large \vec{X}\)  de E peut s'écrire comme combiniaison linéaire des vecteurs  \( \large (\vec{u_1}, \vec{u_2},...,\vec{u_p})\) , autrement dit il existe  \( \large p\)  réels   \( \large \lambda_1,\dots,\lambda_p\)  tels que  \( \large \vec{X}=\lambda_1 \vec{u_1}+\lambda_2 \vec{u_2}+...+\lambda_p \vec{u_p}\) .</p> 
+  </div>
+</div>
+<div class="card">
+  <div class="container">
+    <p>Soit  \( \large n \in \mathbb{N}\) . Donner la dimension et la base canonique de  \( \large \mathbb{R}_n[X]\) </p> 
+ <hr>
+    <p>la base canonique de  \( \large \mathbb{R}_n[X]\)  est  \( \large (1,X,X^2,...,X^n)\) ,  \( \large \mathbb{R}_n[X]\)  est donc de dimension  \( \large n+1\) .</p> 
+  </div>
+</div>
+</body>
+</html> 

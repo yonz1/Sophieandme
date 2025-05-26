@@ -92,6 +92,7 @@ namespace Sophieandme.Pages
             proc.StartInfo = procstatinfo;
             proc.Start();
             
+            
         }
 
         public Quizz()
@@ -210,6 +211,7 @@ namespace Sophieandme.Pages
 
         private async void questionform(int i)
         {
+            Count_text.Text = (i+1).ToString() + "/" + id.Count.ToString();
             Question.Visibility = Visibility.Visible;
             webviewques.Visibility = Visibility.Visible;
             Reponse_button.Visibility = Visibility.Visible;
@@ -269,20 +271,6 @@ namespace Sophieandme.Pages
 
         private void create(string text,int i,string qor) {
 
-            // ###################################################### Mise en forme d utexte de façon exploitable 
-            //string question = text.Replace("$", "$$").Replace("$$$", "$").Replace("\\/", "").Replace("<", "\\lt ").Replace(">", "\\gt ").Replace("\n", "<br>");
-            //string valeurDebut = " \\( \\large ";
-            //string valeurFin = "\\) ";
-            //string questionf = "";
-            //string htmlval = "";
-            //string path = "";
-            //string pattern = @"\$\$(.*?)\$\$";
-            //string imgurl = "";
-            //questionf = Regex.Replace(question, pattern, match =>
-            //{
-            //    string contenu = match.Groups[1].Value;
-            //    return valeurDebut + contenu + valeurFin;
-            //});
 
             string questionf = miseneformetext(text);
             string htmlval = "";
@@ -393,6 +381,9 @@ namespace Sophieandme.Pages
 
         }
 
+
+        //######################################################################### Button pour affichage de prochaine question
+
         private void Next_button_Click(object sender, RoutedEventArgs e)
         {
             i++;
@@ -404,6 +395,7 @@ namespace Sophieandme.Pages
             }
             else
             {
+                //Count_text.Text = i.ToString() + "/" + id.Count.ToString() ;
                 questionform(i);
                 //System.Diagnostics.Debug.WriteLine(i.ToString());
             }

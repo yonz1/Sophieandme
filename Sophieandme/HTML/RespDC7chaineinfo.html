@@ -42,39 +42,9 @@
 <body> <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js"> </script> 
  <div class="card">
   <div class="container">
-    <p>Citer 4 technologies utilisées dans les capteurs de température.</p> 
+    <p>A quelle condition pourra-t-on conclure que le circuit qui comporte un amplificateur linéaire intégré fonctionne en régime linéaire ? quelle est l'incidence de ce régime de fonctionnement ?</p> 
  <hr>
-    <p>Thermistance<br>Thermocouple<br>PT100<br>Thermographie infra-rouge</p> 
-  </div>
-</div>
-<div class="card">
-  <div class="container">
-    <p>Quelle est la valeur décimale codée par  \( \large 9A_{(hex)}\)   dans un registre 8 Bits signé (1 bit de signe -MSB- et 7 bit pour la valeur absolue)?</p> 
- <hr>
-    <p> \( \large 9A_{(hex)}={1001 1010}_{(2)} = {-26}_{(dec)}\) </p> 
-  </div>
-</div>
-<div class="card">
-  <div class="container">
-    <p>Calculer le quantum d'un CAN 8 bits avec une plage de tension d'entrée   \( \large V_e \)  de 10 Volts.</p> 
- <hr>
-    <p> \( \large q=\frac{V_e}{2^8-1}=\frac{10}{255}=0,0392=39,2 \; mV\) </p> 
-  </div>
-</div>
-<div class="card">
-  <div class="container">
-   <p>Dans une chaîne d'acquisition, quelle est la fonction assurée par un transducteur ?</p> 
-  <hr>
-   <img src="https://project555-prod.s3.eu-central-1.amazonaws.com/user_uploads/9dff1c00-0e8d-11e8-8d5e-bbb0718fdec6" alt="Avatar" style="width:100%">
-    <p>Un transducteur transforme la grandeur physique mesurable en un signal image exploitable.<br>exemple : Capteur de force, un jauge de contrainte va transformer la déformation du corps d'épreuve en une variation de résistance électrique.<br></p> 
-  </div>
-</div>
-<div class="card">
-  <div class="container">
-   <img src="https://project555-prod.s3.eu-central-1.amazonaws.com/user_uploads/a0f93820-09be-11e8-9209-a17493659482" alt="Avatar" style="width:100%">
-    <p>Exprimer la relation  \( \large {V_s}=f({V_{e1}}, {V_{e2}})\)  par superposition</p> 
-  <hr>
-    <p> \( \large {V_s}=({\frac{V_s}{V_{e_1}}})_{V_{e_2}=0}+({\frac{V_s}{V_{e_2}}})_{V_{e_1}=0}\) <br><br> \( \large {V_s}=-(\frac{R}{R_1})·V_{e1}-(\frac{R}{R_2})·V_{e2}\) <br>Montage "sommateur inverseur"</p> 
+    <p>L'ALI fonctionne en régime linéaire à condition d'observer une réaction négative.<br>On considérera  alors que  \( \large V^+=V^-\) </p> 
   </div>
 </div>
 <div class="card">
@@ -87,20 +57,6 @@
 </div>
 <div class="card">
   <div class="container">
-    <p>A quelles conditions pourra-ton considérer que le régime de fonctionnement d'un ALI  dans un circuit est non linéaire ?</p> 
- <hr>
-    <p> le régime de fonctionnement d'un ALI  dans un circuit est non linéaire si la sortie n'est pas reliée sur l'entrée -.</p> 
-  </div>
-</div>
-<div class="card">
-  <div class="container">
-    <p>Citer deux technologies utilisées dans les capteurs de vitesse.</p> 
- <hr>
-    <p> - dynamo tachymétrique (capteur analogique - conversion vitesse angulairetension),<br>- codeur incrémental (mesure de la fréquence des impulsions).</p> 
-  </div>
-</div>
-<div class="card">
-  <div class="container">
    <p>Décrire la structure fonctionnelle d'un capteur</p> 
   <hr>
    <img src="https://s3.eu-central-1.amazonaws.com/project555-prod/user_uploads/5557afb7-992b-4585-88c4-aa1f5ee795b1" alt="Avatar" style="width:100%">
@@ -109,9 +65,19 @@
 </div>
 <div class="card">
   <div class="container">
-    <p>A quelle condition pourra-t-on conclure que le circuit qui comporte un amplificateur linéaire intégré fonctionne en régime linéaire ? quelle est l'incidence de ce régime de fonctionnement ?</p> 
- <hr>
-    <p>L'ALI fonctionne en régime linéaire à condition d'observer une réaction négative.<br>On considérera  alors que  \( \large V^+=V^-\) </p> 
+   <img src="https://project555-prod.s3.eu-central-1.amazonaws.com/user_uploads/e553eae0-03fc-11e8-9a2b-d397f782d313" alt="Avatar" style="width:100%">
+    <p>1. Déterminer l'expression de  \( \large V_S=f(V_E, R_1, R_2)\) .<br>2. On souhaite obtenir une amplification  \( \large A=\frac{V_S}{V_E}=-5\) , sachant que  \( \large R_2=10 k\Omega\) , calculer la valeur de  \( \large R_1\) .<br>3. La fonction  \( \large V_E(t)\)  est représentée en bleu sur l'oscillogramme. En déduire l'allure de  \( \large V_S(t)\)  sur la voie 2.<br></p> 
+  <hr>
+   <img src="https://project555-prod.s3.eu-central-1.amazonaws.com/user_uploads/47859a10-03ff-11e8-a353-6f61ebfb74ba" alt="Avatar" style="width:100%">
+    <p>1.  \( \large \frac{V_S}{V_E}=- \frac{R_2}{R_1}\) <br>2.  \( \large A=\frac{V_S}{V_E}=-5=- \frac{R_2}{R_1}=\gt  R_1=\frac{R_2}{5}=2k\Omega\) </p> 
+  </div>
+</div>
+<div class="card">
+  <div class="container">
+   <img src="https://project555-prod.s3.eu-central-1.amazonaws.com/user_uploads/781da980-0f14-11e8-b85c-594cc4d6ea64" alt="Avatar" style="width:100%">
+    <p>Exprimer la relation  \( \large \frac{V_s}{V_e}\) </p> 
+  <hr>
+    <p>sortie rétro-actionnée sur entrée - alors régime de fonctionnement linéaire<br>si le régime de fonctionnement de l'ALI est  linéaire,  \( \large V^+=V^-\) <br> \( \large V^+=0\) <br>Calcul de  \( \large V^-\)  : <br>En appliquant la loi de courant sur l'entrée -<br> \( \large \frac{V_e-V^{-}}{R_1} + \frac{V_{S}-V^{-}}{R_2}+0=0\) <br>on obtient  \( \large \frac{V_s}{V_e}=-\frac{R_2}{R_1}\) <br>Montage amplificateur inverseur<br></p> 
   </div>
 </div>
 <div class="card">
@@ -123,9 +89,47 @@
 </div>
 <div class="card">
   <div class="container">
+    <p>Calculer le quantum d'un CAN 8 bits avec une plage de tension d'entrée   \( \large V_e \)  de 10 Volts.</p> 
+ <hr>
+    <p> \( \large q=\frac{V_e}{2^8-1}=\frac{10}{255}=0,0392=39,2 \; mV\) </p> 
+  </div>
+</div>
+<div class="card">
+  <div class="container">
+    <p>Quelle est la valeur décimale codée par  \( \large 9A_{(hex)}\)   dans un registre 8 Bits signé (1 bit de signe -MSB- et 7 bit pour la valeur absolue)?</p> 
+ <hr>
+    <p> \( \large 9A_{(hex)}={1001 1010}_{(2)} = {-26}_{(dec)}\) </p> 
+  </div>
+</div>
+<div class="card">
+  <div class="container">
+   <img src="https://project555-prod.s3.eu-central-1.amazonaws.com/user_uploads/a0f93820-09be-11e8-9209-a17493659482" alt="Avatar" style="width:100%">
+    <p>Exprimer la relation  \( \large {V_s}=f({V_{e1}}, {V_{e2}})\)  par superposition</p> 
+  <hr>
+    <p> \( \large {V_s}=({\frac{V_s}{V_{e_1}}})_{V_{e_2}=0}+({\frac{V_s}{V_{e_2}}})_{V_{e_1}=0}\) <br><br> \( \large {V_s}=-(\frac{R}{R_1})·V_{e1}-(\frac{R}{R_2})·V_{e2}\) <br>Montage "sommateur inverseur"</p> 
+  </div>
+</div>
+<div class="card">
+  <div class="container">
+   <p>Dans une chaîne d'acquisition, quelle est la fonction assurée par le corps d'épreuve ?</p> 
+  <hr>
+   <img src="https://project555-prod.s3.eu-central-1.amazonaws.com/user_uploads/528a3390-0e8d-11e8-b5e8-f1d9cf4ecc22" alt="Avatar" style="width:100%">
+    <p>Le corps d'épreuve  a pour fonction de détecter la grandeur physique que l'on souhaite mesurer.<br>exemple : Capteur de force : La force à mesurer va déformer le corps d'épreuve.</p> 
+  </div>
+</div>
+<div class="card">
+  <div class="container">
     <p>Que peut valoir la tension de sortie de l'ALI qui fonctionne en régime non linéaire ?</p> 
  <hr>
     <p>La tension de sortie vaut +Vsat ou -Vsat</p> 
+  </div>
+</div>
+<div class="card">
+  <div class="container">
+   <p>Dans une chaîne d'acquisition, quelle est la fonction assurée par un transducteur ?</p> 
+  <hr>
+   <img src="https://project555-prod.s3.eu-central-1.amazonaws.com/user_uploads/9dff1c00-0e8d-11e8-8d5e-bbb0718fdec6" alt="Avatar" style="width:100%">
+    <p>Un transducteur transforme la grandeur physique mesurable en un signal image exploitable.<br>exemple : Capteur de force, un jauge de contrainte va transformer la déformation du corps d'épreuve en une variation de résistance électrique.<br></p> 
   </div>
 </div>
 <div class="card">
@@ -139,24 +143,16 @@
 </div>
 <div class="card">
   <div class="container">
-    <p>Quelle est la valeur numérique (en binaire) de la position 45° d'un codeur absolu binaire sur 10 bits ?</p> 
+    <p>Citer 4 technologies utilisées dans les capteurs de température.</p> 
  <hr>
-    <p>0010000000</p> 
+    <p>Thermistance<br>Thermocouple<br>PT100<br>Thermographie infra-rouge</p> 
   </div>
 </div>
 <div class="card">
   <div class="container">
-   <img src="https://project555-prod.s3.eu-central-1.amazonaws.com/user_uploads/781da980-0f14-11e8-b85c-594cc4d6ea64" alt="Avatar" style="width:100%">
-    <p>Exprimer la relation  \( \large \frac{V_s}{V_e}\) </p> 
-  <hr>
-    <p>sortie rétro-actionnée sur entrée - alors régime de fonctionnement linéaire<br>si le régime de fonctionnement de l'ALI est  linéaire,  \( \large V^+=V^-\) <br> \( \large V^+=0\) <br>Calcul de  \( \large V^-\)  : <br>En appliquant la loi de courant sur l'entrée -<br> \( \large \frac{V_e-V^{-}}{R_1} + \frac{V_{S}-V^{-}}{R_2}+0=0\) <br>on obtient  \( \large \frac{V_s}{V_e}=-\frac{R_2}{R_1}\) <br>Montage amplificateur inverseur<br></p> 
-  </div>
-</div>
-<div class="card">
-  <div class="container">
-    <p>Quelle est la valeur décimale codée par  \( \large 4C_{(hex)}\)   dans un registre 8 bits non signé ?</p> 
+    <p>A quelles conditions pourra-ton considérer que le régime de fonctionnement d'un ALI  dans un circuit est non linéaire ?</p> 
  <hr>
-    <p> \( \large 4C_{(hex)}={0100 1100}_{(2)} = {76}_{(dec)}\) </p> 
+    <p> le régime de fonctionnement d'un ALI  dans un circuit est non linéaire si la sortie n'est pas reliée sur l'entrée -.</p> 
   </div>
 </div>
 <div class="card">
@@ -164,6 +160,20 @@
     <p>Citer deux technologies utilisées dans les capteurs d'effort.</p> 
  <hr>
     <p>Piezoélectricité<br>jauges de contrainte</p> 
+  </div>
+</div>
+<div class="card">
+  <div class="container">
+    <p>Quelle est la valeur numérique (en binaire) de la position 45° d'un codeur absolu binaire sur 10 bits ?</p> 
+ <hr>
+    <p>0010000000</p> 
+  </div>
+</div>
+<div class="card">
+  <div class="container">
+    <p>Citer deux technologies utilisées dans les capteurs de vitesse.</p> 
+ <hr>
+    <p> - dynamo tachymétrique (capteur analogique - conversion vitesse angulairetension),<br>- codeur incrémental (mesure de la fréquence des impulsions).</p> 
   </div>
 </div>
 <div class="card">
@@ -176,19 +186,9 @@
 </div>
 <div class="card">
   <div class="container">
-   <p>Dans une chaîne d'acquisition, quelle est la fonction assurée par le corps d'épreuve ?</p> 
-  <hr>
-   <img src="https://project555-prod.s3.eu-central-1.amazonaws.com/user_uploads/528a3390-0e8d-11e8-b5e8-f1d9cf4ecc22" alt="Avatar" style="width:100%">
-    <p>Le corps d'épreuve  a pour fonction de détecter la grandeur physique que l'on souhaite mesurer.<br>exemple : Capteur de force : La force à mesurer va déformer le corps d'épreuve.</p> 
-  </div>
-</div>
-<div class="card">
-  <div class="container">
-   <img src="https://project555-prod.s3.eu-central-1.amazonaws.com/user_uploads/e553eae0-03fc-11e8-9a2b-d397f782d313" alt="Avatar" style="width:100%">
-    <p>1. Déterminer l'expression de  \( \large V_S=f(V_E, R_1, R_2)\) .<br>2. On souhaite obtenir une amplification  \( \large A=\frac{V_S}{V_E}=-5\) , sachant que  \( \large R_2=10 k\Omega\) , calculer la valeur de  \( \large R_1\) .<br>3. La fonction  \( \large V_E(t)\)  est représentée en bleu sur l'oscillogramme. En déduire l'allure de  \( \large V_S(t)\)  sur la voie 2.<br></p> 
-  <hr>
-   <img src="https://project555-prod.s3.eu-central-1.amazonaws.com/user_uploads/47859a10-03ff-11e8-a353-6f61ebfb74ba" alt="Avatar" style="width:100%">
-    <p>1.  \( \large \frac{V_S}{V_E}=- \frac{R_2}{R_1}\) <br>2.  \( \large A=\frac{V_S}{V_E}=-5=- \frac{R_2}{R_1}=\gt  R_1=\frac{R_2}{5}=2k\Omega\) </p> 
+    <p>Quelle est la valeur décimale codée par  \( \large 4C_{(hex)}\)   dans un registre 8 bits non signé ?</p> 
+ <hr>
+    <p> \( \large 4C_{(hex)}={0100 1100}_{(2)} = {76}_{(dec)}\) </p> 
   </div>
 </div>
 </body>

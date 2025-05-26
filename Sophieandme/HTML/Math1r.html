@@ -1,48 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width">
-    <title>MathJax example</title>
-    <style>
-        p {
-            color: white;
-            padding: 0.2cm;
-        }
-    </style>
-    <style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>MathJax example</title>
+  <style>
+    p {
+  background: #161717;
+  color: white;
+    padding: 1cm;
+  }
+  </style>
+  <style>
         body {
       background: #242424;
-                      }
-
-        .container {
-    background: #161717;
-    padding: 0.2cm;
-     display: grid;
-            align-items: center;
-            grid-template-columns: 1fr 100fr 1fr;
-            column-gap: 5px;
-        }
-
-        img {
-            max-width: 350px;
-             max-height: 230px;
-        }
-
-        .text {
-            font-size: 17px;
-            display: inline;
-        }
-    </style>
+    }
+  </style>
 </head>
-<body>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js"></script>
-    <div class="container">
-  <img src="https://project555-prod.s3.eu-central-1.amazonaws.com/user_uploads/79fddfa0-239b-11e8-a88f-cb4a9ff27abd" >
-        <div class="text">
-            <p> 1.   \( \large \underline T(j\omega)=2+j\omega=4 (1+j\frac{\omega}{4})\) <br><br>On observe une fonction de transfert de la forme  \( \large K.(1+j\frac{\omega}{\omega_c})\) <br>avec  \( \large \omega_c = 4\)  et  \( \large K=4\)  </p>
-        </div>
-
-    </div>
-</body>
+  <body>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js"> </script> 
+  <p> On introduit la notation complexe  \( \large \underline{x} (t) = \underline{X} e^{j\omega t}\) , alors l'équation différentielle devient pour  \( \large \underline{x}\)  :<br> \( \large  (- \omega^2 + j \frac{\omega \omega_0}{Q} + \omega_0^2) \underline{x} = \omega_0^2 x_m e^{j \omega t} \) <br><br>et donc on obtient  \( \large \underline{X} = x_m \frac{\omega_0^2}{\omega_0^2 - \omega^2 + j (\omega \omega_0)Q}\) .<br><br>L'amplitude des oscillations  \( \large X\)  est alors  \( \large X = \vert \underline{X} \vert\)  donc<br> \( \large  X = x_m \frac{\omega_0^2}{\sqrt{(\omega^2 - \omega_0^2)^2 + \frac{\omega^2 \omega_0^2}{Q^2}}} = \frac{x_m}{\sqrt{\left(1 - \left(\frac{\omega}{\omega_0}\right)^2\right)^2+ \left(\frac{\omega}{Q\omega_0}\right)^2}}\) .<br> </p>
+  </body>    
 </html>
