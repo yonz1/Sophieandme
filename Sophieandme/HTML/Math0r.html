@@ -1,24 +1,48 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width">
-  <title>MathJax example</title>
-  <style>
-    p {
-  background: #161717;
-  color: white;
-    padding: 1cm;
-  }
-  </style>
-  <style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>MathJax example</title>
+    <style>
+        p {
+            color: white;
+            padding: 0.2cm;
+        }
+    </style>
+    <style>
         body {
       background: #242424;
-    }
-  </style>
+                      }
+
+        .container {
+    background: #161717;
+    padding: 0.2cm;
+     display: grid;
+            align-items: center;
+            grid-template-columns: 1fr 100fr 1fr;
+            column-gap: 5px;
+        }
+
+        img {
+            max-width: 350px;
+             max-height: 230px;
+        }
+
+        .text {
+            font-size: 17px;
+            display: inline;
+        }
+    </style>
 </head>
-  <body>
-  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js"> </script> 
-  <p> L'impédance totale du circuit est obtenu en sommant les impédances des 3 dipôles (montage série), donc  \( \large \underline{Z} = R + j L \omega + \frac{1}{j C \omega}\) .<br><br>On a alors  \( \large \underline{i} (t) = \frac{\underline{u}(t)}{\underline{Z}}\)  et donc en divisant par  \( \large e^{j \omega t}\)  on trouve :<br> \( \large \underline{i_0} = \frac{E_m}{R+j ( L\omega - \frac{1}{C \omega})},\)  <br>ce qui correspond à la formule demandée avec  \( \large \omega_0 = \sqrt{\frac{1}{LC}}\)  et  \( \large Q = \frac{\sqrt{LC}}{R}\) .<br><br>La résonance se produit alors à la pulsation  \( \large \omega_r = \omega_0\) , et on a alors  \( \large \underline{i_0} = \frac{E_m}{R}\)  ( ou de manière équivalente  \( \large \underline{Z} = R \in \mathbb{R}\) ), donc l'intensité du courant est en phase avec la tension appliquée : sur l'oscilloscope en mode XY, la courbe obtenue est un segment de droite au lieu d'une ellipse. </p>
-  </body>    
+<body>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js"></script>
+    <div class="container">
+  <img src="https://project555-prod.s3.eu-central-1.amazonaws.com/user_uploads/528a3390-0e8d-11e8-b5e8-f1d9cf4ecc22" >
+        <div class="text">
+            <p> Le corps d'épreuve  a pour fonction de détecter la grandeur physique que l'on souhaite mesurer.<br>exemple : Capteur de force : La force à mesurer va déformer le corps d'épreuve. </p>
+        </div>
+
+    </div>
+</body>
 </html>

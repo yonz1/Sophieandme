@@ -1,23 +1,46 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width">
-  <title>MathJax example</title>
-  <style>
-    p {
-    color: white;
-    padding: 0.2cm;
-  }
-  </style>
-  <style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>MathJax example</title>
+    <style>
+        p {
+            color: white;
+            padding: 0.2cm;
+        }
+    </style>
+    <style>
         body {
-      background: #242424;
-    }
-  </style>
+            background: #242424;
+        }
+
+        .container {
+            display: grid;
+            align-items: center;
+            grid-template-columns: 1fr 100fr 1fr;
+            column-gap: 5px;
+        }
+
+        img {
+            max-width: 350px;
+                    max-height: 230px;
+        }
+
+        .text {
+            font-size: 17px;
+            display: inline;
+        }
+    </style>
 </head>
-  <body>
-  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js"> </script> 
-  <p> Trouver l'amplitude des oscillations d'un oscillateur amorti soumis à une excitation sinusoïdale, obéissant à l'équation différentielle  \( \large \frac{d^2x}{dt^2} + \frac{\omega_0}{Q} \frac{dx}{dt} + \omega_0^2 x = \omega_0^2 x_m \cos(\omega t)\) . </p>
-  </body>    
+<body>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js"></script>
+    <div class="container">
+  <img src="https://project555-prod.s3.eu-central-1.amazonaws.com/user_uploads/e553eae0-03fc-11e8-9a2b-d397f782d313" >
+        <div class="text">
+            <p> 1. Déterminer l'expression de  \( \large V_S=f(V_E, R_1, R_2)\) .<br>2. On souhaite obtenir une amplification  \( \large A=\frac{V_S}{V_E}=-5\) , sachant que  \( \large R_2=10 k\Omega\) , calculer la valeur de  \( \large R_1\) .<br>3. La fonction  \( \large V_E(t)\)  est représentée en bleu sur l'oscillogramme. En déduire l'allure de  \( \large V_S(t)\)  sur la voie 2.<br> </p>
+        </div>
+
+    </div>
+</body>
 </html>
