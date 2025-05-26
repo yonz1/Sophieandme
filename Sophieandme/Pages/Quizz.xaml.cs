@@ -227,16 +227,22 @@ namespace Sophieandme.Pages
 
             if (i == 0)
             {
-                urif = "file:///C:/Users/Bastien/source/repos/Sophieandme/Sophieandme/HTML/Mathtq.html";
+                //urif = "file:///C:/Users/Bastien/source/repos/Sophieandme/Sophieandme/HTML/Mathtq.html";
+                urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Mathtq.html";
+                urif = urif.Replace("\\", "/");
             }
 
             else if (i % 2 == 0)
                 { 
-                    urif = "file:///C:/Users/Bastien/source/repos/Sophieandme/Sophieandme/HTML/Math0q.html";
-                }
+                    //urif = "file:///C:/Users/Bastien/source/repos/Sophieandme/Sophieandme/HTML/Math0q.html";
+                urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Math0q.html";
+                urif = urif.Replace("\\", "/");
+            }
             else
             {
-                urif = "file:///C:/Users/Bastien/source/repos/Sophieandme/Sophieandme/HTML/Math1q.html";
+                //urif = "file:///C:/Users/Bastien/source/repos/Sophieandme/Sophieandme/HTML/Math1q.html";
+                urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Math1q.html";
+                urif = urif.Replace("\\", "/");
             }
             System.Diagnostics.Debug.WriteLine(" ################# question url : ", urif);
             System.Uri uri1 = new System.Uri(urif);
@@ -361,15 +367,21 @@ namespace Sophieandme.Pages
 
             if (i == 0)
             {
-                urif = "file:///C:/Users/Bastien/source/repos/Sophieandme/Sophieandme/HTML/Mathtr.html";
+                //urif = "file:///C:/Users/Bastien/source/repos/Sophieandme/Sophieandme/HTML/Mathtr.html";
+                urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Mathtr.html";
+                urif = urif.Replace("\\", "/");
             }
             else if (i % 2 == 0)
             {
-                urif = "file:///C:/Users/Bastien/source/repos/Sophieandme/Sophieandme/HTML/Math0r.html";
+                //urif = "file:///C:/Users/Bastien/source/repos/Sophieandme/Sophieandme/HTML/Math0r.html";
+                urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Math0r.html";
+                urif = urif.Replace("\\", "/");
             }
             else
             {
-                urif = "file:///C:/Users/Bastien/source/repos/Sophieandme/Sophieandme/HTML/Math1r.html";
+                //urif = "file:///C:/Users/Bastien/source/repos/Sophieandme/Sophieandme/HTML/Math1r.html";
+                urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Math1r.html";
+                urif = urif.Replace("\\", "/");
             }
             System.Diagnostics.Debug.WriteLine(" ################# reponse url : ", urif);
             System.Uri uri1 = new System.Uri(urif);
