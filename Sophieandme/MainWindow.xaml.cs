@@ -10,6 +10,20 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WinInterop = System.Windows.Interop;
+using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Data.SQLite;
+using System.Linq;
+using System.Security.Cryptography;
+using System.Threading.Tasks;
+using Microsoft.VisualBasic.ApplicationServices;
+using Sophieandme;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
+using System.IO;
+
 
 namespace Sophieandme
 {
@@ -38,17 +52,21 @@ namespace Sophieandme
 
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
+
+            // FIle.Delete(@"C:\...");
+            DirectoryInfo d = new DirectoryInfo(@"../../../HTML");
+            FileInfo[] Files = d.GetFiles();
+            string str = "";
+            foreach ( FileInfo f in Files )
+                File.Delete(f.FullName);
+
+            System.Threading.Thread.Sleep(300);
             Application.Current.Shutdown();
         }
+
         [DllImport("user32.dll")]
         public static extern IntPtr SendMessage(IntPtr hWnd, int wParam, int wMsg, int lParam);
 
-
-        private void DockPanel_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            WindowInteropHelper helper = new WindowInteropHelper(this);
-            SendMessage(helper.Handle, 161, 2, 0);
-        }
 
         private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
         {

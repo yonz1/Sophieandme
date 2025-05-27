@@ -1,0 +1,8 @@
+- Les "/" sont enlever de tout les quizz (à corriger)  ################ fait 
+- Ajouter le timer à afficher avec le boutton hourglass 
+- Mettre un raccourci d'ajout au tableau de réponses ################ fait
+- Ajouter un delai d'affchage des HTML de passages (bug si il sont chargée autre part)
+- Corriger la taille du plein écran 
+- Corriger le docker de déplacement de la fenêtre  ####### fait
+- Créer un logout du compte
+- Supprimer les HTML à chaque fermeture d'application ###### fait

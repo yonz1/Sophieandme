@@ -233,9 +233,11 @@ namespace Sophieandme.Pages
 
             if (i == 0)
             {
+                System.Threading.Thread.Sleep(300);
                 //urif = "file:///C:/Users/Bastien/source/repos/Sophieandme/Sophieandme/HTML/Mathtq.html";
                 urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Mathtq.html";
                 urif = urif.Replace("\\", "/");
+               
             }
 
             else if (i % 2 == 0)
@@ -258,7 +260,7 @@ namespace Sophieandme.Pages
 
         public static string miseneformetext(string text)
         {
-            string question = text.Replace("$", "$$").Replace("$$$", "$").Replace("\\/", "").Replace("<", "\\lt ").Replace(">", "\\gt ").Replace("\n", "<br>");
+            string question = text.Replace("$", "$$").Replace("$$$", "$").Replace("\\/", "/").Replace("<", "\\lt ").Replace(">", "\\gt ").Replace("\n", "<br>");
             string valeurDebut = " \\( \\large ";
             string valeurFin = "\\) ";
             string questionf = "";
@@ -359,6 +361,7 @@ namespace Sophieandme.Pages
 
             if (i == 0)
             {
+                System.Threading.Thread.Sleep(300);
                 //urif = "file:///C:/Users/Bastien/source/repos/Sophieandme/Sophieandme/HTML/Mathtr.html";
                 urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Mathtr.html";
                 urif = urif.Replace("\\", "/");
@@ -548,7 +551,7 @@ namespace Sophieandme.Pages
             else
             {
                 Allresp();
-                System.Threading.Thread.Sleep(1000);
+                System.Threading.Thread.Sleep(100);
                 webviewall.Source = uri1 as System.Uri;
             }
         }
@@ -612,6 +615,28 @@ namespace Sophieandme.Pages
         private void Timer_Unchecked(object sender, RoutedEventArgs e)
         {
             tbTime.Visibility = Visibility.Visible;
+        }
+
+        private void Direct_rep_Click(object sender, RoutedEventArgs e)
+        {
+            Endquizz.Visibility = Visibility.Collapsed;
+            allresp.Visibility = Visibility.Visible;
+            Question.Visibility = Visibility.Collapsed;
+            string urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Resp" + App.Current.Properties["nameindex"].ToString().Replace(" ", "").Replace("è", "edb").Replace("ô", "o").Replace("é", "e").Replace(":", "").Replace(".", "") + ".html";
+            urif = urif.Replace("\\", "/");
+            System.Diagnostics.Debug.WriteLine(urif);
+            System.Uri uri1 = new System.Uri(urif);
+            if (File.Exists(urif))
+            {
+                System.Diagnostics.Debug.WriteLine("Il existe");
+                webviewall.Source = uri1 as System.Uri;
+            }
+            else
+            {
+                Allresp();
+                System.Threading.Thread.Sleep(100);
+                webviewall.Source = uri1 as System.Uri;
+            }
         }
     }
 }

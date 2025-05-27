@@ -24,5 +24,10 @@ namespace WpfApp2.Pages.Settings
         {
             InitializeComponent();
         }
+
+        private void logout_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

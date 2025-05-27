@@ -241,6 +241,25 @@
                             Text="Matières" />
                     </StackPanel>
                 </Button>
+                <Button
+                    x:Name="Direct_rep"
+                    Width="40"
+                    Height="40"
+                    Margin="0,0,20,0"
+                    HorizontalAlignment="Right"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Click="Direct_rep_Click"
+                    DockPanel.Dock="Right"
+                    Foreground="{StaticResource Top_iconc_color}"
+                    Style="{StaticResource TopButton}"
+                    Tag="{StaticResource Glass}">
+                    <fs:IconImage
+                        Width="30"
+                        Height="30"
+                        Icon="Book"
+                        Style="{StaticResource TopButtonIcon}" />
+                </Button>
                 <ToggleButton
                     x:Name="Timer"
                     Width="40"
