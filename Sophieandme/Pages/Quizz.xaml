@@ -241,6 +241,33 @@
                             Text="Matières" />
                     </StackPanel>
                 </Button>
+                <ToggleButton
+                    x:Name="Timer"
+                    Width="40"
+                    Height="40"
+                    Margin="0,0,20,0"
+                    HorizontalAlignment="Right"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Checked="Timer_Checked"
+                    DockPanel.Dock="Right"
+                    Foreground="{StaticResource Top_iconc_color}"
+                    Style="{StaticResource TopButtonrad}"
+                    Tag="{StaticResource Glass}"
+                    Unchecked="Timer_Unchecked">
+                    <fs:IconImage
+                        Width="30"
+                        Height="30"
+                        Icon="Hourglass"
+                        Style="{StaticResource TopButtonIconrad}" />
+                </ToggleButton>
+                <TextBlock
+                    x:Name="tbTime"
+                    Width="200"
+                    Height="40"
+                    Margin="0,0,20,0"
+                    HorizontalAlignment="Right"
+                    Foreground="{StaticResource Textcolor}" />
             </DockPanel>
             <Grid MaxHeight="880" Margin="200,150,200,200">
                 <DockPanel x:Name="Panelquizz">

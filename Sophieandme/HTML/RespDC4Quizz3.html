@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+   <style>
+  img{
+  max-width: 60%;
+  max-height: 60%;
+  max-height: 7cm;
+  margin-top: 0.4cm;
+  border-radius: 3%;
+} .card {
+    margin-top: 0.2cm;
+     margin-left: 0.2cm;  
+ box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+    background-color: #161717;
+   width: 40%;
+  border-radius: 5px;
+  display: inline-block;
+  max-width: 13cm;
+}
+ p {
+    color: white;
+    padding: 0.2cm;
+  }
+   
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+
+.container {
+  padding: 2px 16px;
+}body {
+    color: #161717;
+    background-color: #242424;
+}
+ 
+</style>
+</head>
+<body> <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js"> </script> 
+ <div class="card">
+  <div class="container">
+   <img src="https://s3.eu-central-1.amazonaws.com/project555-prod/user_uploads/91b2ead0-3483-11e7-8331-2f2f6cf0bf77" alt="Avatar" style="width:100%">
+    <p>Calculer l'expression du courant   \( \large i_{s(t)}\)    si    \( \large i_{(0)}=I_{min}\) </p> 
+  <hr>
+    <p>Loi des mailles   \( \large U_{e}-L \cdot \frac{di_s}{dt}-E=0 \) <br> \( \large \Leftrightarrow di_s=\frac{U_{e}-E}{L}\cdot \mathrm{d}t \) <br> \( \large  \Leftrightarrow i_{s(t)}=\frac{U_{e}-E}{L}\cdot t+cst\)  <br> \( \large i_{s(0)}=\frac{U_{e}-E}{L}\cdot 0+cst=I_{min}\) <br>alors  \( \large i_{s(t)}=\frac{U_{e}-E}{L}\cdot t+I_{min}\)  </p> 
+  </div>
+</div>
+<div class="card">
+  <div class="container">
+    <p>Comment s'exprime la puissance électromagnétique  \( \large P_{em}\)  d'une machine à courant continu du point de vue mécanique ?</p> 
+ <hr>
+    <p> \( \large P_{em}=T_{em}·\Omega\) <br> \( \large T_{em}\)  : moment du couple mécanique dans l'entrefer  ( \( \large N·m\) )<br> \( \large \Omega\)  : vitesse angulaire du rotor par rapport au stator ( \( \large rads\) )</p> 
+  </div>
+</div>
+<div class="card">
+  <div class="container">
+   <img src="https://project555-prod.s3.eu-central-1.amazonaws.com/user_uploads/fd13f100-dc1a-11e7-878a-ff54077f53b5" alt="Avatar" style="width:100%">
+    <p>Quels sont les quadrants utilisés par ce hacheur ?</p> 
+  <hr>
+    <p>Cette structure accepte une réversibilité du courant dans la charge mais pas de la tension aux bornes de la charge. C'est donc une structure 2 quadrants.</p> 
+  </div>
+</div>
+<div class="card">
+  <div class="container">
+   <p>Dessiner le modèle électrique d'une machine à courant continu en convention générateur et établir la loi des mailles.</p> 
+  <hr>
+   <img src="https://project555-prod.s3.eu-central-1.amazonaws.com/user_uploads/0fe701b0-d1bd-11e7-b4b4-f3487aa8c22a" alt="Avatar" style="width:100%">
+    <p> \( \large u_{(t)}+R·i_{(t)}+L·\frac{di}{dt}-E=0\) <br> \( \large R\)  : résistance de l'enroulement d'induit ( \( \large \Omega\) )<br> \( \large L\)  : inductance de l'enroulement d'induit ( \( \large H\) )<br> \( \large E\)  : fem ( \( \large V\) )</p> 
+  </div>
+</div>
+<div class="card">
+  <div class="container">
+   <img src="https://project555-prod.s3.eu-central-1.amazonaws.com/user_uploads/dbc84f20-dc1a-11e7-9f14-059ab3c08af8" alt="Avatar" style="width:100%">
+    <p>Quels sont les quadrants utilisés par ce hacheur ?</p> 
+  <hr>
+    <p>Cette structure accepte une réversibilité du courant dans la charge et de la tension aux bornes de la charge. C'est donc une structure 4 quadrants.</p> 
+  </div>
+</div>
+<div class="card">
+  <div class="container">
+   <img src="https://project555-prod.s3.eu-central-1.amazonaws.com/user_uploads/c3446090-f579-11e7-8764-dde2baa927a3" alt="Avatar" style="width:100%">
+    <p>Calculer la valeur moyenne   \( \large \lt U_{m(t)}\gt \) </p> 
+  <hr>
+    <p>  \( \large \lt U_{m(t)}\gt =12 \frac{30}{60}=6 V\) </p> 
+  </div>
+</div>
+<div class="card">
+  <div class="container">
+   <img src="https://s3.eu-central-1.amazonaws.com/project555-prod/user_uploads/da15a290-3483-11e7-8186-ed394f82898d" alt="Avatar" style="width:100%">
+    <p>Calculer l'expression de la valeur moyenne de  \( \large u_{3(t)}\)  notée  \( \large \lt u_{3(t)}\gt \) </p> 
+  <hr>
+    <p>  \( \large \lt u_{1(t)}\gt =\frac{1}{T}((\alpha \cdot T-0)\cdot (-U) + (T- \alpha \cdot T)\cdot U)=(1-2 \alpha) \cdot U\) <br>  \( \large \lt f_{(t)}\gt =\frac{1}{T}(intervalle)(valeur)\)  pour une fonction  \( \large f_{(t)}\)   constante par morceaux.</p> 
+  </div>
+</div>
+<div class="card">
+  <div class="container">
+    <p>Citer les quatre équations d'une machine à courant continu dans le cas d'un essai à rotor bloqué.</p> 
+ <hr>
+    <p> \( \large \Omega_{(t)}=0\) <br>Equation électrique   :   \( \large u_{(t)} =  R·i_{(t)} +L·\frac{d{i}}{dt}\)    <br>Equation mécanique :   \( \large  C_{em(t)} =C_{blocage}\) <br>Equation de couplage :   \( \large C_{em(t)}=k·i_{(t)}\) <br>Equation de couplage :   \( \large E=k·\Omega_{(t)}=0\) </p> 
+  </div>
+</div>
+<div class="card">
+  <div class="container">
+    <p>Définition du hacheur série (ou hacheur abaisseur) ?</p> 
+ <hr>
+    <p>C'est un convertisseur d'électronique de puissance Continu - Continu qui réalise le transfert direct d'une source de tension vers une source de courant.</p> 
+  </div>
+</div>
+<div class="card">
+  <div class="container">
+   <p>Définition d'un hacheur parallèle (ou hacheur élévateur) ?</p> 
+  <hr>
+   <img src="https://project555-prod.s3.eu-central-1.amazonaws.com/user_uploads/b1c0e910-dc1a-11e7-9ddc-63c4cc07e0af" alt="Avatar" style="width:100%">
+    <p>C'est un convertisseur d'électronique de puissance Continu - Continu qui réalise le transfert direct d'une source de courant vers une source de tension.</p> 
+  </div>
+</div>
+<div class="card">
+  <div class="container">
+   <img src="https://project555-prod.s3.eu-central-1.amazonaws.com/user_uploads/9b2e5f60-f577-11e7-bc0f-71bcd37836e5" alt="Avatar" style="width:100%">
+    <p>Quels sont les composants passants lorsque  \( \large H_1\)  et  \( \large H_4\)   sont commandés et  \( \large i_s\lt 0\)  ?</p> 
+  <hr>
+    <p>les composants passants sont   \( \large D_1\)   et   \( \large D_4\)  </p> 
+  </div>
+</div>
+<div class="card">
+  <div class="container">
+   <img src="https://project555-prod.s3.eu-central-1.amazonaws.com/user_uploads/9c7c9000-f576-11e7-875b-e1f0e71e652d" alt="Avatar" style="width:100%">
+    <p>Quel est le composant passant lorsque  \( \large H_2\)  est commandé et  \( \large i_s\gt 0\)  ?</p> 
+  <hr>
+    <p>C'est la diode  \( \large D_2\)  qui conduit</p> 
+  </div>
+</div>
+<div class="card">
+  <div class="container">
+   <img src="https://s3.eu-central-1.amazonaws.com/project555-prod/user_uploads/c1e2d9a0-3483-11e7-81af-cbe050722cf5" alt="Avatar" style="width:100%">
+    <p>Calculer l'expression du courant   \( \large i_{(t)}\)  pour  \( \large t\gt \frac{T}{2}\)    si \( \large i_{(\frac{T}{2})}=I_{max}\) </p> 
+  <hr>
+    <p>Loi des mailles  \( \large -L \cdot \frac{di_s}{dt}-E=0 \) <br> \( \large \Leftrightarrow di_s=\frac{-E}{L}\cdot \mathrm{d}t \) <br> \( \large  \Leftrightarrow i_{s(t)}=\frac{-E}{L}\cdot t+cst\)  <br> \( \large i_{s(\frac{T}{2})}=\frac{-E}{L}\cdot \frac{T}{2}+cst=I_{max}\) <br> \( \large cst=I_{max}+\frac{E}{L}\cdot \frac{T}{2}\) <br>alors  \( \large i_{s(t)}=\frac{-E}{L}\cdot t+I_{max}+\frac{E}{L}\cdot \frac{T}{2}= \frac{-E}{L}\cdot (t-\frac{T}{2})+I_{max}\)  </p> 
+  </div>
+</div>
+<div class="card">
+  <div class="container">
+    <p>Comment s'exprime la constante de temps électromécanique   \( \large \tau_{em}\)  d'une machine à courant continu ?</p> 
+ <hr>
+    <p> \( \large \tau_{em}=\frac{R_a·J}{k^2}\)  (s)<br> \( \large R_a\)  : Résistance du bobinage de l’induit ( \( \large \Omega\) )<br> \( \large J\)  : Inertie équivalente du rotor et de la charge mécanique ( \( \large kg·m^2\) )<br> \( \large k\)  : constante de couplage ( \( \large NmA\) )</p> 
+  </div>
+</div>
+<div class="card">
+  <div class="container">
+    <p>Montrer que pour une machine à courant continu, la vitesse  \( \large Ω_{(t)}\)  est proportionnelle à  \( \large \lt U_{(t)}\gt \)  si on néglige la chute de tension dans la résistance de l'enroulement d'induit.</p> 
+ <hr>
+    <p>L'équation électrique est obtenue par la loi des mailles :   <br> \( \large U_{(t)}-L \cdot \frac{di_s}{dt}-E=0 \) 	<br>en l’exprimant en valeur moyenne :  \( \large \lt U_{(t)} -L \cdot \frac{di_s}{dt}-E\gt =0 \)  <br> \( \large \Leftrightarrow\)     \( \large \lt U_{(t)}\gt -\lt L \cdot \frac{di_s}{dt}\gt -E=0 \)  <br>	Le terme  \( \large \lt L \cdot \frac{di_s}{dt}\gt \)  est toujours nul dans un régime périodique de courant. alors \( \large \lt U_{(t)}\gt =E \)   <br>  d’autre part par la relation de couplage   \( \large E=k·\Omega _{(t)}\)   alors   \( \large \lt U_{(t)}\gt =k·\Omega _{(t)}\) </p> 
+  </div>
+</div>
+</body>
+</html> 

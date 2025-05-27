@@ -43,6 +43,7 @@ using Microsoft.Web.WebView2.Wpf;
 using System.Diagnostics.Eventing.Reader;
 using static CSharpMath.Rendering.Text.TextAtom;
 using System.Diagnostics.SymbolStore;
+using System.Windows.Threading;
 
 
 
@@ -94,6 +95,9 @@ namespace Sophieandme.Pages
             
             
         }
+
+        DispatcherTimer _timer;
+        TimeSpan _time;
 
         public Quizz()
         {
@@ -598,6 +602,16 @@ namespace Sophieandme.Pages
             System.Diagnostics.Debug.WriteLine(path);
             File.WriteAllText(path, start);
 
+        }
+
+        private void Timer_Checked(object sender, RoutedEventArgs e)
+        {
+            tbTime.Visibility = Visibility.Visible;
+        }
+
+        private void Timer_Unchecked(object sender, RoutedEventArgs e)
+        {
+            tbTime.Visibility = Visibility.Visible;
         }
     }
 }

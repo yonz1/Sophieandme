@@ -1,23 +1,46 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width">
-  <title>MathJax example</title>
-  <style>
-    p {
-    color: white;
-    padding: 0.2cm;
-  }
-  </style>
-  <style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>MathJax example</title>
+    <style>
+        p {
+            color: white;
+            padding: 0.2cm;
+        }
+    </style>
+    <style>
         body {
-      background: #242424;
-    }
-  </style>
+            background: #242424;
+        }
+
+        .container {
+            display: grid;
+            align-items: center;
+            grid-template-columns: 1fr 100fr 1fr;
+            column-gap: 5px;
+        }
+
+        img {
+            max-width: 350px;
+                    max-height: 230px;
+        }
+
+        .text {
+            font-size: 17px;
+            display: inline;
+        }
+    </style>
 </head>
-  <body>
-  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js"> </script> 
-  <p> L'amplitude complexe des oscillations d'un oscillateur amorti de pulsation propre  \( \large \omega_0\)  et de facteur de qualité  \( \large Q\) , soumis à une excitation de pulsation  \( \large \omega\)  est donnée par  \( \large \underline{X} = x_m \frac{\omega_0^2}{\omega_0^2 - \omega^2 + j (\omega \omega_0)Q}\) .<br>Montrer que l'amplitude complexe des oscillations de la vitesse s'exprime sous la forme :<br> \( \large  \underline{v_0} = \frac{Q \omega_0 x_m}{1 + j Q \left( \frac{\omega}{\omega_0} - \frac{\omega_0}{\omega} \right)^2} .\) <br><br>A quelle condition sur  \( \large Q\)  observera t'on une résonance ? A quelle pulsation ? </p>
-  </body>    
+<body>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js"></script>
+    <div class="container">
+  <img src="https://project555-prod.s3.eu-central-1.amazonaws.com/user_uploads/e553eae0-03fc-11e8-9a2b-d397f782d313" >
+        <div class="text">
+            <p> 1. Déterminer l'expression de  \( \large V_S=f(V_E, R_1, R_2)\) .<br>2. On souhaite obtenir une amplification  \( \large A=\frac{V_S}{V_E}=-5\) , sachant que  \( \large R_2=10 k\Omega\) , calculer la valeur de  \( \large R_1\) .<br>3. La fonction  \( \large V_E(t)\)  est représentée en bleu sur l'oscillogramme. En déduire l'allure de  \( \large V_S(t)\)  sur la voie 2.<br> </p>
+        </div>
+
+    </div>
+</body>
 </html>
