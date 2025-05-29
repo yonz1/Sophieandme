@@ -44,6 +44,12 @@ using System.Diagnostics.Eventing.Reader;
 using static CSharpMath.Rendering.Text.TextAtom;
 using System.Diagnostics.SymbolStore;
 using System.Windows.Threading;
+using System.Timers;
+using System.Windows.Forms;
+using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
+using WpfApp2.Windows;
+using System.Windows.Controls.Primitives;
+using Sophieandme.Window;
 
 
 
@@ -69,6 +75,7 @@ namespace Sophieandme.Pages
         List<string> url_question = new List<string>();
         List<string> url_rep = new List<string>();
         List<string> difficulty = new List<string>();
+        List<string> Marked = new List<string>();
 
         // ############################################################## Liste compléter par la base de données
         List<string> AName = new List<string>();
@@ -78,8 +85,12 @@ namespace Sophieandme.Pages
         List<string> Aurl_question = new List<string>();
         List<string> Aurl_rep = new List<string>();
         List<string> Adifficulty = new List<string>();
+        List<string> AMarked = new List<string>();
         int i = 0;
 
+        private Stopwatch _stopwatch;
+        private System.Timers.Timer _timer;
+        private const string _startTimeDisplay = "00:00";
 
 
         public void run_cmd(object command)
@@ -96,13 +107,24 @@ namespace Sophieandme.Pages
             
         }
 
-        DispatcherTimer _timer;
-        TimeSpan _time;
 
         public Quizz()
         {
             InitializeComponent();
             int i = 0;
+            tbTime.Text = _startTimeDisplay;
+            _stopwatch = new Stopwatch();
+            _timer = new System.Timers.Timer(1000);
+
+            _timer.Elapsed += OnTimerElapse;
+
+            _stopwatch.Start();
+            _timer.Start();
+        }
+
+        private void OnTimerElapse (object sender, ElapsedEventArgs e)
+        {
+            App.Current.Dispatcher.Invoke(() => tbTime.Text = _stopwatch.Elapsed.ToString(@"mm\:ss" ));
         }
 
         private void SI_Click(object sender, RoutedEventArgs e)
@@ -140,6 +162,7 @@ namespace Sophieandme.Pages
             }
             connection.Close();
         }
+        
 
         private void Physique_Click(object sender, RoutedEventArgs e)
         {
@@ -212,7 +235,7 @@ namespace Sophieandme.Pages
             connection.Close();
         }
 
-
+        // ################################################################################################################### Fonction de formation des questions
         private async void questionform(int i)
         {
             Count_text.Text = (i+1).ToString() + "/" + id.Count.ToString();
@@ -224,8 +247,17 @@ namespace Sophieandme.Pages
             System.Diagnostics.Debug.WriteLine("#################################### question brut");
             System.Diagnostics.Debug.WriteLine(question[i].ToString());
             create(question[i].ToString(),i,"q");
-
             List<string> countword = question[i].Split(' ').ToList();
+            if (Marked[i].ToString() == "1")
+            {
+                Icon_Mark.IconFont = FontAwesome.Sharp.IconFont.Solid;
+                Marked_tgbutton.IsChecked = true;
+                System.Diagnostics.Debug.WriteLine("Marque");
+            }
+            else
+            {
+                Icon_Mark.IconFont = FontAwesome.Sharp.IconFont.Regular;
+            }
             //webviewques.Height = 40*countword.Count();
 
 
@@ -435,11 +467,14 @@ namespace Sophieandme.Pages
             if (App.Current.Properties["matier"] == "all")
             {
                 query = "SELECT id,question,reponse,image_question_url,image_answer_url,difficulty FROM " + nameindex;
+                App.Current.Properties["matier"] = nameindex;
+
+
             }
 
             else
             {
-                query = "SELECT id,question,reponse,image_question_url,image_answer_url,difficulty FROM " + App.Current.Properties["matier"].ToString() + " WHERE name = \"" + nameindex + "\"";
+                query = "SELECT id,question,reponse,image_question_url,image_answer_url,difficulty,Marked FROM " + App.Current.Properties["matier"].ToString() + " WHERE name = \"" + nameindex + "\"";
             }
 
 
@@ -454,6 +489,7 @@ namespace Sophieandme.Pages
                 Aurl_question.Clear();
                 Aurl_rep.Clear();
                 Adifficulty.Clear();
+                AMarked.Clear();
                 while (reader.Read())
                 {
                     Aid.Add(reader.GetString(0));
@@ -462,13 +498,15 @@ namespace Sophieandme.Pages
                     Aurl_question.Add(reader.GetString(3));
                     Aurl_rep.Add(reader.GetString(4));
                     Adifficulty.Add(reader.GetString(5));
+                    AMarked.Add(reader.GetString(6));
                 }
+
 
                 
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString());
+                System.Windows.Forms.MessageBox.Show(ex.ToString());
                 System.Diagnostics.Debug.WriteLine(ex.ToString());
             }
         }
@@ -479,6 +517,9 @@ namespace Sophieandme.Pages
         //###################################################################################### Récupération des infos dans la base de données 
         private void Testbox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
+            _stopwatch.Reset();
+            _stopwatch.Start();
+            _timer.Start();
             string nameindex = Testbox.SelectedItem.ToString();
             System.Diagnostics.Debug.WriteLine(nameindex);
             App.Current.Properties["nameindex"] =  nameindex;
@@ -490,10 +531,13 @@ namespace Sophieandme.Pages
 
         private void Back_quizz_Click(object sender, RoutedEventArgs e)
         {
+
+            stopwatchlogic();
             i = 0;
             Question.Visibility = Visibility.Collapsed;
             Selection.Visibility = Visibility.Visible;
             allresp.Visibility = Visibility.Collapsed;
+            tbTime.Visibility = Visibility.Collapsed;
         }
         private void shuffle()
         {
@@ -503,13 +547,13 @@ namespace Sophieandme.Pages
             url_question.Clear();
             url_rep.Clear();
             difficulty.Clear();
+            Marked.Clear();
             var random = new Random();
             var indices = new List<int>();
             for (int i = 0 ; i < Aid.Count ; i++)
             {
                 indices.Add(i);
             }
-            System.Diagnostics.Debug.WriteLine("Test1");
             for (int i = indices.Count - 1; i > 0; i--)
             { 
                 int j = random.Next(i+1);
@@ -517,7 +561,6 @@ namespace Sophieandme.Pages
                 indices[i] = indices[j];
                 indices[j] = temp;
             }
-            System.Diagnostics.Debug.WriteLine("Test2");
             foreach (int i in indices)
             {
                 System.Diagnostics.Debug.WriteLine(i.ToString());
@@ -531,12 +574,14 @@ namespace Sophieandme.Pages
                 url_question.Add(Aurl_question[i]);
                 url_rep.Add(Aurl_rep[i]);
                 difficulty.Add(Adifficulty[i]);
+                Marked.Add(AMarked[i]);
             }
             System.Diagnostics.Debug.WriteLine("Test3");
         }
 
         private void ViewResp_Click(object sender, RoutedEventArgs e)
         {
+            tbTime.Visibility = Visibility.Collapsed;
             Endquizz.Visibility = Visibility.Collapsed;
             allresp.Visibility = Visibility.Visible;
             string urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) +  "\\..\\..\\..\\HTMl\\Resp" + App.Current.Properties["nameindex"].ToString().Replace(" ","").Replace("è","edb").Replace("ô","o").Replace("é","e").Replace(":","").Replace(".", "") + ".html";
@@ -558,11 +603,13 @@ namespace Sophieandme.Pages
 
         private void Return_Click(object sender, RoutedEventArgs e)
         {
+            stopwatchlogic();
             i = 0;
             Question.Visibility = Visibility.Collapsed;
             Selection.Visibility = Visibility.Visible;
             allresp.Visibility = Visibility.Collapsed;
             Endquizz.Visibility = Visibility.Collapsed;
+            tbTime.Visibility = Visibility.Collapsed;
         }
 
         private void Restart_Click(object sender, RoutedEventArgs e)
@@ -572,7 +619,8 @@ namespace Sophieandme.Pages
             questionform(i);
             Quizzgrid.Visibility = Visibility.Collapsed;
             Endquizz.Visibility = Visibility.Collapsed;
-          
+            tbTime.Visibility = Visibility.Collapsed;
+
         }
 
         private void Allresp()
@@ -614,14 +662,16 @@ namespace Sophieandme.Pages
 
         private void Timer_Unchecked(object sender, RoutedEventArgs e)
         {
-            tbTime.Visibility = Visibility.Visible;
+            tbTime.Visibility = Visibility.Collapsed;
         }
 
         private void Direct_rep_Click(object sender, RoutedEventArgs e)
         {
+            stopwatchlogic();
             Endquizz.Visibility = Visibility.Collapsed;
             allresp.Visibility = Visibility.Visible;
             Question.Visibility = Visibility.Collapsed;
+            tbTime.Visibility = Visibility.Collapsed;
             string urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Resp" + App.Current.Properties["nameindex"].ToString().Replace(" ", "").Replace("è", "edb").Replace("ô", "o").Replace("é", "e").Replace(":", "").Replace(".", "") + ".html";
             urif = urif.Replace("\\", "/");
             System.Diagnostics.Debug.WriteLine(urif);
@@ -637,6 +687,49 @@ namespace Sophieandme.Pages
                 System.Threading.Thread.Sleep(100);
                 webviewall.Source = uri1 as System.Uri;
             }
+        }
+
+        private void stopwatchlogic()
+        {
+            _stopwatch.Stop();
+            _timer.Stop();
+            _stopwatch.Reset();
+        }
+
+        private void Marquer_Checked(object sender, RoutedEventArgs e)
+        {
+            Icon_Mark.IconFont = FontAwesome.Sharp.IconFont.Solid;
+            using (SQLiteConnection c = new SQLiteConnection(conSource))
+            {
+                c.Open();
+                string query = "UPDATE " + App.Current.Properties["matier"].ToString() + " SET Marked = 1 where question = \"" + question[i] + "\"";
+                System.Diagnostics.Debug.WriteLine(query);
+                using (SQLiteCommand cmd = new SQLiteCommand(query, c))
+                {
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        private void Marquer_Unchecked(object sender, RoutedEventArgs e)
+        {
+            Icon_Mark.IconFont = FontAwesome.Sharp.IconFont.Regular;
+            using (SQLiteConnection c = new SQLiteConnection(conSource))
+            {
+                c.Open();
+                string query = "UPDATE " + App.Current.Properties["matier"].ToString() + " SET Marked = 0 where question = \"" + question[i] + "\"";
+                System.Diagnostics.Debug.WriteLine(query);
+                using (SQLiteCommand cmd = new SQLiteCommand(query, c))
+                {
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        private void Resp_form_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Window win = new Response_paper();
+            win.Show();
         }
     }
 }

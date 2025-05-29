@@ -41,7 +41,7 @@
                 <ColumnDefinition Width="180" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <Border Background="{StaticResource Button_panel_color}" CornerRadius="10">
+            <Border Background="{StaticResource Button_panel_color}" CornerRadius="10 0 0 10">
                 <Grid Grid.Column="0">
                     <DockPanel>
                         <Rectangle
@@ -123,9 +123,10 @@
                 <Grid
                     x:Name="Grid_top"
                     Grid.Row="0"
+                    Margin="0,0,0,0"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
-                    Background="Transparent"
+                    Background="{StaticResource Topgrid}"
                     MouseDown="Grid_MouseDown"
                     Visibility="Visible">
                     <DockPanel Grid.Row="0" VerticalAlignment="Top">

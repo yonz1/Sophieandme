@@ -241,6 +241,48 @@
                             Text="Matières" />
                     </StackPanel>
                 </Button>
+                <!--<Button
+                    x:Name="Resp_form"
+                    Width="40"
+                    Height="40"
+                    Margin="0,0,20,0"
+                    HorizontalAlignment="Right"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Click="Resp_form_Click"
+                    DockPanel.Dock="Right"
+                    Foreground="{StaticResource Top_iconc_color}"
+                    Style="{StaticResource TopButton}"
+                    Tag="{StaticResource Glass}">
+                    <fs:IconImage
+                        Width="30"
+                        Height="30"
+                        Icon="PenToSquare"
+                        IconFont="Regular"
+                        Style="{StaticResource TopButtonIcon}" />
+                </Button>-->
+                <ToggleButton
+                    x:Name="Marked_tgbutton"
+                    Width="40"
+                    Height="40"
+                    Margin="0,0,20,0"
+                    HorizontalAlignment="Right"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Checked="Marquer_Checked"
+                    DockPanel.Dock="Right"
+                    Foreground="{StaticResource Top_iconc_color}"
+                    Style="{StaticResource TopButtonrad}"
+                    Tag="{StaticResource Glass}"
+                    Unchecked="Marquer_Unchecked">
+                    <fs:IconImage
+                        x:Name="Icon_Mark"
+                        Width="30"
+                        Height="30"
+                        Icon="Bookmark"
+                        IconFont="Regular"
+                        Style="{StaticResource TopButtonIconrad}" />
+                </ToggleButton>
                 <Button
                     x:Name="Direct_rep"
                     Width="40"
@@ -282,11 +324,16 @@
                 </ToggleButton>
                 <TextBlock
                     x:Name="tbTime"
-                    Width="200"
-                    Height="40"
+                    Width="100"
+                    Height="20"
                     Margin="0,0,20,0"
                     HorizontalAlignment="Right"
-                    Foreground="{StaticResource Textcolor}" />
+                    VerticalAlignment="Center"
+                    FontSize="17"
+                    Foreground="{StaticResource Textcolor}"
+                    Text="00:00"
+                    TextAlignment="Right"
+                    Visibility="Collapsed" />
             </DockPanel>
             <Grid MaxHeight="880" Margin="200,150,200,200">
                 <DockPanel x:Name="Panelquizz">
