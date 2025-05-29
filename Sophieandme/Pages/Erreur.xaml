@@ -12,6 +12,12 @@
     Title="Erreur"
     d:DesignHeight="740"
     d:DesignWidth="1280"
+    FontFamily="{DynamicResource MaterialDesignFont}"
+    TextElement.FontSize="10"
+    TextElement.FontWeight="Regular"
+    TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+    TextOptions.TextFormattingMode="Ideal"
+    TextOptions.TextRenderingMode="Auto"
     mc:Ignorable="d">
 
 
@@ -26,5 +32,7 @@
         </ResourceDictionary>
     </Page.Resources>
 
-    <Grid />
+    <Grid>
+        
+    </Grid>
 </Page>
