@@ -50,6 +50,7 @@ using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 using WpfApp2.Windows;
 using System.Windows.Controls.Primitives;
 using Sophieandme.Window;
+using System.Windows.Media.Animation;
 
 
 
@@ -103,8 +104,48 @@ namespace Sophieandme.Pages
             System.Diagnostics.Process proc = new System.Diagnostics.Process();
             proc.StartInfo = procstatinfo;
             proc.Start();
-            
-            
+        }
+
+        private void ChargerButton(List<string> Name)
+        {
+            var style = this.TryFindResource("MaterialDesignFlatMidBgButton") as System.Windows.Style;
+            foreach (var namequizz in Name) 
+            {
+
+                System.Windows.Controls.Button btn = new System.Windows.Controls.Button
+                {
+                    Content = namequizz,
+                    Margin = new System.Windows.Thickness(50, 10,10,10),
+                    Tag = namequizz,
+                    Width = 250,
+                    Height = 50,
+                    Foreground = Brushes.White,
+                    Style = style,
+                    BorderBrush = new SolidColorBrush(System.Windows.Media.Color.FromRgb(0x17, 0x17, 0x17)),
+                    Background = new SolidColorBrush(System.Windows.Media.Color.FromRgb(0x17, 0x17, 0x17)),
+                };
+                btn.Click += Bouton_click;
+                ButtonContainer.Children.Add(btn);
+            }
+
+        }
+
+        private void Bouton_click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Controls.Button boutonCLique = sender as System.Windows.Controls.Button;
+            string valeur = boutonCLique?.Tag as string;
+            _stopwatch.Reset();
+            _stopwatch.Start();
+            _timer.Start();
+            string nameindex = valeur;
+            System.Diagnostics.Debug.WriteLine(nameindex);
+            App.Current.Properties["nameindex"] = nameindex;
+            retrievequizz(nameindex);
+            shuffle();
+            questionform(i);
+            Quizzgrid.Visibility = Visibility.Collapsed;
+
+
         }
 
 
@@ -129,7 +170,7 @@ namespace Sophieandme.Pages
 
         private void SI_Click(object sender, RoutedEventArgs e)
         {
-            Testbox.Items.Clear();
+            ButtonContainer.Children.Clear();
             Name.Clear();
             App.Current.Properties["matier"] = "SI";
             Selection.Visibility = Visibility.Collapsed;
@@ -138,12 +179,12 @@ namespace Sophieandme.Pages
             try
             {
                 connection.Open();
-                string query = "SELECT name FROM " + App.Current.Properties["matier"].ToString();
+                string query = "SELECT name FROM " + App.Current.Properties["matier"].ToString() + " ORDER BY name";
                 var command = new SQLiteCommand(query, connection);
                 var reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    //Testbox.Items.Add(reader.GetString(0));
+                    ////Testbox.Items.Add(reader.GetString(0));
                     string y = reader.GetString(0);
                     if (!Name.Contains(y))
                     {
@@ -153,20 +194,21 @@ namespace Sophieandme.Pages
             }
             catch (Exception ex)
             {
-                Testbox.Items.Add(e.ToString());
+                //Testbox.Items.Add(e.ToString());
             }
 
-            foreach (string name in Name)
-            {
-                Testbox.Items.Add(name);
-            }
+            ChargerButton(Name);
+            //foreach (string name in Name)
+            //{
+            //    //Testbox.Items.Add(name);
+            //}
             connection.Close();
         }
         
 
         private void Physique_Click(object sender, RoutedEventArgs e)
         {
-            Testbox.Items.Clear();
+            ButtonContainer.Children.Clear();
             Name.Clear();
             App.Current.Properties["matier"] = "Physique";
             Selection.Visibility = Visibility.Collapsed;
@@ -175,12 +217,12 @@ namespace Sophieandme.Pages
             try
             {
                 connection.Open();
-                string query = "SELECT name FROM " + App.Current.Properties["matier"].ToString();
+                string query = "SELECT name FROM " + App.Current.Properties["matier"].ToString() + " ORDER BY name";
                 var command = new SQLiteCommand(query, connection);
                 var reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    //Testbox.Items.Add(reader.GetString(0));
+                    ////Testbox.Items.Add(reader.GetString(0));
                     string y = reader.GetString(0);
                     if (!Name.Contains(y))
                     {
@@ -190,19 +232,21 @@ namespace Sophieandme.Pages
             }
             catch (Exception ex)
             {
-                Testbox.Items.Add(e.ToString());
+                //Testbox.Items.Add(e.ToString());
             }
 
-            foreach (string name in Name)
-            {
-                Testbox.Items.Add(name);
-            }
+            ChargerButton(Name);
+
+            //foreach (string name in Name)
+            //{
+            //    //Testbox.Items.Add(name);
+            //}
             connection.Close();
         }
 
         private void Maths_Click(object sender, RoutedEventArgs e)
         {
-            Testbox.Items.Clear();
+            ButtonContainer.Children.Clear();
             Name.Clear();
             App.Current.Properties["matier"] = "Mathématiques";
             Selection.Visibility = Visibility.Collapsed;
@@ -210,12 +254,12 @@ namespace Sophieandme.Pages
             var connection = new SQLiteConnection(conSource);
             try {
                 connection.Open();
-                string query = "SELECT name FROM " + App.Current.Properties["matier"].ToString();
+                string query = "SELECT name FROM " + App.Current.Properties["matier"].ToString() + " ORDER BY name";
                 var command = new SQLiteCommand(query, connection);
                 var reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    //Testbox.Items.Add(reader.GetString(0));
+                    ////Testbox.Items.Add(reader.GetString(0));
                     string y = reader.GetString(0);
                     if (!Name.Contains(y))
                     {
@@ -225,13 +269,11 @@ namespace Sophieandme.Pages
             }
             catch (Exception ex)
             {
-                Testbox.Items.Add(e.ToString());
+                //Testbox.Items.Add(e.ToString());
             }
 
-            foreach (string name in Name)
-            {
-                Testbox.Items.Add(name);
-            }
+            ChargerButton(Name);
+
             connection.Close();
         }
 
@@ -450,12 +492,11 @@ namespace Sophieandme.Pages
 
         private void All_Click(object sender, RoutedEventArgs e)
         {
-            Testbox.Items.Clear();
+            ButtonContainer.Children.Clear();
             Selection.Visibility = Visibility.Collapsed;
             Quizzgrid.Visibility = Visibility.Visible;
-            Testbox.Items.Add("Mathématiques");
-            Testbox.Items.Add("Physique");
-            Testbox.Items.Add("SI");
+            List<string> Matier = ["Mathématiques", "Physique", "SI"];
+            ChargerButton(Matier);
             App.Current.Properties["matier"] = "all";
 
         }
@@ -515,19 +556,19 @@ namespace Sophieandme.Pages
 
 
         //###################################################################################### Récupération des infos dans la base de données 
-        private void Testbox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            _stopwatch.Reset();
-            _stopwatch.Start();
-            _timer.Start();
-            string nameindex = Testbox.SelectedItem.ToString();
-            System.Diagnostics.Debug.WriteLine(nameindex);
-            App.Current.Properties["nameindex"] =  nameindex;
-            retrievequizz(nameindex);
-            shuffle();
-            questionform(i);
-            Quizzgrid.Visibility = Visibility.Collapsed;
-        }
+        //private void Testbox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        //{
+        //    _stopwatch.Reset();
+        //    _stopwatch.Start();
+        //    _timer.Start();
+        //    string nameindex = //Testbox.SelectedItem.ToString();
+        //    System.Diagnostics.Debug.WriteLine(nameindex);
+        //    App.Current.Properties["nameindex"] =  nameindex;
+        //    retrievequizz(nameindex);
+        //    shuffle();
+        //    questionform(i);
+        //    Quizzgrid.Visibility = Visibility.Collapsed;
+        //}
 
         private void Back_quizz_Click(object sender, RoutedEventArgs e)
         {
@@ -614,6 +655,7 @@ namespace Sophieandme.Pages
 
         private void Restart_Click(object sender, RoutedEventArgs e)
         {
+            stopwatchlogic();
             retrievequizz(App.Current.Properties["nameindex"].ToString());
             shuffle();
             questionform(i);
@@ -726,11 +768,11 @@ namespace Sophieandme.Pages
             }
         }
 
-        private void Resp_form_Click(object sender, RoutedEventArgs e)
-        {
-            System.Windows.Window win = new Response_paper();
-            win.Show();
-        }
+        //private void Resp_form_Click(object sender, RoutedEventArgs e)
+        //{
+        //    System.Windows.Window win = new Response_paper();
+        //    win.Show();
+        //}
     }
 }
  

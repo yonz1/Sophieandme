@@ -63,18 +63,19 @@
                 VerticalAlignment="Stretch"
                 Background="{StaticResource Elementbackground}"
                 Click="Maths_Click"
+                Foreground="Black"
                 Style="{StaticResource Quizz_button}">
                 <StackPanel>
                     <fs:IconImage
                         Width="50"
                         Height="50"
-                        Foreground="{StaticResource Iconcolor}"
+                        Foreground="White"
                         Icon="DiceD20"
                         Style="{StaticResource NewMButtonIcon}" />
                     <TextBlock
                         Margin="0,20,0,0"
                         VerticalAlignment="Bottom"
-                        Foreground="{StaticResource Textcolor}"
+                        Foreground="Wheat"
                         Style="{StaticResource NewMButtonText}"
                         Text="Mathématiques" />
                 </StackPanel>
@@ -96,15 +97,16 @@
                     <fs:IconImage
                         Width="50"
                         Height="50"
-                        Foreground="{StaticResource Iconcolor}"
+                        Foreground="White"
                         Icon="Atom"
                         Style="{StaticResource NewMButtonIcon}" />
                     <TextBlock
                         Margin="0,20,0,0"
                         VerticalAlignment="Bottom"
-                        Foreground="{StaticResource Textcolor}"
+                        Foreground="White"
                         Style="{StaticResource NewMButtonText}"
-                        Text="Physique" />
+                        Text="Physique"
+                        TextAlignment="Center" />
                 </StackPanel>
             </RadioButton>
 
@@ -124,13 +126,13 @@
                     <fs:IconImage
                         Width="50"
                         Height="50"
-                        Foreground="{StaticResource Iconcolor}"
+                        Foreground="White"
                         Icon="UsersGear"
                         Style="{StaticResource NewMButtonIcon}" />
                     <TextBlock
                         Margin="0,20,0,0"
                         VerticalAlignment="Bottom"
-                        Foreground="{StaticResource Textcolor}"
+                        Foreground="White"
                         Style="{StaticResource NewMButtonText}"
                         Text="SI"
                         TextAlignment="Center" />
@@ -182,7 +184,8 @@
                     HorizontalAlignment="Left"
                     Click="Back_btn_Click"
                     DockPanel.Dock="Top"
-                    Style="{StaticResource MaterialDesignOutlinedLightButton}">
+                    Foreground="Gainsboro"
+                    Style="{StaticResource MaterialDesignFlatButton}">
                     <StackPanel Orientation="Horizontal">
                         <fs:IconImage
                             Width="20"
@@ -197,7 +200,7 @@
                     </StackPanel>
                 </Button>
 
-                <ListBox
+                <!--<ListBox
                     x:Name="Testbox"
                     Margin="0,30,0,0"
                     Background="{StaticResource Elementbackground}"
@@ -205,7 +208,16 @@
                     FontSize="12"
                     Foreground="{StaticResource Textcolor}"
                     MouseDoubleClick="Testbox_MouseDoubleClick"
-                    Style="{StaticResource MaterialDesignListBox}" />
+                    Style="{StaticResource MaterialDesignListBox}" />-->
+                <ScrollViewer VerticalScrollBarVisibility="Hidden">
+                    <WrapPanel
+                        x:Name="ButtonContainer"
+                        Margin="0,30,0,0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal" />
+                </ScrollViewer>
+
             </DockPanel>
 
         </Grid>
@@ -226,8 +238,8 @@
                     Margin="30,0,0,0"
                     HorizontalAlignment="Left"
                     Click="Back_quizz_Click"
-                    Style="{StaticResource MaterialDesignOutlinedLightButton}">
-
+                    Foreground="Gainsboro"
+                    Style="{StaticResource MaterialDesignFlatButton}">
                     <StackPanel Orientation="Horizontal">
                         <fs:IconImage
                             Width="20"
@@ -261,6 +273,31 @@
                         IconFont="Regular"
                         Style="{StaticResource TopButtonIcon}" />
                 </Button>-->
+
+
+
+                <ToggleButton
+                    x:Name="Menu"
+                    Width="40"
+                    Height="40"
+                    Margin="0,0,20,0"
+                    HorizontalAlignment="Right"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Checked="Marquer_Checked"
+                    DockPanel.Dock="Right"
+                    Foreground="{StaticResource Top_iconc_color}"
+                    Style="{StaticResource TopButtonrad}"
+                    Tag="{StaticResource Glass}"
+                    Unchecked="Marquer_Unchecked">
+                    <fs:IconImage
+                        Width="30"
+                        Height="30"
+                        Icon="ArrowAltCircleDown"
+                        IconFont="Regular"
+                        Style="{StaticResource TopButtonIconrad}" />
+                </ToggleButton>
+
                 <ToggleButton
                     x:Name="Marked_tgbutton"
                     Width="40"
@@ -335,6 +372,73 @@
                     TextAlignment="Right"
                     Visibility="Collapsed" />
             </DockPanel>
+            <!--<WrapPanel
+                Margin="0,0,20,150"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Orientation="Vertical">
+                <ToggleButton
+                    x:Name="Marked_tgbutton"
+                    Width="40"
+                    Height="40"
+                    Margin="0,0,20,0"
+                    HorizontalAlignment="Right"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Checked="Marquer_Checked"
+                    DockPanel.Dock="Right"
+                    Foreground="{StaticResource Top_iconc_color}"
+                    Style="{StaticResource TopButtonrad}"
+                    Tag="{StaticResource Glass}"
+                    Unchecked="Marquer_Unchecked">
+                    <fs:IconImage
+                        x:Name="Icon_Mark"
+                        Width="30"
+                        Height="30"
+                        Icon="Bookmark"
+                        IconFont="Regular"
+                        Style="{StaticResource TopButtonIconrad}" />
+                </ToggleButton>
+                <Button
+                    x:Name="Direct_rep"
+                    Width="40"
+                    Height="40"
+                    Margin="0,0,20,0"
+                    HorizontalAlignment="Right"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Click="Direct_rep_Click"
+                    DockPanel.Dock="Right"
+                    Foreground="{StaticResource Top_iconc_color}"
+                    Style="{StaticResource TopButton}"
+                    Tag="{StaticResource Glass}">
+                    <fs:IconImage
+                        Width="30"
+                        Height="30"
+                        Icon="Book"
+                        Style="{StaticResource TopButtonIcon}" />
+                </Button>
+                <ToggleButton
+                    x:Name="Timer"
+                    Width="40"
+                    Height="40"
+                    Margin="0,0,20,0"
+                    HorizontalAlignment="Right"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Checked="Timer_Checked"
+                    DockPanel.Dock="Right"
+                    Foreground="{StaticResource Top_iconc_color}"
+                    Style="{StaticResource TopButtonrad}"
+                    Tag="{StaticResource Glass}"
+                    Unchecked="Timer_Unchecked">
+                    <fs:IconImage
+                        Width="30"
+                        Height="30"
+                        Icon="Hourglass"
+                        Style="{StaticResource TopButtonIconrad}" />
+                </ToggleButton>
+            </WrapPanel>-->
             <Grid MaxHeight="880" Margin="200,150,200,200">
                 <DockPanel x:Name="Panelquizz">
                     <wv2:WebView2
@@ -452,7 +556,8 @@
                 Margin="30,0,0,0"
                 HorizontalAlignment="Left"
                 Click="Back_quizz_Click"
-                Style="{StaticResource MaterialDesignOutlinedLightButton}">
+                Foreground="Gainsboro"
+                Style="{StaticResource MaterialDesignFlatButton}">
 
                 <StackPanel Orientation="Horizontal">
                     <fs:IconImage
