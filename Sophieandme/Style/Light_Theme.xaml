@@ -1,6 +1,5 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-
     <SolidColorBrush x:Key="Iconcolor" Color="Gainsboro" />
     <SolidColorBrush x:Key="Textcolor" Color="Gainsboro" />
     <SolidColorBrush x:Key="Top_iconc_color" Color="Gainsboro" />
@@ -15,7 +14,5 @@
         <GradientStop Offset="1" Color="#04F5ED" />
         <GradientStop Offset="0.1" Color="#00F7A7" />
     </GradientStopCollection>
-
-    <SolidColorBrush x:Key="pageBackground" Color="#080709" />
 
 </ResourceDictionary>

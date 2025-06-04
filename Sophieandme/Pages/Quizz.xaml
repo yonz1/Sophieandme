@@ -35,138 +35,97 @@
 
         <!--  ########################################################## Panel d'affichage des matiére disponible  -->
 
-        <Grid
-            x:Name="Selection"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Visibility="Visible">
+        <Grid x:Name="Selection" Visibility="Collapsed">
 
-
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
+                <RowDefinition Height="100" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <RadioButton
-                x:Name="Maths"
-                Grid.Row="0"
-                Grid.Column="0"
-                Width="250"
-                Height="230"
-                Margin="40"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch"
-                Background="{StaticResource Elementbackground}"
-                Click="Maths_Click"
-                Foreground="Black"
-                Style="{StaticResource Quizz_button}">
-                <StackPanel>
-                    <fs:IconImage
-                        Width="50"
-                        Height="50"
-                        Foreground="White"
-                        Icon="DiceD20"
-                        Style="{StaticResource NewMButtonIcon}" />
-                    <TextBlock
-                        Margin="0,20,0,0"
-                        VerticalAlignment="Bottom"
-                        Foreground="Wheat"
-                        Style="{StaticResource NewMButtonText}"
-                        Text="Mathématiques" />
-                </StackPanel>
-            </RadioButton>
 
-            <RadioButton
-                x:Name="Physique"
-                Grid.Row="0"
-                Grid.Column="1"
-                Width="250"
-                Height="230"
-                Margin="40"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch"
-                Background="{StaticResource Elementbackground}"
-                Click="Physique_Click"
-                Style="{StaticResource Quizz_button}">
-                <StackPanel>
-                    <fs:IconImage
-                        Width="50"
-                        Height="50"
-                        Foreground="White"
-                        Icon="Atom"
-                        Style="{StaticResource NewMButtonIcon}" />
-                    <TextBlock
-                        Margin="0,20,0,0"
-                        VerticalAlignment="Bottom"
-                        Foreground="White"
-                        Style="{StaticResource NewMButtonText}"
-                        Text="Physique"
-                        TextAlignment="Center" />
-                </StackPanel>
-            </RadioButton>
+            <Border
+                Width="530"
+                Background="Transparent"
+                BorderThickness="2"
+                CornerRadius="20">
+                <DockPanel
+                    Height="60"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Background="Transparent"
+                    LastChildFill="True">
+                    <RadioButton
+                        x:Name="Maths"
+                        Width="120"
+                        Height="40"
+                        Margin="5,0,5,0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        materialDesign:ButtonAssist.CornerRadius="20"
+                        Background="Transparent"
+                        Checked="RadioButton_Checked"
+                        Content="Maths"
+                        DockPanel.Dock="Left"
+                        Foreground="Gainsboro"
+                        Style="{StaticResource topquizzmat}"
+                        Tag="Mathématiques" />
+                    <RadioButton
+                        x:Name="Physique"
+                        Width="120"
+                        Height="40"
+                        Margin="5,0,5,0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        materialDesign:ButtonAssist.CornerRadius="20"
+                        Background="Transparent"
+                        Checked="Physique_Checked"
+                        Content="Physique"
+                        DockPanel.Dock="Left"
+                        Foreground="Gainsboro"
+                        Style="{StaticResource topquizzmat}"
+                        Tag="Physique" />
+                    <RadioButton
+                        x:Name="SI"
+                        Width="120"
+                        Height="40"
+                        Margin="5,0,5,0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        materialDesign:ButtonAssist.CornerRadius="20"
+                        Background="Transparent"
+                        Checked="Si_Checked"
+                        Content="SI"
+                        DockPanel.Dock="Left"
+                        Foreground="Gainsboro"
+                        Style="{StaticResource topquizzmat}"
+                        Tag="SI" />
+                    <RadioButton
+                        x:Name="All"
+                        Width="120"
+                        Height="40"
+                        Margin="5,0,5,0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        materialDesign:ButtonAssist.CornerRadius="20"
+                        Background="Transparent"
+                        Checked="All_Checked"
+                        Content="All"
+                        DockPanel.Dock="Left"
+                        Foreground="Gainsboro"
+                        Style="{StaticResource topquizzmat}"
+                        Tag="All" />
+                </DockPanel>
+            </Border>
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Hidden">
+                <WrapPanel
+                    x:Name="ButtonContainer"
+                    Margin="0,30,0,0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal" />
+            </ScrollViewer>
 
-            <RadioButton
-                x:Name="SI"
-                Grid.Row="0"
-                Grid.Column="2"
-                Width="250"
-                Height="230"
-                Margin="40"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch"
-                Background="{StaticResource Elementbackground}"
-                Click="SI_Click"
-                Style="{StaticResource Quizz_button}">
-                <StackPanel>
-                    <fs:IconImage
-                        Width="50"
-                        Height="50"
-                        Foreground="White"
-                        Icon="UsersGear"
-                        Style="{StaticResource NewMButtonIcon}" />
-                    <TextBlock
-                        Margin="0,20,0,0"
-                        VerticalAlignment="Bottom"
-                        Foreground="White"
-                        Style="{StaticResource NewMButtonText}"
-                        Text="SI"
-                        TextAlignment="Center" />
-                </StackPanel>
-            </RadioButton>
 
-            <RadioButton
-                x:Name="All"
-                Grid.Row="1"
-                Grid.Column="1"
-                Width="250"
-                Height="230"
-                Margin="40"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch"
-                Background="{StaticResource Elementbackground}"
-                Click="All_Click"
-                Style="{StaticResource Quizz_button}">
-                <StackPanel>
-                    <fs:IconImage
-                        Width="50"
-                        Height="50"
-                        Foreground="{StaticResource Iconcolor}"
-                        Icon="UserPen"
-                        Style="{StaticResource NewMButtonIcon}" />
-                    <TextBlock
-                        Margin="0,20,0,0"
-                        VerticalAlignment="Bottom"
-                        Foreground="{StaticResource Textcolor}"
-                        Style="{StaticResource NewMButtonText}"
-                        Text="All"
-                        TextAlignment="Center" />
-                </StackPanel>
-            </RadioButton>
         </Grid>
 
 
@@ -209,14 +168,7 @@
                     Foreground="{StaticResource Textcolor}"
                     MouseDoubleClick="Testbox_MouseDoubleClick"
                     Style="{StaticResource MaterialDesignListBox}" />-->
-                <ScrollViewer VerticalScrollBarVisibility="Hidden">
-                    <WrapPanel
-                        x:Name="ButtonContainer"
-                        Margin="0,30,0,0"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Orientation="Horizontal" />
-                </ScrollViewer>
+
 
             </DockPanel>
 
@@ -229,8 +181,16 @@
 
 
 
-        <Grid x:Name="Question" Visibility="Collapsed">
-            <DockPanel Height="100" VerticalAlignment="Top">
+        <Grid x:Name="Question" Visibility="Visible">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="100" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="100" />
+            </Grid.RowDefinitions>
+            <DockPanel
+                Grid.Row="0"
+                Height="100"
+                VerticalAlignment="Top">
                 <Button
                     x:Name="Back_quizz"
                     Width="120"
@@ -372,92 +332,31 @@
                     TextAlignment="Right"
                     Visibility="Collapsed" />
             </DockPanel>
-            <!--<WrapPanel
-                Margin="0,0,20,150"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Center"
-                Orientation="Vertical">
-                <ToggleButton
-                    x:Name="Marked_tgbutton"
-                    Width="40"
-                    Height="40"
-                    Margin="0,0,20,0"
-                    HorizontalAlignment="Right"
-                    Background="Transparent"
-                    BorderThickness="0"
-                    Checked="Marquer_Checked"
-                    DockPanel.Dock="Right"
-                    Foreground="{StaticResource Top_iconc_color}"
-                    Style="{StaticResource TopButtonrad}"
-                    Tag="{StaticResource Glass}"
-                    Unchecked="Marquer_Unchecked">
-                    <fs:IconImage
-                        x:Name="Icon_Mark"
-                        Width="30"
-                        Height="30"
-                        Icon="Bookmark"
-                        IconFont="Regular"
-                        Style="{StaticResource TopButtonIconrad}" />
-                </ToggleButton>
-                <Button
-                    x:Name="Direct_rep"
-                    Width="40"
-                    Height="40"
-                    Margin="0,0,20,0"
-                    HorizontalAlignment="Right"
-                    Background="Transparent"
-                    BorderThickness="0"
-                    Click="Direct_rep_Click"
-                    DockPanel.Dock="Right"
-                    Foreground="{StaticResource Top_iconc_color}"
-                    Style="{StaticResource TopButton}"
-                    Tag="{StaticResource Glass}">
-                    <fs:IconImage
-                        Width="30"
-                        Height="30"
-                        Icon="Book"
-                        Style="{StaticResource TopButtonIcon}" />
-                </Button>
-                <ToggleButton
-                    x:Name="Timer"
-                    Width="40"
-                    Height="40"
-                    Margin="0,0,20,0"
-                    HorizontalAlignment="Right"
-                    Background="Transparent"
-                    BorderThickness="0"
-                    Checked="Timer_Checked"
-                    DockPanel.Dock="Right"
-                    Foreground="{StaticResource Top_iconc_color}"
-                    Style="{StaticResource TopButtonrad}"
-                    Tag="{StaticResource Glass}"
-                    Unchecked="Timer_Unchecked">
-                    <fs:IconImage
-                        Width="30"
-                        Height="30"
-                        Icon="Hourglass"
-                        Style="{StaticResource TopButtonIconrad}" />
-                </ToggleButton>
-            </WrapPanel>-->
-            <Grid MaxHeight="880" Margin="200,150,200,200">
+            <Grid
+                Grid.Row="1"
+                MaxHeight="880"
+                Margin="100,70,100,20">
                 <DockPanel x:Name="Panelquizz">
                     <wv2:WebView2
                         x:Name="webviewques"
-                        Height="150"
-                        VerticalAlignment="Top"
+                        MinHeight="50"
                         DockPanel.Dock="Top"
+                        NavigationCompleted="webviewques_NavigationCompleted"
                         Source="file:///C:/Users/Bastien/source/repos/Sophieandme/Sophieandme/Math.html"
                         Visibility="Visible" />
                     <wv2:WebView2
                         x:Name="webviewrep"
-                        Height="150"
-                        VerticalAlignment="Top"
+                        MinHeight="50"
                         DockPanel.Dock="Top"
+                        NavigationCompleted="webviewrep_NavigationCompleted"
                         Source="file:///C:/Users/Bastien/source/repos/Sophieandme/Sophieandme/Math.html"
                         Visibility="Visible" />
                 </DockPanel>
             </Grid>
-            <DockPanel Height="80" VerticalAlignment="Bottom">
+            <DockPanel
+                Grid.Row="2"
+                Height="80"
+                VerticalAlignment="Bottom">
                 <Button
                     x:Name="Reponse_button"
                     Width="200"

@@ -51,6 +51,11 @@ using WpfApp2.Windows;
 using System.Windows.Controls.Primitives;
 using Sophieandme.Window;
 using System.Windows.Media.Animation;
+using System.Drawing;
+using Xamarin.Forms.PlatformConfiguration;
+using MaterialDesignThemes.Wpf;
+using Microsoft.Web.WebView2.Core;
+
 
 
 
@@ -106,25 +111,31 @@ namespace Sophieandme.Pages
             proc.Start();
         }
 
-        private void ChargerButton(List<string> Name)
+        private void ChargerButton(List<string> Name, object sender)
         {
-            var style = this.TryFindResource("MaterialDesignFlatMidBgButton") as System.Windows.Style;
+            System.Windows.Controls.RadioButton boutonCLique = sender as System.Windows.Controls.RadioButton;
+            boutonCLique.IsChecked = false;
+            var style = this.TryFindResource("MaterialDesignFlatButton") as System.Windows.Style;
             foreach (var namequizz in Name) 
             {
 
                 System.Windows.Controls.Button btn = new System.Windows.Controls.Button
                 {
                     Content = namequizz,
-                    Margin = new System.Windows.Thickness(50, 10,10,10),
+                    Margin = new System.Windows.Thickness(50, 10, 10, 10),
                     Tag = namequizz,
                     Width = 250,
                     Height = 50,
-                    Foreground = Brushes.White,
+                    Foreground = System.Windows.Media.Brushes.White,
                     Style = style,
-                    BorderBrush = new SolidColorBrush(System.Windows.Media.Color.FromRgb(0x17, 0x17, 0x17)),
-                    Background = new SolidColorBrush(System.Windows.Media.Color.FromRgb(0x17, 0x17, 0x17)),
-                };
+                    FontSize = 14,
+                        BorderBrush = new SolidColorBrush(System.Windows.Media.Color.FromRgb(0x17, 0x17, 0x17)),
+                        Background = new SolidColorBrush(System.Windows.Media.Color.FromRgb(0x17, 0x17, 0x17)),
+
+                    };
+
                 btn.Click += Bouton_click;
+
                 ButtonContainer.Children.Add(btn);
             }
 
@@ -143,9 +154,6 @@ namespace Sophieandme.Pages
             retrievequizz(nameindex);
             shuffle();
             questionform(i);
-            Quizzgrid.Visibility = Visibility.Collapsed;
-
-
         }
 
 
@@ -168,118 +176,11 @@ namespace Sophieandme.Pages
             App.Current.Dispatcher.Invoke(() => tbTime.Text = _stopwatch.Elapsed.ToString(@"mm\:ss" ));
         }
 
-        private void SI_Click(object sender, RoutedEventArgs e)
-        {
-            ButtonContainer.Children.Clear();
-            Name.Clear();
-            App.Current.Properties["matier"] = "SI";
-            Selection.Visibility = Visibility.Collapsed;
-            Quizzgrid.Visibility = Visibility.Visible;
-            var connection = new SQLiteConnection(conSource);
-            try
-            {
-                connection.Open();
-                string query = "SELECT name FROM " + App.Current.Properties["matier"].ToString() + " ORDER BY name";
-                var command = new SQLiteCommand(query, connection);
-                var reader = command.ExecuteReader();
-                while (reader.Read())
-                {
-                    ////Testbox.Items.Add(reader.GetString(0));
-                    string y = reader.GetString(0);
-                    if (!Name.Contains(y))
-                    {
-                        Name.Add(y);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                //Testbox.Items.Add(e.ToString());
-            }
-
-            ChargerButton(Name);
-            //foreach (string name in Name)
-            //{
-            //    //Testbox.Items.Add(name);
-            //}
-            connection.Close();
-        }
-        
-
-        private void Physique_Click(object sender, RoutedEventArgs e)
-        {
-            ButtonContainer.Children.Clear();
-            Name.Clear();
-            App.Current.Properties["matier"] = "Physique";
-            Selection.Visibility = Visibility.Collapsed;
-            Quizzgrid.Visibility = Visibility.Visible;
-            var connection = new SQLiteConnection(conSource);
-            try
-            {
-                connection.Open();
-                string query = "SELECT name FROM " + App.Current.Properties["matier"].ToString() + " ORDER BY name";
-                var command = new SQLiteCommand(query, connection);
-                var reader = command.ExecuteReader();
-                while (reader.Read())
-                {
-                    ////Testbox.Items.Add(reader.GetString(0));
-                    string y = reader.GetString(0);
-                    if (!Name.Contains(y))
-                    {
-                        Name.Add(y);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                //Testbox.Items.Add(e.ToString());
-            }
-
-            ChargerButton(Name);
-
-            //foreach (string name in Name)
-            //{
-            //    //Testbox.Items.Add(name);
-            //}
-            connection.Close();
-        }
-
-        private void Maths_Click(object sender, RoutedEventArgs e)
-        {
-            ButtonContainer.Children.Clear();
-            Name.Clear();
-            App.Current.Properties["matier"] = "Mathématiques";
-            Selection.Visibility = Visibility.Collapsed;
-            Quizzgrid.Visibility = Visibility.Visible;
-            var connection = new SQLiteConnection(conSource);
-            try {
-                connection.Open();
-                string query = "SELECT name FROM " + App.Current.Properties["matier"].ToString() + " ORDER BY name";
-                var command = new SQLiteCommand(query, connection);
-                var reader = command.ExecuteReader();
-                while (reader.Read())
-                {
-                    ////Testbox.Items.Add(reader.GetString(0));
-                    string y = reader.GetString(0);
-                    if (!Name.Contains(y))
-                    {
-                        Name.Add(y);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                //Testbox.Items.Add(e.ToString());
-            }
-
-            ChargerButton(Name);
-
-            connection.Close();
-        }
 
         // ################################################################################################################### Fonction de formation des questions
         private async void questionform(int i)
         {
+            Selection.Visibility = Visibility.Collapsed;
             Count_text.Text = (i+1).ToString() + "/" + id.Count.ToString();
             Question.Visibility = Visibility.Visible;
             webviewques.Visibility = Visibility.Visible;
@@ -303,32 +204,31 @@ namespace Sophieandme.Pages
             //webviewques.Height = 40*countword.Count();
 
 
-            string urif = "";
+            //string urif = "";
 
-            if (i == 0)
-            {
-                System.Threading.Thread.Sleep(300);
-                //urif = "file:///C:/Users/Bastien/source/repos/Sophieandme/Sophieandme/HTML/Mathtq.html";
-                urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Mathtq.html";
-                urif = urif.Replace("\\", "/");
+            //if (i == 0)
+            //{
+            //    //urif = "file:///C:/Users/Bastien/source/repos/Sophieandme/Sophieandme/HTML/Mathtq.html";
+            //    urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Mathtq.html";
+            //    urif = urif.Replace("\\", "/");
                
-            }
+            //}
 
-            else if (i % 2 == 0)
-                { 
-                    //urif = "file:///C:/Users/Bastien/source/repos/Sophieandme/Sophieandme/HTML/Math0q.html";
-                urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Math0q.html";
-                urif = urif.Replace("\\", "/");
-            }
-            else
-            {
-                //urif = "file:///C:/Users/Bastien/source/repos/Sophieandme/Sophieandme/HTML/Math1q.html";
-                urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Math1q.html";
-                urif = urif.Replace("\\", "/");
-            }
-            System.Diagnostics.Debug.WriteLine(" ################# question url : ", urif);
-            System.Uri uri1 = new System.Uri(urif);
-            webviewques.Source = uri1 as System.Uri;
+            //else if (i % 2 == 0)
+            //    { 
+            //        //urif = "file:///C:/Users/Bastien/source/repos/Sophieandme/Sophieandme/HTML/Math0q.html";
+            //    urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Math0q.html";
+            //    urif = urif.Replace("\\", "/");
+            //}
+            //else
+            //{
+            //    //urif = "file:///C:/Users/Bastien/source/repos/Sophieandme/Sophieandme/HTML/Math1q.html";
+            //    urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Math1q.html";
+            //    urif = urif.Replace("\\", "/");
+            //}
+            //System.Diagnostics.Debug.WriteLine(" ################# question url : ", urif);
+            //System.Uri uri1 = new System.Uri(urif);
+            //webviewques.Source = uri1 as System.Uri;
             
         }
 
@@ -356,10 +256,6 @@ namespace Sophieandme.Pages
             string htmlval = "";
             string path = "";
             string imgurl = "";
-
-
-
-
             System.Diagnostics.Debug.WriteLine("#################################### question modifier html");
             System.Diagnostics.Debug.WriteLine(questionf);
             if (qor == "q")
@@ -378,6 +274,7 @@ namespace Sophieandme.Pages
                     htmlval = "<!DOCTYPE html>\r\n<html>\r\n<head>\r\n    <meta charset=\"utf-8\">\r\n    <meta name=\"viewport\" content=\"width=device-width\">\r\n    <title>MathJax example</title>\r\n    <style>\r\n        p {\r\n            color: white;\r\n            padding: 0.2cm;\r\n        }\r\n    </style>\r\n    <style>\r\n        body {\r\n            background: #242424;\r\n        }\r\n\r\n        .container {\r\n            display: grid;\r\n            align-items: center;\r\n            grid-template-columns: 1fr 100fr 1fr;\r\n            column-gap: 5px;\r\n        }\r\n\r\n        img {\r\n            max-width: 350px;\r\n                    max-height: 230px;\r\n        }\r\n\r\n        .text {\r\n            font-size: 17px;\r\n            display: inline;\r\n        }\r\n    </style>\r\n</head>\r\n<body>\r\n    <script id=\"MathJax-script\" async src=\"https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js\"></script>\r\n    <div class=\"container\">\r\n  " + imgurl + "\r\n        <div class=\"text\">\r\n            <p> " + questionf + " </p>\r\n        </div>\r\n\r\n    </div>\r\n</body>\r\n</html>";
                     webviewques.Height = 250;
                 }
+                webviewques.NavigateToString(htmlval);
             }
 
             if (qor == "r")
@@ -394,32 +291,32 @@ namespace Sophieandme.Pages
                     imgurl = "<img src=\"" + url_rep[i].Replace("\\/","/") +  "\" >" ;
                     htmlval = "<!DOCTYPE html>\r\n<html>\r\n<head>\r\n    <meta charset=\"utf-8\">\r\n    <meta name=\"viewport\" content=\"width=device-width\">\r\n    <title>MathJax example</title>\r\n    <style>\r\n        p {\r\n            color: white;\r\n            padding: 0.2cm;\r\n        }\r\n    </style>\r\n    <style>\r\n        body {\r\n      background: #242424;\r\n                      }\r\n\r\n        .container {\r\n    background: #161717;\r\n    padding: 0.2cm;\r\n     display: grid;\r\n            align-items: center;\r\n            grid-template-columns: 1fr 100fr 1fr;\r\n            column-gap: 5px;\r\n        }\r\n\r\n        img {\r\n            max-width: 350px;\r\n             max-height: 230px;\r\n        }\r\n\r\n        .text {\r\n            font-size: 17px;\r\n            display: inline;\r\n        }\r\n    </style>\r\n</head>\r\n<body>\r\n    <script id=\"MathJax-script\" async src=\"https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js\"></script>\r\n    <div class=\"container\">\r\n  " + imgurl + "\r\n        <div class=\"text\">\r\n            <p> " + questionf + " </p>\r\n        </div>\r\n\r\n    </div>\r\n</body>\r\n</html>";
                     webviewrep.Height = 230;
-                    
-
                 }
+                webviewrep.NavigateToString(htmlval);
             }
 
 
             System.Diagnostics.Debug.WriteLine(imgurl);
 
             /// ###############################     Pensez a adapter la couleur de l'arriére plan en fonction du théme choisis 
-            /// 
-            if (i == 0)
-            {
-                path = "..\\..\\..\\HTMl\\Matht" + qor + ".html";
-                File.WriteAllText(path, htmlval);
-            }
-            else if (i%2 == 0)
-            {
-                path = "..\\..\\..\\HTMl\\Math0" + qor +  ".html";
-                File.WriteAllText(path, htmlval);
+            ///
+
+          //  if (i == 0)
+          //  {
+          //      path = "..\\..\\..\\HTMl\\Matht" + qor + ".html";
+          //      File.WriteAllText(path, htmlval);
+          //  }
+          //  else if (i%2 == 0)
+          //  {
+          //      path = "..\\..\\..\\HTMl\\Math0" + qor +  ".html";
+          //      File.WriteAllText(path, htmlval);
                 
-            }
-            else
-            {
-          path = "..\\..\\..\\HTMl\\Math1" + qor + ".html";
-                File.WriteAllText(path, htmlval);
-            }
+          //  }
+          //  else
+          //  {
+          //path = "..\\..\\..\\HTMl\\Math1" + qor + ".html";
+          //      File.WriteAllText(path, htmlval);
+          //  }
 
 
 
@@ -433,28 +330,27 @@ namespace Sophieandme.Pages
             string urif = "";
             create(repnse[i].ToString(), i, "r");
 
-            if (i == 0)
-            {
-                System.Threading.Thread.Sleep(300);
-                //urif = "file:///C:/Users/Bastien/source/repos/Sophieandme/Sophieandme/HTML/Mathtr.html";
-                urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Mathtr.html";
-                urif = urif.Replace("\\", "/");
-            }
-            else if (i % 2 == 0)
-            {
-                //urif = "file:///C:/Users/Bastien/source/repos/Sophieandme/Sophieandme/HTML/Math0r.html";
-                urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Math0r.html";
-                urif = urif.Replace("\\", "/");
-            }
-            else
-            {
-                //urif = "file:///C:/Users/Bastien/source/repos/Sophieandme/Sophieandme/HTML/Math1r.html";
-                urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Math1r.html";
-                urif = urif.Replace("\\", "/");
-            }
-            System.Diagnostics.Debug.WriteLine(" ################# reponse url : ", urif);
-            System.Uri uri1 = new System.Uri(urif);
-            webviewrep.Source = uri1 as System.Uri;
+            //if (i == 0)
+            //{
+            //    //urif = "file:///C:/Users/Bastien/source/repos/Sophieandme/Sophieandme/HTML/Mathtr.html";
+            //    urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Mathtr.html";
+            //    urif = urif.Replace("\\", "/");
+            //}
+            //else if (i % 2 == 0)
+            //{
+            //    //urif = "file:///C:/Users/Bastien/source/repos/Sophieandme/Sophieandme/HTML/Math0r.html";
+            //    urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Math0r.html";
+            //    urif = urif.Replace("\\", "/");
+            //}
+            //else
+            //{
+            //    //urif = "file:///C:/Users/Bastien/source/repos/Sophieandme/Sophieandme/HTML/Math1r.html";
+            //    urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Math1r.html";
+            //    urif = urif.Replace("\\", "/");
+            //}
+            //System.Diagnostics.Debug.WriteLine(" ################# reponse url : ", urif);
+            //System.Uri uri1 = new System.Uri(urif);
+            //webviewrep.Source = uri1 as System.Uri;
             Reponse_button.Visibility = Visibility.Collapsed;
             Next_button.Visibility = Visibility.Visible;
 
@@ -490,16 +386,7 @@ namespace Sophieandme.Pages
             Quizzgrid.Visibility = Visibility.Collapsed;
         }
 
-        private void All_Click(object sender, RoutedEventArgs e)
-        {
-            ButtonContainer.Children.Clear();
-            Selection.Visibility = Visibility.Collapsed;
-            Quizzgrid.Visibility = Visibility.Visible;
-            List<string> Matier = ["Mathématiques", "Physique", "SI"];
-            ChargerButton(Matier);
-            App.Current.Properties["matier"] = "all";
 
-        }
 
         private void retrievequizz(string nameindex)
         {
@@ -507,15 +394,13 @@ namespace Sophieandme.Pages
             string query = "";
             if (App.Current.Properties["matier"] == "all")
             {
-                query = "SELECT id,question,reponse,image_question_url,image_answer_url,difficulty FROM " + nameindex;
+                query = "SELECT id,question,reponse,image_question_url,image_answer_url,difficulty,Marked FROM " + nameindex;
                 App.Current.Properties["matier"] = nameindex;
-
-
             }
 
             else
             {
-                query = "SELECT id,question,reponse,image_question_url,image_answer_url,difficulty,Marked FROM " + App.Current.Properties["matier"].ToString() + " WHERE name = \"" + nameindex + "\"";
+                query = "SELECT id,question,reponse,image_question_url,image_answer_url,difficulty,Marked  FROM " + App.Current.Properties["matier"].ToString() + " WHERE name = \"" + nameindex + "\"";
             }
 
 
@@ -579,7 +464,11 @@ namespace Sophieandme.Pages
             Selection.Visibility = Visibility.Visible;
             allresp.Visibility = Visibility.Collapsed;
             tbTime.Visibility = Visibility.Collapsed;
+            List<string> Matier = ["Maths", "Physique", "SI", "All"];
+            Name.Clear();
+            ButtonContainer.Children.Clear();
         }
+
         private void shuffle()
         {
             id.Clear();
@@ -649,8 +538,10 @@ namespace Sophieandme.Pages
             Question.Visibility = Visibility.Collapsed;
             Selection.Visibility = Visibility.Visible;
             allresp.Visibility = Visibility.Collapsed;
-            Endquizz.Visibility = Visibility.Collapsed;
             tbTime.Visibility = Visibility.Collapsed;
+            Endquizz.Visibility = Visibility.Collapsed;
+            Name.Clear();
+            ButtonContainer.Children.Clear();
         }
 
         private void Restart_Click(object sender, RoutedEventArgs e)
@@ -682,7 +573,6 @@ namespace Sophieandme.Pages
                 else if (url_rep[i] == "")
                 {
                     start += "<div class=\"card\">\r\n  <div class=\"container\">\r\n   <img src=\"" + url_question[i].Replace("\\/", "/") + "\" alt=\"Avatar\" style=\"width:100%\">\r\n    <p>" + miseneformetext(question[i]) + "</p> \r\n  <hr>\r\n    <p>" + miseneformetext(repnse[i]) + "</p> \r\n  </div>\r\n</div>\r\n";
-
                 }
                 else
                 {
@@ -744,7 +634,7 @@ namespace Sophieandme.Pages
             using (SQLiteConnection c = new SQLiteConnection(conSource))
             {
                 c.Open();
-                string query = "UPDATE " + App.Current.Properties["matier"].ToString() + " SET Marked = 1 where question = \"" + question[i] + "\"";
+                string query = "UPDATE " + App.Current.Properties["matier"].ToString() + " SET Marked = 1 where question = \"" + question[i] + "\" AND name = \"" + App.Current.Properties["nameindex"] + "\"" ;
                 System.Diagnostics.Debug.WriteLine(query);
                 using (SQLiteCommand cmd = new SQLiteCommand(query, c))
                 {
@@ -759,7 +649,7 @@ namespace Sophieandme.Pages
             using (SQLiteConnection c = new SQLiteConnection(conSource))
             {
                 c.Open();
-                string query = "UPDATE " + App.Current.Properties["matier"].ToString() + " SET Marked = 0 where question = \"" + question[i] + "\"";
+                string query = "UPDATE " + App.Current.Properties["matier"].ToString() + " SET Marked = 0 where question = \"" + question[i] + "\" AND name = \"" + App.Current.Properties["nameindex"] + "\"";
                 System.Diagnostics.Debug.WriteLine(query);
                 using (SQLiteCommand cmd = new SQLiteCommand(query, c))
                 {
@@ -768,11 +658,93 @@ namespace Sophieandme.Pages
             }
         }
 
-        //private void Resp_form_Click(object sender, RoutedEventArgs e)
-        //{
-        //    System.Windows.Window win = new Response_paper();
-        //    win.Show();
-        //}
+
+        private void Updateform(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Controls.RadioButton boutonCLique = sender as System.Windows.Controls.RadioButton;
+            string valeur = boutonCLique?.Tag as string;
+            ButtonContainer.Children.Clear();
+            Name.Clear();
+            App.Current.Properties["matier"] = valeur;
+            System.Diagnostics.Debug.Write(valeur.ToString());
+            var connection = new SQLiteConnection(conSource);
+            try
+            {
+                connection.Open();
+                string query = "SELECT name FROM " + App.Current.Properties["matier"].ToString() + " ORDER BY name";
+                var command = new SQLiteCommand(query, connection);
+                var reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    ////Testbox.Items.Add(reader.GetString(0));
+                    string y = reader.GetString(0);
+                    if (!Name.Contains(y))
+                    {
+                        Name.Add(y);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                //Testbox.Items.Add(e.ToString());
+            }
+
+            ChargerButton(Name,sender);
+
+            connection.Close();
+        }
+
+        private void RadioButton_Checked(object sender, RoutedEventArgs e)
+        {
+            Updateform(Maths,e);
+        }
+        private void Physique_Checked(object sender, RoutedEventArgs e)
+        {
+            Updateform(Physique, e);
+        }
+
+        private void Si_Checked(object sender, RoutedEventArgs e)
+        {
+            Updateform(SI, e);
+        }
+
+        private void All_Checked(object sender, RoutedEventArgs e)
+        {
+            Updateform(All, e);
+            ButtonContainer.Children.Clear();
+            Name.Clear();
+            List<string> Matier = ["Mathématiques", "Physique", "SI"];
+            ChargerButton(Matier,sender);
+            App.Current.Properties["matier"] = "all";
+        }
+
+        private async void webviewques_NavigationCompleted(object sender, Microsoft.Web.WebView2.Core.CoreWebView2NavigationCompletedEventArgs e)
+        {
+            webviewrep.Visibility = Visibility.Collapsed;
+            await ajustehautevaleur(sender, e);
+        }
+
+        private async void webviewrep_NavigationCompleted(object sender, Microsoft.Web.WebView2.Core.CoreWebView2NavigationCompletedEventArgs e)
+        {
+            await ajustehautevaleur(sender, e);
+        }
+
+        private async Task ajustehautevaleur(object sender, CoreWebView2NavigationCompletedEventArgs e)
+        {
+            try
+            {
+                Microsoft.Web.WebView2.Wpf.WebView2 mywebview = sender as Microsoft.Web.WebView2.Wpf.WebView2;
+                string result = await mywebview.ExecuteScriptAsync("document.body.scrollHeight.toString()");
+                if (int.TryParse(result.Trim('"'), out int height)) 
+                {
+                    mywebview.Height = height+50;
+                }
+            }
+            catch  (Exception ex)
+            { 
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+            }
+        }
     }
 }
  

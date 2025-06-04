@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Sophieandme.Pages
+namespace Sophieandme.Test
 {
     /// <summary>
-    /// Logique d'interaction pour EndQuizz.xaml
+    /// Logique d'interaction pour Testbutton.xaml
     /// </summary>
-    public partial class EndQuizz : Page
+    public partial class Testbutton : Page
     {
-        public EndQuizz()
+        public Testbutton()
         {
             InitializeComponent();
         }

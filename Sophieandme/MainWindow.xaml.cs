@@ -98,5 +98,10 @@ namespace Sophieandme
         {
             fcontainer.Navigate(new System.Uri("/Pages/Quizz.xaml", UriKind.RelativeOrAbsolute));
         }
+
+        private void Border_top_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            fcontainer.Navigate(new System.Uri("/Pages/Marked.xaml", UriKind.RelativeOrAbsolute));
+        }
     }
 }
