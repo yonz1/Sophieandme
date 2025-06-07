@@ -12,6 +12,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -35,39 +36,52 @@ namespace Sophieandme.Pages
         public Marked()
         {
             InitializeComponent();
-            Generatevalue();
             webviewall.Visibility = Visibility.Visible;
 
         }
-        private void Generatevalue()
+        private void Generatevalue(string mat)
         {
             question.Clear();
             reponse.Clear();
             url_question.Clear();
             url_rep.Clear();
-            string urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Marked.html";
-            urif = urif.Replace("\\", "/");
-            System.Diagnostics.Debug.WriteLine(urif);
-            System.Uri uri1 = new System.Uri(urif);
             System.Diagnostics.Debug.WriteLine("Test1");
-            Getmarked();
+            Getmarked(mat);
             System.Diagnostics.Debug.WriteLine("Test2");
-            GenerateHTML();
+            GenerateHTML(mat);
             foreach (string question in question)
             {
                 System.Diagnostics.Debug.WriteLine(question);
             }
-            webviewall.Source = uri1 as System.Uri;
+            
         }
 
-        private void Getmarked()
+        private void Getmarked(string mat)
         {
             var connection = new SQLiteConnection(conSource);
+            string valtoreq = "question,reponse,image_question_url, image_answer_url";
+            string query = "";
+            if (mat == "Physique")
+            {
+                query = "SELECT " + valtoreq + " from Physique where Marked = 1";
+            }
+            else if (mat == "SI")
+            {
+                query = "SELECT " + valtoreq + " FROM SI where Marked = 1";
+            }
+            else if (mat == "Maths")
+            {
+                query = "SELECT " + valtoreq + " from Mathématiques where Marked = 1";
+            }
+            else if (mat == "all")
+            {
+                query = "SELECT " + valtoreq + " from Physique where Marked = 1 UNION SELECT " + valtoreq + " FROM SI where Marked = 1 UNION SELECT " + valtoreq + " from Mathématiques where Marked = 1";
+            }
+            System.Diagnostics.Debug.WriteLine(query);
             try
             {
                 connection.Open();
-                string valtoreq = "question,reponse,image_question_url, image_answer_url";
-                string query = "SELECT" + valtoreq +  "from Physique where Marked = 1 UNION SELECT" + valtoreq + "FROM SI where Marked = 1 UNION SELECT" + valtoreq + "from Mathématiques where Marked = 1";
+                System.Diagnostics.Debug.WriteLine(query);
                 var command = new SQLiteCommand(query, connection);
                 var reader = command.ExecuteReader();
                 while (reader.Read())
@@ -77,6 +91,10 @@ namespace Sophieandme.Pages
                     url_question.Add(reader.GetString(2));
                     url_rep.Add(reader.GetString(3));
                 }
+                foreach (string question in question)
+                {
+                    System.Diagnostics.Debug.WriteLine(question);
+                }
             }
             catch (Exception ex)
             {
@@ -84,7 +102,7 @@ namespace Sophieandme.Pages
             connection.Close();
         }
 
-        private void GenerateHTML()
+        private void GenerateHTML(string mat)
         {
             string start = "<!DOCTYPE html>\r\n<html>\r\n<head>\r\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\r\n   <style>\r\n  img{\r\n  max-width: 60%;\r\n  max-height: 60%;\r\n  max-height: 7cm;\r\n  margin-top: 0.4cm;\r\n  border-radius: 3%;\r\n} .card {\r\n    margin-top: 0.2cm;\r\n     margin-left: 0.2cm;  \r\n box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);\r\n  transition: 0.3s;\r\n    background-color: #161717;\r\n   width: 40%;\r\n  border-radius: 5px;\r\n  display: inline-block;\r\n  max-width: 13cm;\r\n}\r\n\r p {\r\n    color: white;\r\n    padding: 0.2cm;\r\n  }\r\n   \n.card:hover {\r\n  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);\r\n}\r\n\r\n\r\n.container {\r\n  padding: 2px 16px;\r\n}" + "body {\r\n    color: #161717;\r\n    background-color: #242424;\r\n}\r\n" + " \r\n</style>\r\n</head>\r\n<body> <script id=\"MathJax-script\" async src=\"https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js\"> </script> \r\n ";
 
@@ -108,7 +126,7 @@ namespace Sophieandme.Pages
                 }
             }
             start += "</body>\r\n</html> \r\n";
-            string path = System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Marked.html";
+            string path = System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Marked" + mat + ".html";
             path = path.Replace("/", "\\");
             System.Diagnostics.Debug.WriteLine(path);
             File.WriteAllText(path, start);
@@ -130,20 +148,50 @@ namespace Sophieandme.Pages
 
         private void SIM_Click(object sender, RoutedEventArgs e)
         {
+            string mat = "SI";
+            Generatevalue(mat);
+            string urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Marked" + mat + ".html";
+            urif = urif.Replace("\\", "/");
+            System.Diagnostics.Debug.WriteLine(urif);
+            System.Uri uri1 = new System.Uri(urif);
+            webviewall.Source = uri1 as System.Uri;
 
         }
 
         private void AllM_Click(object sender, RoutedEventArgs e)
         {
-
+            string mat = "all";
+            Generatevalue(mat);
+            string urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Marked" + mat + ".html";
+            urif = urif.Replace("\\", "/");
+            System.Diagnostics.Debug.WriteLine(urif);
+            System.Uri uri1 = new System.Uri(urif);
+            webviewall.Source = uri1 as System.Uri;
         }
 
         private void PhysiqueM_Click(object sender, RoutedEventArgs e)
         {
-
+            string mat = "Physique";
+            Generatevalue(mat);
+            string urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Marked" + mat + ".html";
+            urif = urif.Replace("\\", "/");
+            System.Diagnostics.Debug.WriteLine(urif);
+            System.Uri uri1 = new System.Uri(urif);
+            webviewall.Source = uri1 as System.Uri;
         }
 
         private void MathsM_Click(object sender, RoutedEventArgs e)
+        {
+            string mat = "Maths";
+            Generatevalue(mat);
+            string urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Marked" + mat + ".html";
+            urif = urif.Replace("\\", "/");
+            System.Diagnostics.Debug.WriteLine(urif);
+            System.Uri uri1 = new System.Uri(urif);
+            webviewall.Source = uri1 as System.Uri;
+        }
+
+        private void Quizz_Click(object sender, RoutedEventArgs e)
         {
 
         }

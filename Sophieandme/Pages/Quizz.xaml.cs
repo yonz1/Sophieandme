@@ -55,6 +55,7 @@ using System.Drawing;
 using Xamarin.Forms.PlatformConfiguration;
 using MaterialDesignThemes.Wpf;
 using Microsoft.Web.WebView2.Core;
+using System.Windows.Media.Media3D;
 
 
 
@@ -204,32 +205,32 @@ namespace Sophieandme.Pages
             //webviewques.Height = 40*countword.Count();
 
 
-            //string urif = "";
+            string urif = "";
 
-            //if (i == 0)
-            //{
-            //    //urif = "file:///C:/Users/Bastien/source/repos/Sophieandme/Sophieandme/HTML/Mathtq.html";
-            //    urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Mathtq.html";
-            //    urif = urif.Replace("\\", "/");
-               
-            //}
+            if (i == 0)
+            {
+                //urif = "file:///C:/Users/Bastien/source/repos/Sophieandme/Sophieandme/HTML/Mathtq.html";
+                urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Mathtq.html";
+                urif = urif.Replace("\\", "/");
 
-            //else if (i % 2 == 0)
-            //    { 
-            //        //urif = "file:///C:/Users/Bastien/source/repos/Sophieandme/Sophieandme/HTML/Math0q.html";
-            //    urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Math0q.html";
-            //    urif = urif.Replace("\\", "/");
-            //}
-            //else
-            //{
-            //    //urif = "file:///C:/Users/Bastien/source/repos/Sophieandme/Sophieandme/HTML/Math1q.html";
-            //    urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Math1q.html";
-            //    urif = urif.Replace("\\", "/");
-            //}
-            //System.Diagnostics.Debug.WriteLine(" ################# question url : ", urif);
-            //System.Uri uri1 = new System.Uri(urif);
-            //webviewques.Source = uri1 as System.Uri;
-            
+            }
+
+            else if (i % 2 == 0)
+            {
+                //urif = "file:///C:/Users/Bastien/source/repos/Sophieandme/Sophieandme/HTML/Math0q.html";
+                urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Math0q.html";
+                urif = urif.Replace("\\", "/");
+            }
+            else
+            {
+                //urif = "file:///C:/Users/Bastien/source/repos/Sophieandme/Sophieandme/HTML/Math1q.html";
+                urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Math1q.html";
+                urif = urif.Replace("\\", "/");
+            }
+            System.Diagnostics.Debug.WriteLine(" ################# question url : ", urif);
+            System.Uri uri1 = new System.Uri(urif);
+            webviewques.Source = uri1 as System.Uri;
+
         }
 
         public static string miseneformetext(string text)
@@ -265,16 +266,16 @@ namespace Sophieandme.Pages
                     imgurl = "";
 
                     webviewques.Height = 150;
-                    htmlval = "<!DOCTYPE html>\r\n<html>\r\n<head>\r\n  <meta charset=\"utf-8\">\r\n  <meta name=\"viewport\" content=\"width=device-width\">\r\n  <title>MathJax example</title>\r\n  <style>\r\n    p {\r\n    color: white;\r\n    padding: 0.2cm;\r\n  }\r\n  </style>\r\n  <style>\r\n        body {\r\n      background: #242424;\r\n    }\r\n  </style>\r\n</head>\r\n  <body>\r\n  <script id=\"MathJax-script\" async src=\"https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js\"> </script> \r\n  <p> " + questionf + " </p>\r\n  </body>    \r\n</html>";
+                    htmlval = "<!DOCTYPE html>\r\n<html>\r\n<head>\r\n  <meta charset=\"utf-8\">\r\n  <meta name=\"viewport\" content=\"width=device-width\">\r\n  <title>MathJax example</title>\r\n  <style>\r\n    p {\r\n    color: white;\r\n    padding: 0.2cm;\r\n  }\r\n  </style>\r\n  <style>\r\n        body {\r\n      background: #242424;\r\n    }\r\n  </style>\r\n</head>\r\n  <body>\r\n  <script id=\"MathJax-script\" async src=\"https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js\"> </script> \r\n <script>\r\nwindow.MathJax = {\r\n  tex: {\r\n    inlineMath: [['$', '$'], ['\\\\(', '\\\\)']],\r\n    displayMath: [['$$', '$$'], ['\\\\[', '\\\\]']]\r\n  },\r\n  options: {\r\n    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],\r\n    renderActions: {\r\n      addMenu: [] // désactive le menu contextuel MathJax\r\n    }\r\n  }\r\n};\r\n</script> \r\n <p> " + questionf + " </p>\r\n  </body>    \r\n</html>";
 
                 }
                 else
                 {
                     imgurl = "<img src=\"" + url_question[i].Replace("\\/", "/") + "\" >";
-                    htmlval = "<!DOCTYPE html>\r\n<html>\r\n<head>\r\n    <meta charset=\"utf-8\">\r\n    <meta name=\"viewport\" content=\"width=device-width\">\r\n    <title>MathJax example</title>\r\n    <style>\r\n        p {\r\n            color: white;\r\n            padding: 0.2cm;\r\n        }\r\n    </style>\r\n    <style>\r\n        body {\r\n            background: #242424;\r\n        }\r\n\r\n        .container {\r\n            display: grid;\r\n            align-items: center;\r\n            grid-template-columns: 1fr 100fr 1fr;\r\n            column-gap: 5px;\r\n        }\r\n\r\n        img {\r\n            max-width: 350px;\r\n                    max-height: 230px;\r\n        }\r\n\r\n        .text {\r\n            font-size: 17px;\r\n            display: inline;\r\n        }\r\n    </style>\r\n</head>\r\n<body>\r\n    <script id=\"MathJax-script\" async src=\"https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js\"></script>\r\n    <div class=\"container\">\r\n  " + imgurl + "\r\n        <div class=\"text\">\r\n            <p> " + questionf + " </p>\r\n        </div>\r\n\r\n    </div>\r\n</body>\r\n</html>";
+                    htmlval = "<!DOCTYPE html>\r\n<html>\r\n<head>\r\n    <meta charset=\"utf-8\">\r\n    <meta name=\"viewport\" content=\"width=device-width\">\r\n    <title>MathJax example</title>\r\n    <style>\r\n        p {\r\n            color: white;\r\n            padding: 0.2cm;\r\n        }\r\n    </style>\r\n    <style>\r\n        body {\r\n            background: #242424;\r\n        }\r\n\r\n        .container {\r\n            display: grid;\r\n            align-items: center;\r\n            grid-template-columns: 1fr 100fr 1fr;\r\n            column-gap: 5px;\r\n        }\r\n\r\n        img {\r\n            max-width: 350px;\r\n                    max-height: 230px;\r\n        }\r\n\r\n        .text {\r\n            font-size: 17px;\r\n            display: inline;\r\n        }\r\n    </style>\r\n</head>\r\n<body>\r\n    <script id=\"MathJax-script\" async src=\"https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js\"></script>\r\n <script>\r\nwindow.MathJax = {\r\n  tex: {\r\n    inlineMath: [['$', '$'], ['\\\\(', '\\\\)']],\r\n    displayMath: [['$$', '$$'], ['\\\\[', '\\\\]']]\r\n  },\r\n  options: {\r\n    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],\r\n    renderActions: {\r\n      addMenu: [] // désactive le menu contextuel MathJax\r\n    }\r\n  }\r\n};\r\n</script>   <div class=\"container\">\r\n  " + imgurl + "\r\n        <div class=\"text\">\r\n            <p> " + questionf + " </p>\r\n        </div>\r\n\r\n    </div>\r\n</body>\r\n</html>";
                     webviewques.Height = 250;
                 }
-                webviewques.NavigateToString(htmlval);
+                //webviewques.NavigateToString(htmlval);
             }
 
             if (qor == "r")
@@ -283,16 +284,16 @@ namespace Sophieandme.Pages
                 {
                     webviewrep.Height = 250;
                     imgurl = "";
-                    htmlval = "<!DOCTYPE html>\r\n<html>\r\n<head>\r\n  <meta charset=\"utf-8\">\r\n  <meta name=\"viewport\" content=\"width=device-width\">\r\n  <title>MathJax example</title>\r\n  <style>\r\n    p {\r\n  background: #161717;\r\n  color: white;\r\n    padding: 1cm;\r\n  }\r\n  </style>\r\n  <style>\r\n        body {\r\n      background: #242424;\r\n    }\r\n  </style>\r\n</head>\r\n  <body>\r\n  <script id=\"MathJax-script\" async src=\"https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js\"> </script> \r\n  <p> " + questionf + " </p>\r\n  </body>    \r\n</html>";
+                    htmlval = "<!DOCTYPE html>\r\n<html>\r\n<head>\r\n  <meta charset=\"utf-8\">\r\n  <meta name=\"viewport\" content=\"width=device-width\">\r\n  <title>MathJax example</title>\r\n  <style>\r\n    p {\r\n  background: #161717;\r\n  color: white;\r\n    padding: 1cm;\r\n  }\r\n  </style>\r\n  <style>\r\n        body {\r\n      background: #242424;\r\n    }\r\n  </style>\r\n</head>\r\n  <body>\r\n  <script id=\"MathJax-script\" async src=\"https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js\"> </script> \r\n <script>\r\nwindow.MathJax = {\r\n  tex: {\r\n    inlineMath: [['$', '$'], ['\\\\(', '\\\\)']],\r\n    displayMath: [['$$', '$$'], ['\\\\[', '\\\\]']]\r\n  },\r\n  options: {\r\n    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],\r\n    renderActions: {\r\n      addMenu: [] // désactive le menu contextuel MathJax\r\n    }\r\n  }\r\n};\r\n</script>  <p> " + questionf + " </p>\r\n  </body>    \r\n</html>";
 
                 }
                 else
                 {
                     imgurl = "<img src=\"" + url_rep[i].Replace("\\/","/") +  "\" >" ;
-                    htmlval = "<!DOCTYPE html>\r\n<html>\r\n<head>\r\n    <meta charset=\"utf-8\">\r\n    <meta name=\"viewport\" content=\"width=device-width\">\r\n    <title>MathJax example</title>\r\n    <style>\r\n        p {\r\n            color: white;\r\n            padding: 0.2cm;\r\n        }\r\n    </style>\r\n    <style>\r\n        body {\r\n      background: #242424;\r\n                      }\r\n\r\n        .container {\r\n    background: #161717;\r\n    padding: 0.2cm;\r\n     display: grid;\r\n            align-items: center;\r\n            grid-template-columns: 1fr 100fr 1fr;\r\n            column-gap: 5px;\r\n        }\r\n\r\n        img {\r\n            max-width: 350px;\r\n             max-height: 230px;\r\n        }\r\n\r\n        .text {\r\n            font-size: 17px;\r\n            display: inline;\r\n        }\r\n    </style>\r\n</head>\r\n<body>\r\n    <script id=\"MathJax-script\" async src=\"https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js\"></script>\r\n    <div class=\"container\">\r\n  " + imgurl + "\r\n        <div class=\"text\">\r\n            <p> " + questionf + " </p>\r\n        </div>\r\n\r\n    </div>\r\n</body>\r\n</html>";
+                    htmlval = "<!DOCTYPE html>\r\n<html>\r\n<head>\r\n    <meta charset=\"utf-8\">\r\n    <meta name=\"viewport\" content=\"width=device-width\">\r\n    <title>MathJax example</title>\r\n    <style>\r\n        p {\r\n            color: white;\r\n            padding: 0.2cm;\r\n        }\r\n    </style>\r\n    <style>\r\n        body {\r\n      background: #242424;\r\n                      }\r\n\r\n        .container {\r\n    background: #161717;\r\n    padding: 0.2cm;\r\n     display: grid;\r\n            align-items: center;\r\n            grid-template-columns: 1fr 100fr 1fr;\r\n            column-gap: 5px;\r\n        }\r\n\r\n        img {\r\n            max-width: 350px;\r\n             max-height: 230px;\r\n        }\r\n\r\n        .text {\r\n            font-size: 17px;\r\n            display: inline;\r\n        }\r\n    </style>\r\n</head>\r\n<body>\r\n    <script id=\"MathJax-script\" async src=\"https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js\"></script>\r\n  <script>\r\nwindow.MathJax = {\r\n  tex: {\r\n    inlineMath: [['$', '$'], ['\\\\(', '\\\\)']],\r\n    displayMath: [['$$', '$$'], ['\\\\[', '\\\\]']]\r\n  },\r\n  options: {\r\n    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],\r\n    renderActions: {\r\n      addMenu: [] // désactive le menu contextuel MathJax\r\n    }\r\n  }\r\n};\r\n</script>   <div class=\"container\">\r\n  " + imgurl + "\r\n        <div class=\"text\">\r\n            <p> " + questionf + " </p>\r\n        </div>\r\n\r\n    </div>\r\n</body>\r\n</html>";
                     webviewrep.Height = 230;
                 }
-                webviewrep.NavigateToString(htmlval);
+                //webviewrep.NavigateToString(htmlval);
             }
 
 
@@ -301,22 +302,22 @@ namespace Sophieandme.Pages
             /// ###############################     Pensez a adapter la couleur de l'arriére plan en fonction du théme choisis 
             ///
 
-          //  if (i == 0)
-          //  {
-          //      path = "..\\..\\..\\HTMl\\Matht" + qor + ".html";
-          //      File.WriteAllText(path, htmlval);
-          //  }
-          //  else if (i%2 == 0)
-          //  {
-          //      path = "..\\..\\..\\HTMl\\Math0" + qor +  ".html";
-          //      File.WriteAllText(path, htmlval);
-                
-          //  }
-          //  else
-          //  {
-          //path = "..\\..\\..\\HTMl\\Math1" + qor + ".html";
-          //      File.WriteAllText(path, htmlval);
-          //  }
+            if (i == 0)
+            {
+                path = "..\\..\\..\\HTMl\\Matht" + qor + ".html";
+                File.WriteAllText(path, htmlval);
+            }
+            else if (i % 2 == 0)
+            {
+                path = "..\\..\\..\\HTMl\\Math0" + qor + ".html";
+                File.WriteAllText(path, htmlval);
+
+            }
+            else
+            {
+                path = "..\\..\\..\\HTMl\\Math1" + qor + ".html";
+                File.WriteAllText(path, htmlval);
+            }
 
 
 
@@ -330,27 +331,27 @@ namespace Sophieandme.Pages
             string urif = "";
             create(repnse[i].ToString(), i, "r");
 
-            //if (i == 0)
-            //{
-            //    //urif = "file:///C:/Users/Bastien/source/repos/Sophieandme/Sophieandme/HTML/Mathtr.html";
-            //    urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Mathtr.html";
-            //    urif = urif.Replace("\\", "/");
-            //}
-            //else if (i % 2 == 0)
-            //{
-            //    //urif = "file:///C:/Users/Bastien/source/repos/Sophieandme/Sophieandme/HTML/Math0r.html";
-            //    urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Math0r.html";
-            //    urif = urif.Replace("\\", "/");
-            //}
-            //else
-            //{
-            //    //urif = "file:///C:/Users/Bastien/source/repos/Sophieandme/Sophieandme/HTML/Math1r.html";
-            //    urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Math1r.html";
-            //    urif = urif.Replace("\\", "/");
-            //}
-            //System.Diagnostics.Debug.WriteLine(" ################# reponse url : ", urif);
-            //System.Uri uri1 = new System.Uri(urif);
-            //webviewrep.Source = uri1 as System.Uri;
+            if (i == 0)
+            {
+                //urif = "file:///C:/Users/Bastien/source/repos/Sophieandme/Sophieandme/HTML/Mathtr.html";
+                urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Mathtr.html";
+                urif = urif.Replace("\\", "/");
+            }
+            else if (i % 2 == 0)
+            {
+                //urif = "file:///C:/Users/Bastien/source/repos/Sophieandme/Sophieandme/HTML/Math0r.html";
+                urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Math0r.html";
+                urif = urif.Replace("\\", "/");
+            }
+            else
+            {
+                //urif = "file:///C:/Users/Bastien/source/repos/Sophieandme/Sophieandme/HTML/Math1r.html";
+                urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Math1r.html";
+                urif = urif.Replace("\\", "/");
+            }
+            System.Diagnostics.Debug.WriteLine(" ################# reponse url : ", urif);
+            System.Uri uri1 = new System.Uri(urif);
+            webviewrep.Source = uri1 as System.Uri;
             Reponse_button.Visibility = Visibility.Collapsed;
             Next_button.Visibility = Visibility.Visible;
 
@@ -526,7 +527,6 @@ namespace Sophieandme.Pages
             else
             {
                 Allresp();
-                System.Threading.Thread.Sleep(100);
                 webviewall.Source = uri1 as System.Uri;
             }
         }
@@ -616,7 +616,6 @@ namespace Sophieandme.Pages
             else
             {
                 Allresp();
-                System.Threading.Thread.Sleep(100);
                 webviewall.Source = uri1 as System.Uri;
             }
         }
@@ -720,13 +719,14 @@ namespace Sophieandme.Pages
 
         private async void webviewques_NavigationCompleted(object sender, Microsoft.Web.WebView2.Core.CoreWebView2NavigationCompletedEventArgs e)
         {
-            webviewrep.Visibility = Visibility.Collapsed;
-            await ajustehautevaleur(sender, e);
+            ajustehautevaleur(sender, e);
         }
 
         private async void webviewrep_NavigationCompleted(object sender, Microsoft.Web.WebView2.Core.CoreWebView2NavigationCompletedEventArgs e)
         {
-            await ajustehautevaleur(sender, e);
+
+            ajustehautevaleur(sender, e);
+
         }
 
         private async Task ajustehautevaleur(object sender, CoreWebView2NavigationCompletedEventArgs e)
@@ -738,6 +738,7 @@ namespace Sophieandme.Pages
                 if (int.TryParse(result.Trim('"'), out int height)) 
                 {
                     mywebview.Height = height+50;
+                    System.Diagnostics.Debug.WriteLine(height);
                 }
             }
             catch  (Exception ex)

@@ -1,14 +1,48 @@
-﻿<Page x:Class="Sophieandme.Pages.Finquizz"
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:Sophieandme.Pages"
-      mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="Finquizz">
+﻿<Page
+    x:Class="Sophieandme.Pages.Finquizz"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Sophieandme.Pages"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
+    Title="Finquizz"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
 
     <Grid>
-        
+        <ScrollViewer
+            Grid.Row="1"
+            CanContentScroll="True"
+            VerticalScrollBarVisibility="Hidden">
+            <!--<Grid
+                    Grid.Row="1"
+                    MaxHeight="880"
+                    Margin="100,70,100,20">-->
+
+            <DockPanel
+                x:Name="Panelquizz"
+                Margin="100,40,100,20"
+                Panel.ZIndex="0">
+                <wv2:WebView2
+                    x:Name="webviewques"
+                    MinHeight="30"
+                    VerticalAlignment="Top"
+                    DockPanel.Dock="Top"
+                    NavigationCompleted="webviewques_NavigationCompleted"
+                    Source="file:///C:/Users/Bastien/source/repos/Sophieandme/Sophieandme/Math.html"
+                    Visibility="Visible" />
+                <wv2:WebView2
+                    x:Name="webviewrep"
+                    MinHeight="30"
+                    VerticalAlignment="Top"
+                    DockPanel.Dock="Top"
+                    NavigationCompleted="webviewrep_NavigationCompleted"
+                    Source="file:///C:/Users/Bastien/source/repos/Sophieandme/Sophieandme/Math.html"
+                    Visibility="Visible" />
+            </DockPanel>
+            <!--</Grid>-->
+        </ScrollViewer>
     </Grid>
 </Page>
