@@ -66,8 +66,26 @@
                             Foreground="Gainsboro"
                             Style="{StaticResource NewMButtton}">
                             <StackPanel Orientation="Horizontal">
+                                <Rectangle
+                                    x:Name="Rect1"
+                                    Width="5"
+                                    Height="20"
+                                    Margin="5,0,0,0"
+                                    Fill="MediumSlateBlue"
+                                    RadiusX="5"
+                                    RadiusY="5"
+                                    Visibility="Hidden">
+                                    <Rectangle.Effect>
+                                        <DropShadowEffect
+                                            BlurRadius="20"
+                                            Direction="270"
+                                            Opacity="0.3"
+                                            ShadowDepth="0"
+                                            Color="White" />
+                                    </Rectangle.Effect>
+                                </Rectangle>
                                 <fs:IconImage
-                                    Margin="35,0,0,0"
+                                    Margin="25,0,0,0"
                                     Foreground="{StaticResource Iconcolor}"
                                     Icon="UserGraduate"
                                     Style="{StaticResource NewMButtonIcon}" />
