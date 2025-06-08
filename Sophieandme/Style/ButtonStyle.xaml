@@ -53,10 +53,13 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="RadioButton">
-                            <Border BorderBrush="{TemplateBinding BorderBrush}" CornerRadius="10">
-                                <Border.Background>
+                            <Border
+                                Background="#30555555"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                CornerRadius="10">
+                                <!--<Border.Background>
                                     <LinearGradientBrush GradientStops="{StaticResource Sombre_purple}" />
-                                </Border.Background>
+                                </Border.Background>-->
                                 <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center" />
                             </Border>
                         </ControlTemplate>
@@ -71,10 +74,10 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="RadioButton">
-                            <Border BorderBrush="{TemplateBinding BorderBrush}" CornerRadius="10">
-                                <Border.Background>
-                                    <LinearGradientBrush GradientStops="{StaticResource Sombre_purple}" />
-                                </Border.Background>
+                            <Border
+                                Background="#30555555"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                CornerRadius="10">
                                 <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center" />
                             </Border>
                         </ControlTemplate>

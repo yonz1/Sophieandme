@@ -35,7 +35,7 @@
 
         <!--  ########################################################## Panel d'affichage des matiére disponible  -->
 
-        <Grid x:Name="Selection" Visibility="Collapsed">
+        <Grid x:Name="Selection" Visibility="Visible">
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="100" />
@@ -181,7 +181,7 @@
 
 
 
-        <Grid x:Name="Question" Visibility="Visible">
+        <Grid x:Name="Question" Visibility="Collapsed">
             <Grid.RowDefinitions>
                 <RowDefinition Height="100" />
                 <RowDefinition Height="*" />

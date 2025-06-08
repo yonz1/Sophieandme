@@ -130,7 +130,7 @@
                 Grid.Row="1"
                 Margin="30"
                 Source="file:///C:/Users/Bastien/source/repos/Sophieandme/Sophieandme/Math.html"
-                Visibility="Visible" />
+                Visibility="Collapsed" />
         </Grid>
     </Grid>
 </Page>

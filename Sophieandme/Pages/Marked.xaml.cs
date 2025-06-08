@@ -36,7 +36,7 @@ namespace Sophieandme.Pages
         public Marked()
         {
             InitializeComponent();
-            webviewall.Visibility = Visibility.Visible;
+           
 
         }
         private void Generatevalue(string mat)
@@ -146,8 +146,11 @@ namespace Sophieandme.Pages
             return questionf;
         }
 
+
+
         private void SIM_Click(object sender, RoutedEventArgs e)
         {
+            webviewall.Visibility = Visibility.Visible;
             string mat = "SI";
             Generatevalue(mat);
             string urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Marked" + mat + ".html";
@@ -160,6 +163,7 @@ namespace Sophieandme.Pages
 
         private void AllM_Click(object sender, RoutedEventArgs e)
         {
+            webviewall.Visibility = Visibility.Visible;
             string mat = "all";
             Generatevalue(mat);
             string urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Marked" + mat + ".html";
@@ -171,6 +175,7 @@ namespace Sophieandme.Pages
 
         private void PhysiqueM_Click(object sender, RoutedEventArgs e)
         {
+            webviewall.Visibility = Visibility.Visible;
             string mat = "Physique";
             Generatevalue(mat);
             string urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Marked" + mat + ".html";
@@ -182,6 +187,7 @@ namespace Sophieandme.Pages
 
         private void MathsM_Click(object sender, RoutedEventArgs e)
         {
+            webviewall.Visibility = Visibility.Visible;
             string mat = "Maths";
             Generatevalue(mat);
             string urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Marked" + mat + ".html";
@@ -193,7 +199,7 @@ namespace Sophieandme.Pages
 
         private void Quizz_Click(object sender, RoutedEventArgs e)
         {
-
+            
         }
     }
 }

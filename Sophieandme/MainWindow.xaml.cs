@@ -97,10 +97,14 @@ namespace Sophieandme
         private void Quizz_Click(object sender, RoutedEventArgs e)
         {
             fcontainer.Navigate(new System.Uri("/Pages/Quizz.xaml", UriKind.RelativeOrAbsolute));
+            Rect1.Visibility = Visibility.Visible;
+            Rect2.Visibility = Visibility.Hidden;
         }
         private void Markedval_Click(object sender, RoutedEventArgs e)
         {
             fcontainer.Navigate(new System.Uri("/Pages/Marked.xaml", UriKind.RelativeOrAbsolute));
+            Rect2.Visibility = Visibility.Visible;
+            Rect1.Visibility = Visibility.Hidden;
         }
     }
 }
