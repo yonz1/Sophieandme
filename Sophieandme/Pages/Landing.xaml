@@ -4,11 +4,190 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:Sophieandme.Pages"
+    xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:uc="clr-namespace:WpfApp2.User_control"
     Title="Landing"
-    d:DesignHeight="450"
-    d:DesignWidth="800"
+    d:DesignHeight="740"
+    d:DesignWidth="1280"
     mc:Ignorable="d">
 
-    <Grid />
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Style/ButtonStyle.xaml" />
+                <ResourceDictionary Source="/Style/Dark_theme.xaml" />
+                <ResourceDictionary Source="/Style/General.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <Grid>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="300 " />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="1">
+                <!--<Label
+              Content="Dashboard"
+              FontSize="30"
+              Foreground="Gainsboro"
+              HorizontalAlignment="Center"
+              VerticalAlignment="Center"
+              />-->
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="400" />
+                </Grid.ColumnDefinitions>
+
+
+                <!--  Grille du graphique  -->
+                <Grid Grid.Column="0">
+                    <DockPanel
+                        Margin="30,20,30,20"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Background="{StaticResource Elementbackground}">
+
+                        <lvc:CartesianChart
+                            Name="chart_scanned"
+                            MaxHeight="600"
+                            Margin="00,30,10,10"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            Background="{StaticResource Elementbackground}">
+                            <!--<lvc:CartesianChart.Background>
+                          <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                              <GradientStop Color="#201925" Offset="0"/>
+                              <GradientStop Color="#121212" Offset="1.5"/>
+                          </LinearGradientBrush>
+                      </lvc:CartesianChart.Background>-->
+
+
+                            <lvc:CartesianChart.DataTooltip>
+                                <lvc:DefaultTooltip Background="#3A33FF" Foreground="Gainsboro" />
+                            </lvc:CartesianChart.DataTooltip>
+
+                            <lvc:CartesianChart.AxisY>
+                                <lvc:Axis
+                                    FontSize="13"
+                                    Foreground="White"
+                                    MinValue="0">
+                                    <lvc:Axis.Separator>
+                                        <lvc:Separator StrokeThickness="0" />
+                                    </lvc:Axis.Separator>
+                                </lvc:Axis>
+                            </lvc:CartesianChart.AxisY>
+
+                            <lvc:CartesianChart.AxisX>
+                                <lvc:Axis
+                                    FontSize="13"
+                                    Foreground="White"
+                                    Labels="{Binding Labels}"
+                                    LabelsRotation="-45"
+                                    MinValue="0">
+                                    <lvc:Axis.Separator>
+                                        <lvc:Separator StrokeThickness="0" />
+                                    </lvc:Axis.Separator>
+                                </lvc:Axis>
+                            </lvc:CartesianChart.AxisX>
+
+                            <lvc:CartesianChart.Series>
+                                <lvc:LineSeries
+                                    PointGeometrySize="0"
+                                    Stroke="MediumSlateBlue"
+                                    StrokeThickness="2"
+                                    Values="{Binding Values1}">
+                                    <lvc:LineSeries.Fill>
+                                        <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                            <GradientStop Offset="0.4" Color="MediumSlateBlue" />
+                                            <!--  #201925  -->
+                                            <GradientStop Offset="0.8" Color="#242424" />
+                                        </LinearGradientBrush>
+                                    </lvc:LineSeries.Fill>
+                                </lvc:LineSeries>
+                            </lvc:CartesianChart.Series>
+                        </lvc:CartesianChart>
+                    </DockPanel>
+
+
+
+                </Grid>
+                <DockPanel Grid.Row="0" Grid.Column="1">
+                    <ListBox
+                        x:Name="listBox_lastimported"
+                        MaxHeight="600"
+                        Margin="50,10,20,20"
+                        HorizontalAlignment="Stretch"
+                        Background="{StaticResource Elementbackground}"
+                        BorderBrush="Gainsboro"
+                        BorderThickness="0"
+                        DockPanel.Dock="Right"
+                        FontSize="13"
+                        Foreground="Gainsboro"
+                        Style="{StaticResource RoundedListBox}">
+                        <ListBoxItem>Last Imported Files</ListBoxItem>
+                        <Separator />
+                        <ListBoxItem>C:\Users\...</ListBoxItem>
+                        <!--<ListBox.Background>
+                      <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                          <GradientStop Color="#201925" Offset="0"/>
+                          <GradientStop Color="#121212" Offset="1.5"/>
+                      </LinearGradientBrush>
+                  </ListBox.Background>-->
+                    </ListBox>
+                </DockPanel>
+            </Grid>
+
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+
+                <Rectangle
+                    Margin="40,60,40,60"
+                    Fill="White"
+                    RadiusX="20"
+                    RadiusY="20" />
+                <!--<uc:Infoform
+                    x:Name="DT"
+                    Title="Detected Threat"
+                    Grid.Column="0"
+                    HorizontalAlignment="Right"
+                    Background1="#827BFF"
+                    Background2="#D9B5FF"
+                    EllipseBackground1="#B298FD"
+                    EllipseBackground2="#E4BBFF"
+                    Icon="Eye"
+                    Number="1 849" />
+                <uc:Infoform
+                    x:Name="AC"
+                    Title="Action Conducted"
+                    Grid.Column="1"
+                    Background1="#FD8A87"
+                    Background2="#F3AB92"
+                    EllipseBackground1="#FBD5A8"
+                    EllipseBackground2="#FDB89B"
+                    Icon="ShieldAlt"
+                    Number="164" />
+                <uc:Infoform
+                    x:Name="SF"
+                    Title="Scanned Files"
+                    Grid.Column="2"
+                    HorizontalAlignment="Left"
+                    Background1="#FC84CB"
+                    Background2="#FC8FAE"
+                    EllipseBackground1="#FC8FAE"
+                    EllipseBackground2="#FFABE6"
+                    Icon="FileLines"
+                    Number="12 940" />-->
+
+            </Grid>
+        </Grid>
+    </Grid>
 </Page>

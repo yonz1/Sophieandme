@@ -131,6 +131,7 @@ namespace Sophieandme.Pages
             System.Diagnostics.Debug.WriteLine(path);
             File.WriteAllText(path, start);
         }
+
         public static string miseneformetext(string text)
         {
             string question = text.Replace("$", "$$").Replace("$$$", "$").Replace("\\/", "/").Replace("<", "\\lt ").Replace(">", "\\gt ").Replace("\n", "<br>");
@@ -147,10 +148,9 @@ namespace Sophieandme.Pages
         }
 
 
-
         private void SIM_Click(object sender, RoutedEventArgs e)
         {
-            webviewall.Visibility = Visibility.Visible;
+            
             string mat = "SI";
             Generatevalue(mat);
             string urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Marked" + mat + ".html";
@@ -158,12 +158,12 @@ namespace Sophieandme.Pages
             System.Diagnostics.Debug.WriteLine(urif);
             System.Uri uri1 = new System.Uri(urif);
             webviewall.Source = uri1 as System.Uri;
-
+            webviewall.Visibility = Visibility.Visible;
         }
 
         private void AllM_Click(object sender, RoutedEventArgs e)
         {
-            webviewall.Visibility = Visibility.Visible;
+            
             string mat = "all";
             Generatevalue(mat);
             string urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Marked" + mat + ".html";
@@ -171,11 +171,12 @@ namespace Sophieandme.Pages
             System.Diagnostics.Debug.WriteLine(urif);
             System.Uri uri1 = new System.Uri(urif);
             webviewall.Source = uri1 as System.Uri;
+            webviewall.Visibility = Visibility.Visible;
         }
 
         private void PhysiqueM_Click(object sender, RoutedEventArgs e)
         {
-            webviewall.Visibility = Visibility.Visible;
+            
             string mat = "Physique";
             Generatevalue(mat);
             string urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Marked" + mat + ".html";
@@ -183,11 +184,12 @@ namespace Sophieandme.Pages
             System.Diagnostics.Debug.WriteLine(urif);
             System.Uri uri1 = new System.Uri(urif);
             webviewall.Source = uri1 as System.Uri;
+            webviewall.Visibility = Visibility.Visible;
         }
 
         private void MathsM_Click(object sender, RoutedEventArgs e)
         {
-            webviewall.Visibility = Visibility.Visible;
+            
             string mat = "Maths";
             Generatevalue(mat);
             string urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Marked" + mat + ".html";
@@ -195,6 +197,7 @@ namespace Sophieandme.Pages
             System.Diagnostics.Debug.WriteLine(urif);
             System.Uri uri1 = new System.Uri(urif);
             webviewall.Source = uri1 as System.Uri;
+            webviewall.Visibility = Visibility.Visible;
         }
 
         private void Quizz_Click(object sender, RoutedEventArgs e)

@@ -1,0 +1,100 @@
+﻿<UserControl x:Class="WpfApp2.User_control.DropDownMenu"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WpfApp2.User_control"
+             xmlns:fs="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" Width="200">
+
+    <Grid >
+
+
+        <!--<ToggleButton Style="{StaticResource MenuTGButton}"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Right"
+                        Name="SettingMenu"
+                        Margin="0 0 10 0"
+                        Tag="#E285DE"
+                        >
+            <fs:IconImage Icon="ChevronDown" Style="{StaticResource iconButtonIcon}" Foreground="Gainsboro"/>
+            <ToggleButton.Triggers>
+                <EventTrigger RoutedEvent="ToggleButton.Checked">
+                    <BeginStoryboard>
+                        <Storyboard x:Name="HideStackPanel">
+                            <DoubleAnimation
+                               Storyboard.TargetName="DockPanel"
+                               Storyboard.TargetProperty="Height"
+                               BeginTime="0:0:0"
+                               From="430" To="0"
+                               Duration="0:0:0.2"
+                               />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="ToggleButton.Unchecked">
+                    <BeginStoryboard>
+                        <Storyboard x:Name="ShowStackPanel">
+                            <DoubleAnimation
+                               Storyboard.TargetName="DockPanel"
+                               Storyboard.TargetProperty="height"
+                               BeginTime="0:0:0"
+                               From="0" To="430"
+                               Duration="0:0:0.2"
+                               
+                               ></DoubleAnimation>
+                            <DoubleAnimation
+                                Storyboard.TargetName="Button1"
+                                Storyboard.TargetProperty="Visibility"
+                                BeginTime="0:0:0"
+                                From="Hidden" To="430"
+                                Duration="0:0:0.2"
+                                ></DoubleAnimation>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </ToggleButton.Triggers>
+        </ToggleButton>
+        <DockPanel Background="White" Margin="0,20,0,0"  x:Name="DockPanel" Grid.RowSpan="2" >
+            <Button Width="140" Height="30" DockPanel.Dock="Top" VerticalAlignment="Top" Margin="0 20 0 0" x:Name="Button1">
+                <StackPanel Orientation="Horizontal" >
+                    <fs:IconImage Icon="HardDrive" Foreground="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Foreground}" Width="20" Height="20"/>
+                    <TextBlock Text="Save file" FontSize="15" Margin="15 0 0 0"/>
+                </StackPanel>
+            </Button>
+        </DockPanel>-->
+    </Grid>
+</UserControl>
+
+
+
+<!--<ToggleButton.Triggers>
+    <EventTrigger RoutedEvent="ToggleButton.Checked">
+        <BeginStoryboard>
+            <Storyboard x:Name="HideStackPanel">
+                <DoubleAnimation
+                   Storyboard.TargetName="MenuPanel"
+                   Storyboard.TargetProperty="Width"
+                   BeginTime="0:0:0"
+                   From="180" To="57"
+                   Duration="0:0:0.2"
+                   />
+            </Storyboard>
+        </BeginStoryboard>
+    </EventTrigger>
+    <EventTrigger RoutedEvent="ToggleButton.Unchecked">
+        <BeginStoryboard>
+            <Storyboard x:Name="ShowStackPanel">
+                <DoubleAnimation
+                   Storyboard.TargetName="MenuPanel"
+                   Storyboard.TargetProperty="Width"
+                   BeginTime="0:0:0"
+                   From="57" To="180"
+                   Duration="0:0:0.2"
+                   
+                   ></DoubleAnimation>
+            </Storyboard>
+        </BeginStoryboard>
+    </EventTrigger>
+</ToggleButton.Triggers>-->
