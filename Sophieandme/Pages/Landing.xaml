@@ -149,12 +149,14 @@
                 </Grid.ColumnDefinitions>
 
 
-                <Rectangle
+                <!--<Rectangle
                     Margin="40,60,40,60"
-                    Fill="White"
+                    Fill="Transparent"
                     RadiusX="20"
-                    RadiusY="20" />
-                <!--<uc:Infoform
+                    RadiusY="20" />-->
+
+
+                <uc:Infoform
                     x:Name="DT"
                     Title="Detected Threat"
                     Grid.Column="0"
@@ -185,7 +187,7 @@
                     EllipseBackground1="#FC8FAE"
                     EllipseBackground2="#FFABE6"
                     Icon="FileLines"
-                    Number="12 940" />-->
+                    Number="12 940" />
 
             </Grid>
         </Grid>
