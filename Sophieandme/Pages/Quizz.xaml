@@ -24,7 +24,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Style/ButtonStyle.xaml" />
-                <ResourceDictionary Source="/Style/Dark_theme.xaml" />
+                <ResourceDictionary Source="/Style/light_theme.xaml" />
                 <ResourceDictionary Source="/Style/General.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
@@ -66,7 +66,7 @@
                         Checked="RadioButton_Checked"
                         Content="Maths"
                         DockPanel.Dock="Left"
-                        Foreground="Gainsboro"
+                        Foreground="{StaticResource Textcolor}"
                         Style="{StaticResource topquizzmat}"
                         Tag="Mathématiques" />
                     <RadioButton
@@ -81,7 +81,7 @@
                         Checked="Physique_Checked"
                         Content="Physique"
                         DockPanel.Dock="Left"
-                        Foreground="Gainsboro"
+                        Foreground="{StaticResource Textcolor}"
                         Style="{StaticResource topquizzmat}"
                         Tag="Physique" />
                     <RadioButton
@@ -96,7 +96,7 @@
                         Checked="Si_Checked"
                         Content="SI"
                         DockPanel.Dock="Left"
-                        Foreground="Gainsboro"
+                        Foreground="{StaticResource Textcolor}"
                         Style="{StaticResource topquizzmat}"
                         Tag="SI" />
                     <RadioButton
@@ -111,7 +111,7 @@
                         Checked="All_Checked"
                         Content="All"
                         DockPanel.Dock="Left"
-                        Foreground="Gainsboro"
+                        Foreground="{StaticResource Textcolor}"
                         Style="{StaticResource topquizzmat}"
                         Tag="All" />
                 </DockPanel>

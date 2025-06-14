@@ -11,11 +11,11 @@
     Title="MainWindow"
     Width="1280"
     Height="740"
-    AllowsTransparency="True"
+    AllowsTransparency="False"
     Background="#080709"
     FontFamily="{DynamicResource MaterialDesignFont}"
     Loaded="Window_Loaded"
-    ResizeMode="NoResize"
+    ResizeMode="CanResize"
     TextElement.FontSize="10"
     TextElement.FontWeight="Regular"
     TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -26,10 +26,21 @@
     mc:Ignorable="d">
 
     <Window.Resources>
+        <!--<Style TargetType="Window">
+            <Setter Property="chrome:WindowChrome.WindowChrome">
+                <Setter.Value>
+                    <chrome:WindowChrome
+                        CaptionHeight="30"
+                        GlassFrameThickness="0"
+                        ResizeBorderThickness="5"
+                        UseAeroCaptionButtons="False" />
+                </Setter.Value>
+            </Setter>
+        </Style>-->
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Style/ButtonStyle.xaml" />
-                <ResourceDictionary Source="/Style/Dark_theme.xaml" />
+                <ResourceDictionary Source="/Style/Light_theme.xaml" />
                 <ResourceDictionary Source="/Style/General.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
@@ -42,7 +53,10 @@
                 <ColumnDefinition Width="10" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <Border Background="{StaticResource Button_panel_color}" CornerRadius="10 10 10 10">
+            <Border
+                Margin="10,10,0,10"
+                Background="{StaticResource Button_panel_color}"
+                CornerRadius="10 10 10 10">
                 <Grid Grid.Column="0">
                     <DockPanel>
                         <Rectangle
@@ -163,6 +177,7 @@
                                     Margin="0,0,0,0"
                                     VerticalAlignment="Center"
                                     FontSize="15"
+                                    Foreground="{StaticResource Textcolor}"
                                     Text="Username" />
                             </StackPanel>
 
@@ -171,7 +186,7 @@
                 </Grid>
             </Border>
 
-            <Grid Grid.Column="1" Background="#080709" />
+            <Grid Grid.Column="1" Background="{StaticResource pageBackground}" />
             <Grid
                 Grid.Column="2"
                 Background="Transparent"
@@ -210,6 +225,7 @@
                                 Tag="{StaticResource Exit}">
                                 <fs:IconImage
                                     Width="20"
+                                    Foreground="{StaticResource Top_iconc_color}"
                                     Icon="Xmark"
                                     Style="{StaticResource TopButtonIcon}" />
                             </Button>
@@ -230,6 +246,7 @@
                                     Width="20"
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
+                                    Foreground="{StaticResource Top_iconc_color}"
                                     Icon="Expand"
                                     Style="{StaticResource TopButtonIcon}" />
                             </Button>
@@ -247,7 +264,10 @@
                                 DockPanel.Dock="Right"
                                 Style="{StaticResource TopButton}"
                                 Tag="{StaticResource Minimize}">
-                                <fs:IconImage Icon="Minus" Style="{StaticResource TopButtonIcon}" />
+                                <fs:IconImage
+                                    Foreground="{StaticResource Top_iconc_color}"
+                                    Icon="Minus"
+                                    Style="{StaticResource TopButtonIcon}" />
                             </Button>
 
                         </DockPanel>
@@ -255,6 +275,7 @@
                 </Border>
                 <Border
                     Grid.Row="2"
+                    Margin="0,0,10,10"
                     Background="{StaticResource main_background}"
                     CornerRadius="10">
                     <Frame

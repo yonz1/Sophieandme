@@ -60,7 +60,7 @@
                         Click="MathsM_Click"
                         Content="Maths"
                         DockPanel.Dock="Left"
-                        Foreground="Gainsboro"
+                        Foreground="{StaticResource Textcolor}"
                         Style="{StaticResource topquizzmat}"
                         Tag="Mathématiques" />
                     <RadioButton
@@ -75,7 +75,7 @@
                         Click="PhysiqueM_Click"
                         Content="Physique"
                         DockPanel.Dock="Left"
-                        Foreground="Gainsboro"
+                        Foreground="{StaticResource Textcolor}"
                         Style="{StaticResource topquizzmat}"
                         Tag="Physique" />
                     <RadioButton
@@ -90,7 +90,7 @@
                         Click="SIM_Click"
                         Content="SI"
                         DockPanel.Dock="Left"
-                        Foreground="Gainsboro"
+                        Foreground="{StaticResource Textcolor}"
                         Style="{StaticResource topquizzmat}"
                         Tag="SI" />
                     <RadioButton
@@ -105,7 +105,7 @@
                         Click="AllM_Click"
                         Content="All"
                         DockPanel.Dock="Left"
-                        Foreground="Gainsboro"
+                        Foreground="{StaticResource Textcolor}"
                         Style="{StaticResource topquizzmat}"
                         Tag="All" />
                     <RadioButton
@@ -120,7 +120,7 @@
                         Click="Quizz_Click"
                         Content="Quizz"
                         DockPanel.Dock="Left"
-                        Foreground="Gainsboro"
+                        Foreground="{StaticResource Textcolor}"
                         Style="{StaticResource topquizzmat}"
                         Tag="All" />
                 </DockPanel>

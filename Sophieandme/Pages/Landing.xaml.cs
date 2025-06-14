@@ -10,6 +10,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using LiveCharts;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
@@ -20,9 +21,12 @@ namespace Sophieandme.Pages
     /// </summary>
     public partial class Landing : Page
     {
+        public ChartValues<double> Values1 { get; set; }
+        public string[] Labels { get; set; }
         public Landing()
         {
             InitializeComponent();
+            
         }
     }
 }

@@ -28,8 +28,8 @@
 
         <Grid>
             <Ellipse
-                Width="200"
-                Height="200"
+                Width="230"
+                Height="230"
                 Margin="0,-130,-90,0"
                 HorizontalAlignment="Right">
                 <Ellipse.Fill>

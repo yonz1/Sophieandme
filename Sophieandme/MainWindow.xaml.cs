@@ -32,10 +32,44 @@ namespace Sophieandme
     /// </summary>
     public partial class MainWindow : System.Windows.Window
     {
+
+        [DllImport("dwmapi.dll")]
+        private static extern int DwmExtendFrameIntoClientArea(IntPtr hwnd, ref Margins pMarInset);
+
+        [DllImport("dwmapi.dll")]
+        private static extern int DwmSetWindowAttribute(IntPtr hwnd, int attr, ref int attrValue, int attrSize);
+
+        private struct Margins
+        {
+            public int cxLeftWidth;
+            public int cxRightWidth;
+            public int cyTopHeight;
+            public int cyBottomHeight;
+        }
+        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            var hwnd = new WindowInteropHelper(this).Handle;
+            var margins = new Margins()
+            {
+                cxLeftWidth = 1,
+                cxRightWidth = 1,
+                cyTopHeight = 1,
+                cyBottomHeight = 1
+            };
+            DwmExtendFrameIntoClientArea(hwnd, ref margins);
+
+            // Supprimer le coin blanc autour
+            int attrValue = 2; // DWMWA_USE_IMMERSIVE_DARK_MODE
+            DwmSetWindowAttribute(hwnd, 20, ref attrValue, sizeof(int));
+        }
+
         public MainWindow()
         {
             InitializeComponent();
+            this.Loaded += MainWindow_Loaded;
+            fcontainer.Navigate(new System.Uri("/Pages/Landing.xaml", UriKind.RelativeOrAbsolute));
         }
+
 
         private void Minimize_Click(object sender, RoutedEventArgs e)
         {
