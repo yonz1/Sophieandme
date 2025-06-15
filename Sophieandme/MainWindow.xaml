@@ -12,7 +12,6 @@
     Width="1280"
     Height="740"
     AllowsTransparency="False"
-    Background="#080709"
     FontFamily="{DynamicResource MaterialDesignFont}"
     Loaded="Window_Loaded"
     ResizeMode="CanResize"
@@ -40,166 +39,27 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Style/ButtonStyle.xaml" />
-                <ResourceDictionary Source="/Style/Light_theme.xaml" />
+                <ResourceDictionary Source="/Style/Dark_theme.xaml" />
                 <ResourceDictionary Source="/Style/General.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
 
-    <Border Background="{StaticResource pageBackground}" CornerRadius="10">
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="180" />
-                <ColumnDefinition Width="10" />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-            <Border
-                Margin="10,10,0,10"
-                Background="{StaticResource Button_panel_color}"
-                CornerRadius="10 10 10 10">
-                <Grid Grid.Column="0">
-                    <DockPanel>
-                        <Rectangle
-                            Width="90"
-                            Height="90"
-                            Margin="0,50,0,0"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Top"
-                            DockPanel.Dock="top">
-                            <Rectangle.Fill>
-                                <ImageBrush ImageSource="/images/Lofi_Girl_logo_2024-removebg-preview.png" />
-                            </Rectangle.Fill>
-                        </Rectangle>
-
-                        <RadioButton
-                            Name="Quizz"
-                            Margin="0,40,0,0"
-                            VerticalAlignment="Top"
-                            Click="Quizz_Click"
-                            DockPanel.Dock="Top"
-                            Foreground="Gainsboro"
-                            Style="{StaticResource NewMButtton}">
-                            <StackPanel Orientation="Horizontal">
-                                <Rectangle
-                                    x:Name="Rect1"
-                                    Width="5"
-                                    Height="20"
-                                    Margin="5,0,0,0"
-                                    Fill="MediumSlateBlue"
-                                    RadiusX="5"
-                                    RadiusY="5"
-                                    Visibility="Hidden">
-                                    <Rectangle.Effect>
-                                        <DropShadowEffect
-                                            BlurRadius="20"
-                                            Direction="270"
-                                            Opacity="0.3"
-                                            ShadowDepth="0"
-                                            Color="White" />
-                                    </Rectangle.Effect>
-                                </Rectangle>
-                                <fs:IconImage
-                                    Margin="25,0,0,0"
-                                    Foreground="{StaticResource Iconcolor}"
-                                    Icon="UserGraduate"
-                                    Style="{StaticResource NewMButtonIcon}" />
-                                <TextBlock
-                                    Margin="20,0,0,0"
-                                    Foreground="{StaticResource Textcolor}"
-                                    Style="{StaticResource NewMButtonText}"
-                                    Text="Quizz" />
-                            </StackPanel>
-                        </RadioButton>
-                        <RadioButton
-                            Name="Markedval"
-                            Margin="0,10,0,0"
-                            VerticalAlignment="Top"
-                            Click="Markedval_Click"
-                            DockPanel.Dock="Top"
-                            Foreground="Gainsboro"
-                            Style="{StaticResource NewMButtton}">
-                            <StackPanel Orientation="Horizontal">
-                                <Rectangle
-                                    x:Name="Rect2"
-                                    Width="5"
-                                    Height="20"
-                                    Margin="5,0,0,0"
-                                    Fill="MediumSlateBlue"
-                                    RadiusX="5"
-                                    RadiusY="5"
-                                    Visibility="Hidden">
-                                    <Rectangle.Effect>
-                                        <DropShadowEffect
-                                            BlurRadius="20"
-                                            Direction="270"
-                                            Opacity="0.3"
-                                            ShadowDepth="0"
-                                            Color="White" />
-                                    </Rectangle.Effect>
-                                </Rectangle>
-                                <fs:IconImage
-                                    Margin="25,0,0,0"
-                                    Foreground="{StaticResource Iconcolor}"
-                                    Icon="BookBookmark"
-                                    Style="{StaticResource NewMButtonIcon}" />
-                                <TextBlock
-                                    Margin="20,0,0,0"
-                                    Foreground="{StaticResource Textcolor}"
-                                    Style="{StaticResource NewMButtonText}"
-                                    Text="Marked" />
-                            </StackPanel>
-                        </RadioButton>
+    <Grid Background="{StaticResource main_back_wind}">
 
 
-                        <Button
-                            x:Name="Settings"
-                            Height="50"
-                            VerticalAlignment="Bottom"
-                            Background="Transparent"
-                            BorderThickness="0"
-                            Click="Settings_Click"
-                            DockPanel.Dock="Bottom"
-                            Style="{StaticResource MaterialDesignFlatDarkBgButton}">
-                            <StackPanel Orientation="Horizontal">
-                                <Ellipse
-                                    Width="45"
-                                    Height="45"
-                                    Margin="0,0,15,0"
-                                    HorizontalAlignment="Right"
-                                    VerticalAlignment="Center"
-                                    DockPanel.Dock="Right">
-                                    <Ellipse.Fill>
-                                        <ImageBrush x:Name="ProfilePict" />
-                                    </Ellipse.Fill>
-                                </Ellipse>
-                                <TextBlock
-                                    x:Name="Userbtncontent"
-                                    Margin="0,0,0,0"
-                                    VerticalAlignment="Center"
-                                    FontSize="15"
-                                    Foreground="{StaticResource Textcolor}"
-                                    Text="Username" />
-                            </StackPanel>
-
-                        </Button>
-                    </DockPanel>
-                </Grid>
-            </Border>
-
-            <Grid Grid.Column="1" Background="{StaticResource pageBackground}" />
-            <Grid
-                Grid.Column="2"
-                Background="Transparent"
-                Opacity="100">
+        <Border Background="{StaticResource pageBackground}" CornerRadius="10">
+            <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="36" />
-                    <RowDefinition Height="10" />
+                    <RowDefinition Height="40" />
                     <RowDefinition />
                 </Grid.RowDefinitions>
+
+
                 <Border
                     x:Name="Border_top"
                     Grid.Row="0"
-                    Background="{StaticResource main_background}"
+                    Background="{StaticResource Button_panel_color}"
                     CornerRadius="10"
                     MouseDown="Grid_MouseDown">
                     <Grid
@@ -273,23 +133,176 @@
                         </DockPanel>
                     </Grid>
                 </Border>
-                <Border
-                    Grid.Row="2"
-                    Margin="0,0,10,10"
-                    Background="{StaticResource main_background}"
-                    CornerRadius="10">
-                    <Frame
-                        Name="fcontainer"
-                        Grid.Row="1"
-                        BorderBrush="{StaticResource main_background}"
-                        BorderThickness="0"
-                        NavigationUIVisibility="Hidden" />
-                </Border>
 
 
+
+                <Grid Grid.Row="1">
+
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="180" />
+                        <ColumnDefinition Width="10" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Border Background="{StaticResource Button_panel_color}" CornerRadius="10 10 10 10">
+                        <Grid Grid.Column="0">
+                            <DockPanel>
+                                <Rectangle
+                                    Width="90"
+                                    Height="90"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Top"
+                                    DockPanel.Dock="top">
+                                    <Rectangle.Fill>
+                                        <ImageBrush ImageSource="/images/Lofi_Girl_logo_2024-removebg-preview.png" />
+                                    </Rectangle.Fill>
+                                </Rectangle>
+
+                                <RadioButton
+                                    Name="Quizz"
+                                    Margin="0,40,0,0"
+                                    VerticalAlignment="Top"
+                                    Click="Quizz_Click"
+                                    DockPanel.Dock="Top"
+                                    Foreground="Gainsboro"
+                                    Style="{StaticResource NewMButtton}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Rectangle
+                                            x:Name="Rect1"
+                                            Width="5"
+                                            Height="20"
+                                            Margin="5,0,0,0"
+                                            Fill="MediumSlateBlue"
+                                            RadiusX="5"
+                                            RadiusY="5"
+                                            Visibility="Hidden">
+                                            <Rectangle.Effect>
+                                                <DropShadowEffect
+                                                    BlurRadius="20"
+                                                    Direction="270"
+                                                    Opacity="0.3"
+                                                    ShadowDepth="0"
+                                                    Color="White" />
+                                            </Rectangle.Effect>
+                                        </Rectangle>
+                                        <fs:IconImage
+                                            Margin="25,0,0,0"
+                                            Foreground="{StaticResource Iconcolor}"
+                                            Icon="UserGraduate"
+                                            Style="{StaticResource NewMButtonIcon}" />
+                                        <TextBlock
+                                            Margin="20,0,0,0"
+                                            Foreground="{StaticResource Textcolor}"
+                                            Style="{StaticResource NewMButtonText}"
+                                            Text="Quizz" />
+                                    </StackPanel>
+                                </RadioButton>
+                                <RadioButton
+                                    Name="Markedval"
+                                    Margin="0,10,0,0"
+                                    VerticalAlignment="Top"
+                                    Click="Markedval_Click"
+                                    DockPanel.Dock="Top"
+                                    Foreground="Gainsboro"
+                                    Style="{StaticResource NewMButtton}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Rectangle
+                                            x:Name="Rect2"
+                                            Width="5"
+                                            Height="20"
+                                            Margin="5,0,0,0"
+                                            Fill="MediumSlateBlue"
+                                            RadiusX="5"
+                                            RadiusY="5"
+                                            Visibility="Hidden">
+                                            <Rectangle.Effect>
+                                                <DropShadowEffect
+                                                    BlurRadius="20"
+                                                    Direction="270"
+                                                    Opacity="0.3"
+                                                    ShadowDepth="0"
+                                                    Color="White" />
+                                            </Rectangle.Effect>
+                                        </Rectangle>
+                                        <fs:IconImage
+                                            Margin="25,0,0,0"
+                                            Foreground="{StaticResource Iconcolor}"
+                                            Icon="BookBookmark"
+                                            Style="{StaticResource NewMButtonIcon}" />
+                                        <TextBlock
+                                            Margin="20,0,0,0"
+                                            Foreground="{StaticResource Textcolor}"
+                                            Style="{StaticResource NewMButtonText}"
+                                            Text="Marked" />
+                                    </StackPanel>
+                                </RadioButton>
+
+
+                                <Button
+                                    x:Name="Settings"
+                                    Height="50"
+                                    VerticalAlignment="Bottom"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Click="Settings_Click"
+                                    DockPanel.Dock="Bottom"
+                                    Style="{StaticResource MaterialDesignFlatDarkBgButton}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Ellipse
+                                            Width="45"
+                                            Height="45"
+                                            Margin="0,0,15,0"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Center"
+                                            DockPanel.Dock="Right">
+                                            <Ellipse.Fill>
+                                                <ImageBrush x:Name="ProfilePict" />
+                                            </Ellipse.Fill>
+                                        </Ellipse>
+                                        <TextBlock
+                                            x:Name="Userbtncontent"
+                                            Margin="0,0,0,0"
+                                            VerticalAlignment="Center"
+                                            FontSize="15"
+                                            Foreground="{StaticResource Textcolor}"
+                                            Text="Username" />
+                                    </StackPanel>
+
+                                </Button>
+                            </DockPanel>
+                        </Grid>
+                    </Border>
+
+                    <Grid Grid.Column="1" Background="{StaticResource pageBackground}" />
+                    <Grid
+                        Grid.Column="2"
+                        Background="Transparent"
+                        Opacity="100">
+                        <Grid.RowDefinitions>
+
+                            <RowDefinition Height="10" />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+
+                        <Border
+                            Grid.Row="2"
+                            Margin="0,0,10,10"
+                            Background="{StaticResource main_background}"
+                            CornerRadius="10">
+                            <Frame
+                                Name="fcontainer"
+                                Grid.Row="1"
+                                BorderBrush="{StaticResource main_background}"
+                                BorderThickness="0"
+                                NavigationUIVisibility="Hidden" />
+                        </Border>
+
+
+                    </Grid>
+
+                </Grid>
             </Grid>
-
-        </Grid>
-    </Border>
+        </Border>
+    </Grid>
 
 </Window>

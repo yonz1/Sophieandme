@@ -7,7 +7,7 @@
     <SolidColorBrush
         x:Key="Button_panel_color"
         Opacity="12"
-        Color="#eeeeee" />
+        Color="#F5F5F5" />
     <SolidColorBrush x:Key="Elementbackground" Color="#161717" />
     <SolidColorBrush
         x:Key="Topgrid"
@@ -17,6 +17,6 @@
         <GradientStop Offset="1" Color="#04F5ED" />
         <GradientStop Offset="0.1" Color="#00F7A7" />
     </GradientStopCollection>
-    <SolidColorBrush x:Key="pageBackground" Color="#cccccc" />
+    <SolidColorBrush x:Key="pageBackground" Color="#F5F5F5" />
 
 </ResourceDictionary>

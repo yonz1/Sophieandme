@@ -16,6 +16,7 @@
         <GradientStop Offset="0.1" Color="#00F7A7" />
     </GradientStopCollection>
 
-    <SolidColorBrush x:Key="pageBackground" Color="#080709" />
+    <SolidColorBrush x:Key="pageBackground" Color="#161717" />
+    <SolidColorBrush x:Key="main_back_wind" Color="#161717"/>
 
 </ResourceDictionary>

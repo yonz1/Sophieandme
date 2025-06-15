@@ -12,6 +12,7 @@
     Title="Quizz"
     d:DesignHeight="740"
     d:DesignWidth="1280"
+
     FontFamily="{DynamicResource MaterialDesignFont}"
     TextElement.FontSize="10"
     TextElement.FontWeight="Regular"
@@ -24,7 +25,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Style/ButtonStyle.xaml" />
-                <ResourceDictionary Source="/Style/light_theme.xaml" />
+                <ResourceDictionary Source="/Style/Dark_theme.xaml" />
                 <ResourceDictionary Source="/Style/General.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
