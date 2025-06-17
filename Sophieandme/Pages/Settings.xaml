@@ -19,13 +19,15 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Style/ButtonStyle.xaml" />
+                <ResourceDictionary Source="/Style/Dark_theme.xaml" />
+                <ResourceDictionary Source="/Style/General.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
 
 
 
-    <Grid Background="#242424">
+    <Grid Background="Transparent">
         <Grid.RowDefinitions>
             <RowDefinition Height="34" />
             <RowDefinition Height="100" />

@@ -25,17 +25,6 @@
     mc:Ignorable="d">
 
     <Window.Resources>
-        <!--<Style TargetType="Window">
-            <Setter Property="chrome:WindowChrome.WindowChrome">
-                <Setter.Value>
-                    <chrome:WindowChrome
-                        CaptionHeight="30"
-                        GlassFrameThickness="0"
-                        ResizeBorderThickness="5"
-                        UseAeroCaptionButtons="False" />
-                </Setter.Value>
-            </Setter>
-        </Style>-->
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Style/ButtonStyle.xaml" />
@@ -284,15 +273,10 @@
                             <RowDefinition />
                         </Grid.RowDefinitions>
 
-                        <Border
-                            Grid.Row="2"
-                            Margin="0,0,10,10"
-                            Background="{StaticResource main_background}"
-                            CornerRadius="10">
+                        <Border Grid.Row="2" CornerRadius="10">
                             <Frame
                                 Name="fcontainer"
                                 Grid.Row="1"
-                                BorderBrush="{StaticResource main_background}"
                                 BorderThickness="0"
                                 NavigationUIVisibility="Hidden" />
                         </Border>

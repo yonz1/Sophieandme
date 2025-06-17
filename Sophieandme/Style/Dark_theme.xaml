@@ -6,7 +6,7 @@
     <SolidColorBrush x:Key="Top_iconc_color" Color="Gainsboro" />
     <SolidColorBrush x:Key="main_background" Color="#242424" />
     <SolidColorBrush x:Key="Button_panel_color" Color="#161717" />
-    <SolidColorBrush x:Key="Elementbackground" Color="#161717" />
+    <SolidColorBrush x:Key="Elementbackground" Color="#242424" />
     <SolidColorBrush
         x:Key="Topgrid"
         Opacity="100"
@@ -17,6 +17,6 @@
     </GradientStopCollection>
 
     <SolidColorBrush x:Key="pageBackground" Color="#161717" />
-    <SolidColorBrush x:Key="main_back_wind" Color="#161717"/>
+    <SolidColorBrush x:Key="main_back_wind" Color="#161717" />
 
 </ResourceDictionary>

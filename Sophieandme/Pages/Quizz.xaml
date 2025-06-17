@@ -12,8 +12,8 @@
     Title="Quizz"
     d:DesignHeight="740"
     d:DesignWidth="1280"
-
     FontFamily="{DynamicResource MaterialDesignFont}"
+    Loaded="Page_Loaded"
     TextElement.FontSize="10"
     TextElement.FontWeight="Regular"
     TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -36,7 +36,7 @@
 
         <!--  ########################################################## Panel d'affichage des matiére disponible  -->
 
-        <Grid x:Name="Selection" Visibility="Visible">
+        <Grid x:Name="Selection" Visibility="Collapsed">
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="100" />
@@ -46,7 +46,8 @@
 
             <Border
                 Width="530"
-                Background="Transparent"
+                Height="50"
+                Background="{StaticResource Elementbackground}"
                 BorderThickness="2"
                 CornerRadius="20">
                 <DockPanel
@@ -63,7 +64,6 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         materialDesign:ButtonAssist.CornerRadius="20"
-                        Background="Transparent"
                         Checked="RadioButton_Checked"
                         Content="Maths"
                         DockPanel.Dock="Left"
@@ -78,7 +78,6 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         materialDesign:ButtonAssist.CornerRadius="20"
-                        Background="Transparent"
                         Checked="Physique_Checked"
                         Content="Physique"
                         DockPanel.Dock="Left"
@@ -93,7 +92,6 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         materialDesign:ButtonAssist.CornerRadius="20"
-                        Background="Transparent"
                         Checked="Si_Checked"
                         Content="SI"
                         DockPanel.Dock="Left"
@@ -108,7 +106,6 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         materialDesign:ButtonAssist.CornerRadius="20"
-                        Background="Transparent"
                         Checked="All_Checked"
                         Content="All"
                         DockPanel.Dock="Left"
@@ -182,7 +179,7 @@
 
 
 
-        <Grid x:Name="Question" Visibility="Collapsed">
+        <Grid x:Name="Question" Visibility="Visible">
             <Grid.RowDefinitions>
                 <RowDefinition Height="100" />
                 <RowDefinition Height="*" />
@@ -219,124 +216,116 @@
                                 Text="Matières" />
                         </StackPanel>
                     </Button>
-                    <!--<Button
-                    x:Name="Resp_form"
-                    Width="40"
-                    Height="40"
-                    Margin="0,0,20,0"
-                    HorizontalAlignment="Right"
-                    Background="Transparent"
-                    BorderThickness="0"
-                    Click="Resp_form_Click"
-                    DockPanel.Dock="Right"
-                    Foreground="{StaticResource Top_iconc_color}"
-                    Style="{StaticResource TopButton}"
-                    Tag="{StaticResource Glass}">
-                    <fs:IconImage
-                        Width="30"
-                        Height="30"
-                        Icon="PenToSquare"
-                        IconFont="Regular"
-                        Style="{StaticResource TopButtonIcon}" />
-                </Button>-->
 
 
 
-                    <ToggleButton
-                        x:Name="Menu"
-                        Width="40"
-                        Height="40"
+                    <Border
+                        x:Name="toolbar"
+                        Width="240"
+                        Height="50"
                         Margin="0,0,20,0"
                         HorizontalAlignment="Right"
-                        Background="Transparent"
-                        BorderThickness="0"
-                        Checked="Marquer_Checked"
-                        DockPanel.Dock="Right"
-                        Foreground="{StaticResource Top_iconc_color}"
-                        Style="{StaticResource TopButtonrad}"
-                        Tag="{StaticResource Glass}"
-                        Unchecked="Marquer_Unchecked">
-                        <fs:IconImage
-                            Width="30"
-                            Height="30"
-                            Icon="ArrowAltCircleDown"
-                            IconFont="Regular"
-                            Style="{StaticResource TopButtonIconrad}" />
-                    </ToggleButton>
+                        Background="{StaticResource Elementbackground}"
+                        CornerRadius="20"
+                        DockPanel.Dock="Right">
+                        <DockPanel>
+                            <ToggleButton
+                                x:Name="Resppaper"
+                                Width="40"
+                                Height="40"
+                                Margin="0,0,10,0"
+                                HorizontalAlignment="Right"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                Click="Resppaper_Click"
+                                DockPanel.Dock="Right"
+                                Foreground="{StaticResource Top_iconc_color}"
+                                Style="{StaticResource TopButtonrad}"
+                                Tag="{StaticResource Glass}"
+                                Unchecked="Marquer_Unchecked">
+                                <fs:IconImage
+                                    Width="30"
+                                    Height="30"
+                                    Icon="ArrowAltCircleDown"
+                                    IconFont="Regular"
+                                    Style="{StaticResource TopButtonIconrad}" />
+                            </ToggleButton>
 
-                    <ToggleButton
-                        x:Name="Marked_tgbutton"
-                        Width="40"
-                        Height="40"
-                        Margin="0,0,20,0"
-                        HorizontalAlignment="Right"
-                        Background="Transparent"
-                        BorderThickness="0"
-                        Checked="Marquer_Checked"
-                        DockPanel.Dock="Right"
-                        Foreground="{StaticResource Top_iconc_color}"
-                        Style="{StaticResource TopButtonrad}"
-                        Tag="{StaticResource Glass}"
-                        Unchecked="Marquer_Unchecked">
-                        <fs:IconImage
-                            x:Name="Icon_Mark"
-                            Width="30"
-                            Height="30"
-                            Icon="Bookmark"
-                            IconFont="Regular"
-                            Style="{StaticResource TopButtonIconrad}" />
-                    </ToggleButton>
-                    <Button
-                        x:Name="Direct_rep"
-                        Width="40"
-                        Height="40"
-                        Margin="0,0,20,0"
-                        HorizontalAlignment="Right"
-                        Background="Transparent"
-                        BorderThickness="0"
-                        Click="Direct_rep_Click"
-                        DockPanel.Dock="Right"
-                        Foreground="{StaticResource Top_iconc_color}"
-                        Style="{StaticResource TopButton}"
-                        Tag="{StaticResource Glass}">
-                        <fs:IconImage
-                            Width="30"
-                            Height="30"
-                            Icon="Book"
-                            Style="{StaticResource TopButtonIcon}" />
-                    </Button>
-                    <ToggleButton
-                        x:Name="Timer"
-                        Width="40"
-                        Height="40"
-                        Margin="0,0,20,0"
-                        HorizontalAlignment="Right"
-                        Background="Transparent"
-                        BorderThickness="0"
-                        Checked="Timer_Checked"
-                        DockPanel.Dock="Right"
-                        Foreground="{StaticResource Top_iconc_color}"
-                        Style="{StaticResource TopButtonrad}"
-                        Tag="{StaticResource Glass}"
-                        Unchecked="Timer_Unchecked">
-                        <fs:IconImage
-                            Width="30"
-                            Height="30"
-                            Icon="Hourglass"
-                            Style="{StaticResource TopButtonIconrad}" />
-                    </ToggleButton>
-                    <TextBlock
-                        x:Name="tbTime"
-                        Width="100"
-                        Height="20"
-                        Margin="0,0,20,0"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Center"
-                        FontSize="17"
-                        Foreground="{StaticResource Textcolor}"
-                        Text="00:00"
-                        TextAlignment="Right"
-                        Visibility="Collapsed" />
+                            <ToggleButton
+                                x:Name="Marked_tgbutton"
+                                Width="40"
+                                Height="40"
+                                Margin="0,0,20,0"
+                                HorizontalAlignment="Right"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                Checked="Marquer_Checked"
+                                DockPanel.Dock="Right"
+                                Foreground="{StaticResource Top_iconc_color}"
+                                Style="{StaticResource TopButtonrad}"
+                                Tag="{StaticResource Glass}"
+                                Unchecked="Marquer_Unchecked">
+                                <fs:IconImage
+                                    x:Name="Icon_Mark"
+                                    Width="30"
+                                    Height="30"
+                                    Icon="Bookmark"
+                                    IconFont="Regular"
+                                    Style="{StaticResource TopButtonIconrad}" />
+                            </ToggleButton>
+                            <Button
+                                x:Name="Direct_rep"
+                                Width="40"
+                                Height="40"
+                                Margin="0,0,20,0"
+                                HorizontalAlignment="Right"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                Click="Direct_rep_Click"
+                                DockPanel.Dock="Right"
+                                Foreground="{StaticResource Top_iconc_color}"
+                                Style="{StaticResource TopButton}"
+                                Tag="{StaticResource Glass}">
+                                <fs:IconImage
+                                    Width="30"
+                                    Height="30"
+                                    Icon="Book"
+                                    Style="{StaticResource TopButtonIcon}" />
+                            </Button>
+                            <ToggleButton
+                                x:Name="Timer"
+                                Width="40"
+                                Height="40"
+                                Margin="0,0,20,0"
+                                HorizontalAlignment="Right"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                Checked="Timer_Checked"
+                                DockPanel.Dock="Right"
+                                Foreground="{StaticResource Top_iconc_color}"
+                                Style="{StaticResource TopButtonrad}"
+                                Tag="{StaticResource Glass}"
+                                Unchecked="Timer_Unchecked">
+                                <fs:IconImage
+                                    Width="30"
+                                    Height="30"
+                                    Icon="Hourglass"
+                                    Style="{StaticResource TopButtonIconrad}" />
+                            </ToggleButton>
+                            <TextBlock
+                                x:Name="tbTime"
+                                Width="100"
+                                Height="20"
+                                Margin="0,0,20,0"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                FontSize="17"
+                                Foreground="{StaticResource Textcolor}"
+                                Text="00:00"
+                                TextAlignment="Right"
+                                Visibility="Collapsed" />
+                        </DockPanel>
+                    </Border>
                 </DockPanel>
             </Grid>
             <ScrollViewer

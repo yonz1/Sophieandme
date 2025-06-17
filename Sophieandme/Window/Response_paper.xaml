@@ -7,12 +7,14 @@
     xmlns:local="clr-namespace:Sophieandme.Window"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
     Title="Response_paper"
     Width="1280"
     Height="740"
-    Background="Transparent"
+    AllowsTransparency="False"
     FontFamily="{DynamicResource MaterialDesignFont}"
-    ResizeMode="NoResize"
+    Loaded="Window_Loaded"
+    ResizeMode="CanResize"
     TextElement.FontSize="10"
     TextElement.FontWeight="Regular"
     TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -31,9 +33,102 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
+    <Grid Background="{StaticResource main_back_wind}">
+
+        <Border Background="{StaticResource Elementbackground}" CornerRadius="20">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Border
+                    x:Name="Border_top"
+                    Grid.Row="0"
+                    Background="{StaticResource Button_panel_color}"
+                    CornerRadius="10"
+                    MouseDown="Border_top_MouseDown">
+                    <Grid
+                        x:Name="Grid_top"
+                        Grid.Row="0"
+                        Margin="0,0,0,0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Visibility="Visible">
+                        <DockPanel Grid.Row="0">
+                            <Button
+                                x:Name="Exit"
+                                Width="30"
+                                Height="30"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                Click="Exit_Click"
+                                DockPanel.Dock="Right"
+                                Style="{StaticResource TopButton}"
+                                Tag="{StaticResource Exit}">
+                                <fs:IconImage
+                                    Width="20"
+                                    Foreground="{StaticResource Top_iconc_color}"
+                                    Icon="Xmark"
+                                    Style="{StaticResource TopButtonIcon}" />
+                            </Button>
+                            <Button
+                                x:Name="Maximize"
+                                Width="30"
+                                Height="30"
+                                Margin="-10,0,0,0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                Click="Maximize_Click"
+                                DockPanel.Dock="Right"
+                                Style="{StaticResource TopButton}"
+                                Tag="{StaticResource Maximize}">
+                                <fs:IconImage
+                                    Width="20"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Foreground="{StaticResource Top_iconc_color}"
+                                    Icon="Expand"
+                                    Style="{StaticResource TopButtonIcon}" />
+                            </Button>
+
+                            <Button
+                                x:Name="Minimize"
+                                Width="30"
+                                Height="30"
+                                Margin="10,0,10,0"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                Click="Minimize_Click"
+                                DockPanel.Dock="Right"
+                                Style="{StaticResource TopButton}"
+                                Tag="{StaticResource Minimize}">
+                                <fs:IconImage
+                                    Foreground="{StaticResource Top_iconc_color}"
+                                    Icon="Minus"
+                                    Style="{StaticResource TopButtonIcon}" />
+                            </Button>
+
+                        </DockPanel>
+                    </Grid>
+                </Border>
+                <Grid Grid.Row="1" Margin="20">
+                    <wv2:WebView2
+                        x:Name="Resp_paper_html"
+                        NavigationCompleted="Resp_paper_html_NavigationCompleted"
+                        Source="file:///..//..//..//HTML_const/Main.html" />
+
+                </Grid>
 
 
-    <Grid />
+            </Grid>
+        </Border>
+    </Grid>
 
 
 </Window>

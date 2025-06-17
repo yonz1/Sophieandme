@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js"></script>
+    <title>MathJax example</title>
+    <style>
+        div {
+            text-align: center;
+        }
+
+        p {
+            background: #242424;
+            color: white;
+            font-size: large;
+            width: 30cm;
+            align-content: center;
+            align-self: center;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        textarea {
+            background: #242424;
+            color: white;
+            display: block;
+            align-self: center;
+            margin-left: auto;
+            margin-right: auto;
+            resize: none;
+            outline-color: #6C63ff;
+            outline: none;
+            width: 30cm;
+        }
+
+        body {
+            background: #161717;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <textarea spellcheck="false" id="inputText" rows="13" cols="50" placeholder="Entrer votre réponse"></textarea>
+        <p id="OutputText" style="white-space: pre-wrap;"></p>
+    </div>
+
+
+
+    <!-- ########################################################################################### Partie script -->
+
+
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            options: {
+                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+                renderActions: {
+                    addMenu: [] // désactive le menu contextuel MathJax
+                }
+            }
+        };
+        const textarea = document.getElementById('inputText')
+        const output = document.getElementById('OutputText')
+
+        textarea.addEventListener('input', () => {
+            output.innerHTML = textarea.value;
+            MathJax.typesetPromise([output]);
+        });
+
+
+        const editing = document.getElementById('inputText');
+
+        // 1. Remplacements automatiques de mots
+        const wordReplacements = {
+            "sum": "\\sum_{k}^{n}",
+            "prod": "\\prod_{k}^{n}",
+            "sqrt": "\\sqrt{a}",
+            "integr": "\\int_{a}^{b}",
+            "limit": "\\lim_{x \\to a}",
+            "inf": "\\infty",
+            "implique": "\\implies",
+            "equivalent": "\\iff",
+            "binom": "\\binom{n}{k}",
+            "deriv": "\\dv{f}{x}",
+            "inclue": "\\subset",
+            "mat3": "\\begin{pmatrix}\r\n &  &  \\\\\r\n &  &  \\\\\r\n &  & \r\n\\end{pmatrix}",
+            "mat2": "\\begin{pmatrix}\r\n &  \\\\\r\n & \r\n\\end{pmatrix}"
+        };
+
+        // 2. Insertion automatique de caractères spéciaux
+        const keymap = {
+            '<': { value: '<>', pos: 1 },
+            '(': { value: '()', pos: 1 },
+            '{': { value: '{}', pos: 1 },
+            '[': { value: '[]', pos: 1 },
+            '\'': { value: '\'\'', pos: 1 },
+            '"': { value: '""', pos: 1 },
+            '“': { value: '“”', pos: 1 },
+            '`': { value: '``', pos: 1 },
+            '‘': { value: '‘’', pos: 1 },
+            '«': { value: '«»', pos: 1 },
+            '「': { value: '「」', pos: 1 },
+            '*': { value: '**', pos: 1 },
+            '_': { value: '__', pos: 1 },
+            '>': { value: '> ', pos: 2 },
+            '~': { value: '~~', pos: 1 },
+            '/': { value: '\\frac{}{}', pos: 6 },
+            '$': { value: '$$', pos: 1 }
+        };
+
+        // 1. Événement pour insérer les caractères spéciaux
+        editing.addEventListener('keydown', event => {
+            if (keymap[event.key]) {
+                event.preventDefault();
+                const pos = editing.selectionStart;
+                editing.value = editing.value.slice(0, pos) +
+                    keymap[event.key].value +
+                    editing.value.slice(editing.selectionEnd);
+                editing.selectionStart = editing.selectionEnd = pos + keymap[event.key].pos;
+            }
+        });
+
+        // 2. Événement pour remplacer dynamiquement les mots
+        editing.addEventListener('input', () => {
+            const pos = editing.selectionStart;
+            let text = editing.value;
+
+            for (const [target, replacement] of Object.entries(wordReplacements)) {
+                const regex = new RegExp(`\\b${target}\\b`, 'gi');
+                text = text.replace(regex, replacement);
+            }
+            editing.value = text;
+            editing.selectionStart = editing.selectionEnd = pos;
+        });
+
+    </script>
+</body>
+</html>

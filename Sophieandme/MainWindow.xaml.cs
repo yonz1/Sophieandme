@@ -63,11 +63,17 @@ namespace Sophieandme
             DwmSetWindowAttribute(hwnd, 20, ref attrValue, sizeof(int));
         }
 
+
         public MainWindow()
         {
+            App.Current.Properties["button_color"] = new SolidColorBrush(System.Windows.Media.Color.FromRgb(0x24, 0x24, 0x24));
             InitializeComponent();
             this.Loaded += MainWindow_Loaded;
             fcontainer.Navigate(new System.Uri("/Pages/Landing.xaml", UriKind.RelativeOrAbsolute));
+
+
+            App.Current.Properties["html_back"] = "161717";
+            App.Current.Properties["html_back_rep"] = "242424";
         }
 
 
@@ -118,7 +124,6 @@ namespace Sophieandme
             Userbtncontent.Text = App.Current.Properties["username"] as string;
             if (App.Current.Properties["photo"].ToString() == "")
             {
-                //Profileellipse.Fill = Profilepicture;
                 App.Current.Properties["photo"] = "\\Ryan-Gosling_0.jpg";
                 ProfilePict.ImageSource = new BitmapImage(new Uri(App.Current.Properties["photo"].ToString(), UriKind.Relative));
             }

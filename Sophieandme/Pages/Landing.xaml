@@ -7,6 +7,7 @@
     xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:uc="clr-namespace:WpfApp2.User_control"
+    xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
     Title="Landing"
     d:DesignHeight="740"
     d:DesignWidth="1280"
@@ -24,31 +25,47 @@
         </ResourceDictionary>
     </Page.Resources>
 
-    <Grid Background="Transparent">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="3*" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Label
+                x:Name="Textfront"
+                Content="Welcome back"
+                FontSize="35"
+                FontWeight="ExtraBold"
+                Foreground="{StaticResource Textcolor}" />
 
-        <Grid Grid.Column="0">
-            <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition />
-            </Grid.RowDefinitions>
-            <Border
-                Margin="10,10,15,20"
-                Background="{StaticResource Elementbackground}"
-                CornerRadius="30">
-                <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        </Grid>
 
-                    <lvc:CartesianChart
-                        Name="chart_scanned"
-                        MaxHeight="600"
-                        Margin="00,30,10,10"
-                        HorizontalAlignment="Stretch"
-                        VerticalAlignment="Stretch"
-                        Background="{StaticResource Elementbackground}">
-                        <!--<lvc:CartesianChart.Background>
+
+        <Grid Grid.Row="1" Background="Transparent">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2.5*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Border
+                    Margin="10,10,15,20"
+                    Background="{StaticResource Elementbackground}"
+                    CornerRadius="30">
+                    <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+
+                        <lvc:CartesianChart
+                            Name="chart_info"
+                            MaxHeight="600"
+                            Margin="10,30,10,10"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            Background="{StaticResource Elementbackground}">
+                            <!--<lvc:CartesianChart.Background>
                             <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
                                 <GradientStop Color="#201925" Offset="0"/>
                                 <GradientStop Color="#121212" Offset="1.5"/>
@@ -56,198 +73,244 @@
                         </lvc:CartesianChart.Background>-->
 
 
-                        <lvc:CartesianChart.DataTooltip>
-                            <lvc:DefaultTooltip Background="#3A33FF" Foreground="Gainsboro" />
-                        </lvc:CartesianChart.DataTooltip>
+                            <lvc:CartesianChart.DataTooltip>
+                                <lvc:DefaultTooltip Background="#3A33FF" Foreground="Gainsboro" />
+                            </lvc:CartesianChart.DataTooltip>
 
-                        <lvc:CartesianChart.AxisY>
-                            <lvc:Axis
-                                FontSize="13"
+
+                            <lvc:CartesianChart.AxisY>
+                                <lvc:Axis
+                                    FontSize="13"
+                                    Foreground="{StaticResource Textcolor}"
+                                    MinValue="0">
+                                    <lvc:Axis.Separator>
+                                        <lvc:Separator StrokeThickness="0" />
+                                    </lvc:Axis.Separator>
+                                </lvc:Axis>
+                            </lvc:CartesianChart.AxisY>
+
+                            <lvc:CartesianChart.AxisX>
+                                <lvc:Axis
+                                    FontSize="13"
+                                    Foreground="White"
+                                    Labels="{Binding Labels}"
+                                    LabelsRotation="-45"
+                                    MinValue="0">
+                                    <lvc:Axis.Separator>
+                                        <lvc:Separator StrokeThickness="0" />
+                                    </lvc:Axis.Separator>
+                                </lvc:Axis>
+                            </lvc:CartesianChart.AxisX>
+
+                            <lvc:CartesianChart.Series>
+                                <lvc:LineSeries
+                                    PointGeometrySize="0"
+                                    Stroke="MediumSlateBlue"
+                                    StrokeThickness="2"
+                                    Values="{Binding Values1}">
+                                    <lvc:LineSeries.Fill>
+                                        <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                            <GradientStop Offset="0.4" Color="#7D3AC1" />
+                                            <!--  #201925  -->
+                                            <GradientStop Offset="0.8" Color="#242424" />
+                                        </LinearGradientBrush>
+                                    </lvc:LineSeries.Fill>
+                                    <lvc:LineSeries.Effect>
+                                        <DropShadowEffect
+                                            BlurRadius="20"
+                                            Direction="270"
+                                            Opacity="0.3"
+                                            ShadowDepth="0"
+                                            Color="white" />
+                                    </lvc:LineSeries.Effect>
+                                </lvc:LineSeries>
+                            </lvc:CartesianChart.Series>
+                        </lvc:CartesianChart>
+                    </DockPanel>
+                </Border>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Border
+                        Grid.Column="0"
+                        Height="250"
+                        Margin="10,0,10,0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Top"
+                        Background="{StaticResource Elementbackground}"
+                        CornerRadius="20">
+                        <DockPanel>
+                            <Label
+                                Width="150"
+                                Height="40"
+                                Margin="0,40,0,0"
+                                HorizontalContentAlignment="Center"
+                                Content="Mathématiques"
+                                DockPanel.Dock="Top"
+                                FontSize="20"
+                                Foreground="{StaticResource Textcolor}" />
+                            <lvc:Gauge
+                                Grid.Row="2"
+                                Grid.Column="1"
+                                Width="130"
+                                Height="130"
+                                Margin="0,0,0,100"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                DockPanel.Dock="Top"
                                 Foreground="{StaticResource Textcolor}"
-                                MinValue="0">
-                                <lvc:Axis.Separator>
-                                    <lvc:Separator StrokeThickness="0" />
-                                </lvc:Axis.Separator>
-                            </lvc:Axis>
-                        </lvc:CartesianChart.AxisY>
-
-                        <lvc:CartesianChart.AxisX>
-                            <lvc:Axis
-                                FontSize="13"
-                                Foreground="White"
-                                Labels="{Binding Labels}"
-                                LabelsRotation="-45"
-                                MinValue="0">
-                                <lvc:Axis.Separator>
-                                    <lvc:Separator StrokeThickness="0" />
-                                </lvc:Axis.Separator>
-                            </lvc:Axis>
-                        </lvc:CartesianChart.AxisX>
-
-                        <lvc:CartesianChart.Series>
-                            <lvc:LineSeries
-                                PointGeometrySize="0"
-                                Stroke="MediumSlateBlue"
-                                StrokeThickness="2"
-                                Values="{Binding Values1}">
-                                <lvc:LineSeries.Fill>
-                                    <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                                        <GradientStop Offset="0.4" Color="#7D3AC1" />
-                                        <!--  #201925  -->
-                                        <GradientStop Offset="0.8" Color="#242424" />
+                                LabelsVisibility="Collapsed"
+                                Value="24"
+                                From="0"
+                                To="100">
+                                <lvc:Gauge.GaugeActiveFill>
+                                    <LinearGradientBrush>
+                                        <GradientStop Offset="0.0" Color="#1AC9E6" />
+                                        <GradientStop Offset="0.5" Color="#19AADE" />
+                                        <GradientStop Offset="1.0" Color="#176BA0" />
                                     </LinearGradientBrush>
-                                </lvc:LineSeries.Fill>
-                            </lvc:LineSeries>
-                        </lvc:CartesianChart.Series>
-                    </lvc:CartesianChart>
-                </DockPanel>
-            </Border>
-        </Grid>
+                                </lvc:Gauge.GaugeActiveFill>
+                                <lvc:Gauge.Effect>
+                                    <DropShadowEffect
+                                        BlurRadius="20"
+                                        Direction="270"
+                                        Opacity="0.3"
+                                        ShadowDepth="0"
+                                        Color="White" />
+                                </lvc:Gauge.Effect>
+                            </lvc:Gauge>
+                        </DockPanel>
+                    </Border>
 
-        <Border
-            Grid.Column="1"
-            Margin="0,10,15,15"
-            Background="{StaticResource Elementbackground}"
-            CornerRadius="30">
+                    <Border
+                        Grid.Column="1"
+                        Height="250"
+                        Margin="10,0,10,0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Top"
+                        Background="{StaticResource Elementbackground}"
+                        CornerRadius="20">
+                        <DockPanel>
+
+                            <Label
+                                Width="150"
+                                Height="40"
+                                Margin="0,40,0,0"
+                                HorizontalContentAlignment="Center"
+                                Content="Physique"
+                                DockPanel.Dock="Top"
+                                FontSize="20"
+                                Foreground="{StaticResource Textcolor}" />
+                            <lvc:Gauge
+                                Grid.Row="2"
+                                Grid.Column="1"
+                                Width="130"
+                                Height="130"
+                                Margin="0,0,0,80"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                DockPanel.Dock="Top"
+                                Foreground="{StaticResource Textcolor}"
+                                LabelsVisibility="Collapsed"
+                                Value="65"
+                                From="0"
+                                To="100">
+                                <lvc:Gauge.GaugeActiveFill>
+
+                                    <LinearGradientBrush>
+                                        <GradientStop Offset="0.0" Color="#EB548C" />
+                                        <GradientStop Offset="0.5" Color="#AF48CE" />
+                                        <GradientStop Offset="1.0" Color="#7D3AC1" />
+                                    </LinearGradientBrush>
+
+                                </lvc:Gauge.GaugeActiveFill>
+                                <lvc:Gauge.Effect>
+                                    <DropShadowEffect
+                                        BlurRadius="20"
+                                        Direction="270"
+                                        Opacity="0.3"
+                                        ShadowDepth="0"
+                                        Color="White" />
+                                </lvc:Gauge.Effect>
+                            </lvc:Gauge>
+                        </DockPanel>
+                    </Border>
+                    <Border
+                        Grid.Column="2"
+                        Height="250"
+                        Margin="10,0,10,0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Top"
+                        Background="{StaticResource Elementbackground}"
+                        CornerRadius="20">
+                        <DockPanel>
+
+                            <Label
+                                Width="150"
+                                Height="40"
+                                Margin="0,40,0,0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Content="Ingénieurie"
+                                DockPanel.Dock="Top"
+                                FontSize="20"
+                                Foreground="{StaticResource Textcolor}" />
+                            <lvc:Gauge
+                                Grid.Row="2"
+                                Grid.Column="1"
+                                Width="130"
+                                Height="130"
+                                Margin="0,0,0,80"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                DockPanel.Dock="Top"
+                                Foreground="{StaticResource Textcolor}"
+                                LabelsVisibility="Collapsed"
+                                Value="84"
+                                From="0"
+                                To="100">
+                                <lvc:Gauge.GaugeActiveFill>
+                                    <LinearGradientBrush>
+                                        <GradientStop Offset="0.0" Color="#EE9A3A" />
+                                        <GradientStop Offset="0.5" Color="#EF7E32" />
+                                        <GradientStop Offset="1.0" Color="#DE542C" />
+                                    </LinearGradientBrush>
+                                </lvc:Gauge.GaugeActiveFill>
+                                <lvc:Gauge.Effect>
+                                    <DropShadowEffect
+                                        BlurRadius="20"
+                                        Direction="270"
+                                        Opacity="0.3"
+                                        ShadowDepth="0"
+                                        Color="White" />
+                                </lvc:Gauge.Effect>
+                            </lvc:Gauge>
+                        </DockPanel>
+                    </Border>
+                </Grid>
+
+            </Grid>
             <Grid Grid.Column="1">
-
                 <Grid.RowDefinitions>
                     <RowDefinition />
                     <RowDefinition />
-                    <RowDefinition />
                 </Grid.RowDefinitions>
-                <Grid Grid.Row="0">
-                    <!--  ############################################################ Mathematiques  -->
-                    <DockPanel>
+                <Border CornerRadius="20">
+                    <wv2:WebView2
+                        x:Name="webviewallval"
+                        Grid.Row="1"
+                        Margin="30"
+                        Source="file:///C:/Users/Bastien/source/repos/Sophieandme/Sophieandme/Math.html"
+                        Visibility="Collapsed" />
 
-                        <Label
-                            Width="150"
-                            Height="40"
-                            Margin="0,40,0,0"
-                            HorizontalContentAlignment="Center"
-                            Content="Mathématiques"
-                            DockPanel.Dock="Top"
-                            FontSize="20"
-                            Foreground="{StaticResource Textcolor}" />
-                        <lvc:Gauge
-                            Grid.Row="2"
-                            Grid.Column="1"
-                            Width="130"
-                            Height="130"
-                            Margin="0,0,0,80"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            DockPanel.Dock="Top"
-                            Foreground="{StaticResource Textcolor}"
-                            LabelsVisibility="Collapsed"
-                            Value="24"
-                            From="0"
-                            To="100">
-                            <lvc:Gauge.GaugeActiveFill>
-                                <LinearGradientBrush>
-                                    <GradientStop Offset="0.0" Color="#1AC9E6" />
-                                    <GradientStop Offset="0.5" Color="#19AADE" />
-                                    <GradientStop Offset="1.0" Color="#176BA0" />
-                                </LinearGradientBrush>
-                            </lvc:Gauge.GaugeActiveFill>
-                            <!--<lvc:Gauge.Effect>
-                                <DropShadowEffect
-                                    BlurRadius="20"
-                                    Direction="270"
-                                    Opacity="0.3"
-                                    ShadowDepth="0"
-                                    Color="White" />
-                            </lvc:Gauge.Effect>-->
-                        </lvc:Gauge>
-                    </DockPanel>
-                </Grid>
-                <Grid Grid.Row="1">
-                    <!--  ############################################################ Physique  -->
-                    <DockPanel>
+                </Border>
 
-                        <Label
-                            Width="150"
-                            Height="40"
-                            Margin="0,40,0,0"
-                            HorizontalContentAlignment="Center"
-                            Content="Physique"
-                            DockPanel.Dock="Top"
-                            FontSize="20"
-                            Foreground="{StaticResource Textcolor}" />
-                        <lvc:Gauge
-                            Grid.Row="2"
-                            Grid.Column="1"
-                            Width="130"
-                            Height="130"
-                            Margin="0,0,0,80"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            DockPanel.Dock="Top"
-                            Foreground="{StaticResource Textcolor}"
-                            LabelsVisibility="Collapsed"
-                            Value="65"
-                            From="0"
-                            To="100">
-                            <lvc:Gauge.GaugeActiveFill>
 
-                                <LinearGradientBrush>
-                                    <GradientStop Offset="0.0" Color="#EB548C" />
-                                    <GradientStop Offset="0.5" Color="#AF48CE" />
-                                    <GradientStop Offset="1.0" Color="#7D3AC1" />
-                                </LinearGradientBrush>
-
-                            </lvc:Gauge.GaugeActiveFill>
-                            <!--<lvc:Gauge.Effect>
-                                <DropShadowEffect
-                                    BlurRadius="20"
-                                    Direction="270"
-                                    Opacity="0.3"
-                                    ShadowDepth="0"
-                                    Color="White" />
-                            </lvc:Gauge.Effect>-->
-                        </lvc:Gauge>
-                    </DockPanel>
-                </Grid>
-                <Grid Grid.Row="2">
-                    <!--  ############################################################ Ingénieurie  -->
-                    <DockPanel>
-
-                        <Label
-                            Width="150"
-                            Height="40"
-                            Margin="0,40,0,0"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            HorizontalContentAlignment="Center"
-                            Content="Ingénieurie"
-                            DockPanel.Dock="Top"
-                            FontSize="20"
-                            Foreground="{StaticResource Textcolor}" />
-                        <lvc:Gauge
-                            Grid.Row="2"
-                            Grid.Column="1"
-                            Width="130"
-                            Height="130"
-                            Margin="0,0,0,80"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            DockPanel.Dock="Top"
-                            Foreground="{StaticResource Textcolor}"
-                            LabelsVisibility="Collapsed"
-                            Value="84"
-                            From="0"
-                            To="100">
-                            <lvc:Gauge.GaugeActiveFill>
-                                <LinearGradientBrush>
-                                    <GradientStop Offset="0.0" Color="#EE9A3A" />
-                                    <GradientStop Offset="0.5" Color="#EF7E32" />
-                                    <GradientStop Offset="1.0" Color="#DE542C" />
-                                </LinearGradientBrush>
-                            </lvc:Gauge.GaugeActiveFill>
-                        </lvc:Gauge>
-                    </DockPanel>
-                </Grid>
             </Grid>
-        </Border>
+        </Grid>
     </Grid>
 </Page>

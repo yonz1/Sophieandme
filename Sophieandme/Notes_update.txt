@@ -1,10 +1,14 @@
-- Les "/" sont enlever de tout les quizz (à corriger)  ################ fait 
-- Ajouter le timer à afficher avec le boutton hourglass ########## fait
-- Mettre un raccourci d'ajout au tableau de réponses ################ fait
-- Ajouter un delai d'affchage des HTML de passages (bug si il sont chargée autre part)
 - Corriger la taille du plein écran 
-- Corriger le docker de déplacement de la fenêtre  ####### fait
-- Créer un logout du compte ######## fait
-- Supprimer les HTML à chaque fermeture d'application ###### fait
-- Adapter la taille du webview en fonction de la taille du contenue (avec taille max) 
 - Essayer de corriger la taille des images (certaine sont dur à voir même sur sophieandme)
+- Ajouter le quizz de Marked 
+- Modifier la DB pour complétition des quizzs
+- Ajouter le theme blanc
+- Ajouter la mise à jours automatique des quizzs
+- Ajouter l'affichage en vert des bonnes réponses 
+
+
+#### 2éme partie
+
+- Implementation du serveur cloud 
+- Implementation des api slack pour un enregistrement automatique 
+- Création de quizz personnaliser 

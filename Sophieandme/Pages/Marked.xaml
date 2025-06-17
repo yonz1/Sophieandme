@@ -31,6 +31,8 @@
     </Page.Resources>
 
     <Grid>
+
+        <!--  ##################################################################### Grille de base  -->
         <Grid x:Name="Selection" Visibility="Visible">
 
             <Grid.RowDefinitions>
@@ -40,7 +42,9 @@
 
 
             <Border
-                Background="Transparent"
+                Width="655"
+                Height="50"
+                Background="{StaticResource main_background}"
                 BorderThickness="2"
                 CornerRadius="20">
                 <DockPanel
@@ -131,6 +135,338 @@
                 Margin="30"
                 Source="file:///C:/Users/Bastien/source/repos/Sophieandme/Sophieandme/Math.html"
                 Visibility="Collapsed" />
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Hidden">
+                <WrapPanel
+                    x:Name="ButtonContainer"
+                    Grid.Row="1"
+                    Margin="0,30,0,0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal" />
+            </ScrollViewer>
         </Grid>
+
+
+
+
+        <!--  ############################################################# Grille de quizz  -->
+
+        <Grid x:Name="Question" Visibility="Collapsed">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="100" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="100" />
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0" Panel.ZIndex="2">
+
+
+                <DockPanel
+                    Grid.Row="0"
+                    Height="100"
+                    VerticalAlignment="Top"
+                    Panel.ZIndex="1">
+                    <Button
+                        x:Name="Back_quizz"
+                        Width="120"
+                        Height="50"
+                        Margin="30,0,0,0"
+                        HorizontalAlignment="Left"
+                        Click="Back_quizz_Click"
+                        Foreground="Gainsboro"
+                        Style="{StaticResource MaterialDesignFlatButton}">
+                        <StackPanel Orientation="Horizontal">
+                            <fs:IconImage
+                                Width="20"
+                                Height="20"
+                                Foreground="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Foreground}"
+                                Icon="ArrowLeft" />
+                            <TextBlock
+                                Margin="15,0,0,0"
+                                VerticalAlignment="Center"
+                                FontSize="13"
+                                Text="Matières" />
+                        </StackPanel>
+                    </Button>
+
+
+
+                    <Border
+                        x:Name="toolbar"
+                        Width="240"
+                        Height="50"
+                        Margin="0,0,20,0"
+                        HorizontalAlignment="Right"
+                        Background="{StaticResource Elementbackground}"
+                        CornerRadius="20"
+                        DockPanel.Dock="Right">
+                        <DockPanel>
+                            <ToggleButton
+                                x:Name="Resppaper"
+                                Width="40"
+                                Height="40"
+                                Margin="0,0,10,0"
+                                HorizontalAlignment="Right"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                Click="Resppaper_Click"
+                                DockPanel.Dock="Right"
+                                Foreground="{StaticResource Top_iconc_color}"
+                                Style="{StaticResource TopButtonrad}"
+                                Tag="{StaticResource Glass}"
+                                Unchecked="Marquer_Unchecked">
+                                <fs:IconImage
+                                    Width="30"
+                                    Height="30"
+                                    Icon="ArrowAltCircleDown"
+                                    IconFont="Regular"
+                                    Style="{StaticResource TopButtonIconrad}" />
+                            </ToggleButton>
+
+                            <ToggleButton
+                                x:Name="Marked_tgbutton"
+                                Width="40"
+                                Height="40"
+                                Margin="0,0,20,0"
+                                HorizontalAlignment="Right"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                Checked="Marquer_Checked"
+                                DockPanel.Dock="Right"
+                                Foreground="{StaticResource Top_iconc_color}"
+                                Style="{StaticResource TopButtonrad}"
+                                Tag="{StaticResource Glass}"
+                                Unchecked="Marquer_Unchecked">
+                                <fs:IconImage
+                                    x:Name="Icon_Mark"
+                                    Width="30"
+                                    Height="30"
+                                    Icon="Bookmark"
+                                    IconFont="Regular"
+                                    Style="{StaticResource TopButtonIconrad}" />
+                            </ToggleButton>
+                            <Button
+                                x:Name="Direct_rep"
+                                Width="40"
+                                Height="40"
+                                Margin="0,0,20,0"
+                                HorizontalAlignment="Right"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                Click="Direct_rep_Click"
+                                DockPanel.Dock="Right"
+                                Foreground="{StaticResource Top_iconc_color}"
+                                Style="{StaticResource TopButton}"
+                                Tag="{StaticResource Glass}">
+                                <fs:IconImage
+                                    Width="30"
+                                    Height="30"
+                                    Icon="Book"
+                                    Style="{StaticResource TopButtonIcon}" />
+                            </Button>
+                            <ToggleButton
+                                x:Name="Timer"
+                                Width="40"
+                                Height="40"
+                                Margin="0,0,20,0"
+                                HorizontalAlignment="Right"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                Checked="Timer_Checked"
+                                DockPanel.Dock="Right"
+                                Foreground="{StaticResource Top_iconc_color}"
+                                Style="{StaticResource TopButtonrad}"
+                                Tag="{StaticResource Glass}"
+                                Unchecked="Timer_Unchecked">
+                                <fs:IconImage
+                                    Width="30"
+                                    Height="30"
+                                    Icon="Hourglass"
+                                    Style="{StaticResource TopButtonIconrad}" />
+                            </ToggleButton>
+                            <TextBlock
+                                x:Name="tbTime"
+                                Width="100"
+                                Height="20"
+                                Margin="0,0,20,0"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                FontSize="17"
+                                Foreground="{StaticResource Textcolor}"
+                                Text="00:00"
+                                TextAlignment="Right"
+                                Visibility="Collapsed" />
+                        </DockPanel>
+                    </Border>
+                </DockPanel>
+            </Grid>
+            <ScrollViewer
+                Grid.Row="1"
+                CanContentScroll="True"
+                VerticalScrollBarVisibility="Hidden">
+                <!--<Grid
+                Grid.Row="1"
+                MaxHeight="880"
+                Margin="100,70,100,20">-->
+                <Grid>
+                    <DockPanel
+                        x:Name="Panelquizz"
+                        Margin="100,40,100,20"
+                        Panel.ZIndex="0"
+                        LastChildFill="True">
+                        <wv2:WebView2
+                            x:Name="webviewques"
+                            MinHeight="30"
+                            VerticalAlignment="Top"
+                            DockPanel.Dock="Top"
+                            NavigationCompleted="webviewques_NavigationCompleted"
+                            Source="file:///C:/Users/Bastien/source/repos/Sophieandme/Sophieandme/Math.html"
+                            Visibility="Visible" />
+                        <wv2:WebView2
+                            x:Name="webviewrep"
+                            MinHeight="30"
+                            VerticalAlignment="Top"
+                            DockPanel.Dock="Top"
+                            NavigationCompleted="webviewrep_NavigationCompleted"
+                            Source="file:///C:/Users/Bastien/source/repos/Sophieandme/Sophieandme/Math.html"
+                            Visibility="Visible" />
+                    </DockPanel>
+                    <!--</Grid>-->
+                </Grid>
+
+            </ScrollViewer>
+            <Grid Grid.Row="2">
+
+
+                <DockPanel
+                    Grid.Row="2"
+                    Height="80"
+                    VerticalAlignment="Bottom"
+                    Panel.ZIndex="1">
+                    <Button
+                        x:Name="Reponse_button"
+                        Width="200"
+                        Height="50"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Click="Reponse_button_Click"
+                        Content="Réponses"
+                        DockPanel.Dock="Top"
+                        Foreground="{StaticResource Textcolor}"
+                        Style="{StaticResource MaterialDesignOutlinedLightButton}" />
+                    <Button
+                        x:Name="Next_button"
+                        Width="200"
+                        Height="50"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Click="Next_button_Click"
+                        Content="Next"
+                        DockPanel.Dock="Top"
+                        Foreground="{StaticResource Textcolor}"
+                        Style="{StaticResource MaterialDesignOutlinedLightButton}"
+                        Visibility="Collapsed" />
+                    <TextBlock
+                        x:Name="Count_text"
+                        Width="120"
+                        Height="50"
+                        Margin="10,-13,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        DockPanel.Dock="Left"
+                        FontSize="16"
+                        Foreground="{StaticResource Textcolor}"
+                        Text="Testvaleur" />
+
+
+                </DockPanel>
+            </Grid>
+        </Grid>
+
+
+        <!--  ####################################################################### Grille de fin de quizzz  -->
+
+        <Grid
+            x:Name="Endquizz"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Visibility="Collapsed">
+            <DockPanel>
+                <Button
+                    x:Name="ViewResp"
+                    Width="250"
+                    Height="40"
+                    VerticalAlignment="Center"
+                    Click="ViewResp_Click"
+                    Content="Afficher les réponses"
+                    DockPanel.Dock="Left"
+                    Foreground="{StaticResource Textcolor}"
+                    Style="{StaticResource MaterialDesignFlatMidBgButton}" />
+                <Button
+                    x:Name="Restart"
+                    Width="250"
+                    Height="40"
+                    Margin="40,0,0,0"
+                    VerticalAlignment="Center"
+                    Click="Restart_Click"
+                    Content="Recommencer"
+                    DockPanel.Dock="Left"
+                    Foreground="{StaticResource Textcolor}"
+                    Style="{StaticResource MaterialDesignFlatMidBgButton}" />
+                <Button
+                    x:Name="Return"
+                    Width="250"
+                    Height="40"
+                    Margin="40,0,0,0"
+                    VerticalAlignment="Center"
+                    Click="Return_Click"
+                    Content="Retour au matiéres"
+                    DockPanel.Dock="Left"
+                    Foreground="{StaticResource Textcolor}"
+                    Style="{StaticResource MaterialDesignOutlinedLightButton}" />
+            </DockPanel>
+        </Grid>
+
+        <!--  ##~###########################################################################   Panel d'affichage de toutes les réponses  -->
+
+        <Grid x:Name="allresp" Visibility="Collapsed">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="100" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Button
+                x:Name="Back_quizz2"
+                Grid.Row="0"
+                Width="120"
+                Height="50"
+                Margin="30,0,0,0"
+                HorizontalAlignment="Left"
+                Click="Back_quizz_Click"
+                Foreground="Gainsboro"
+                Style="{StaticResource MaterialDesignFlatButton}">
+
+                <StackPanel Orientation="Horizontal">
+                    <fs:IconImage
+                        Width="20"
+                        Height="20"
+                        Foreground="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Foreground}"
+                        Icon="ArrowLeft" />
+                    <TextBlock
+                        Margin="15,0,0,0"
+                        VerticalAlignment="Center"
+                        FontSize="13"
+                        Text="Matières" />
+                </StackPanel>
+            </Button>
+            <wv2:WebView2
+                x:Name="webviewall_data"
+                Grid.Row="1"
+                Margin="30"
+                Source="file:///C:/Users/Bastien/source/repos/Sophieandme/Sophieandme/Math.html"
+                Visibility="Visible" />
+        </Grid>
+
+
     </Grid>
 </Page>
