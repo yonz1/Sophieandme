@@ -4,8 +4,10 @@ using Microsoft.Web.WebView2.Core;
 using Sophieandme.Window;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SQLite;
 using System.Diagnostics;
+using System.Diagnostics.Metrics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -13,6 +15,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -68,9 +71,24 @@ namespace Sophieandme.Pages
         public Marked()
         {
             InitializeComponent();
-           
+            toolbar.Width = 240;
+            int i = 0;
+            tbTime.Text = _startTimeDisplay;
+            _stopwatch = new Stopwatch();
+            _timer = new System.Timers.Timer(1000);
 
+            _timer.Elapsed += OnTimerElapse;
+
+            _stopwatch.Start();
+            _timer.Start();
         }
+
+        private void OnTimerElapse(object sender, ElapsedEventArgs e)
+        {
+            App.Current.Dispatcher.Invoke(() => tbTime.Text = _stopwatch.Elapsed.ToString(@"mm\:ss"));
+        }
+
+
         private void Generatevalue(string mat)
         {
             questionaf.Clear();
@@ -191,6 +209,7 @@ namespace Sophieandme.Pages
             System.Uri uri1 = new System.Uri(urif);
             webviewall.Source = uri1 as System.Uri;
             webviewall.Visibility = Visibility.Visible;
+            ButtonContainer.Visibility = Visibility.Collapsed;
         }
 
         private void AllM_Click(object sender, RoutedEventArgs e)
@@ -204,6 +223,7 @@ namespace Sophieandme.Pages
             System.Uri uri1 = new System.Uri(urif);
             webviewall.Source = uri1 as System.Uri;
             webviewall.Visibility = Visibility.Visible;
+            ButtonContainer.Visibility = Visibility.Collapsed;
         }
 
         private void PhysiqueM_Click(object sender, RoutedEventArgs e)
@@ -217,6 +237,7 @@ namespace Sophieandme.Pages
             System.Uri uri1 = new System.Uri(urif);
             webviewall.Source = uri1 as System.Uri;
             webviewall.Visibility = Visibility.Visible;
+            ButtonContainer.Visibility = Visibility.Collapsed;
         }
 
         private void MathsM_Click(object sender, RoutedEventArgs e)
@@ -230,11 +251,55 @@ namespace Sophieandme.Pages
             System.Uri uri1 = new System.Uri(urif);
             webviewall.Source = uri1 as System.Uri;
             webviewall.Visibility = Visibility.Visible;
+            ButtonContainer.Visibility = Visibility.Collapsed;
         }
 
         private void Quizz_Click(object sender, RoutedEventArgs e)
         {
-            
+            webviewall.Visibility = Visibility.Collapsed;
+            ButtonContainer.Visibility = Visibility.Visible;
+            Showbutton(sender);
+
+        }
+
+        private void Showbutton(object sender)
+        {
+            ButtonContainer.Children.Clear();
+            Name.Clear();
+            var connection = new SQLiteConnection(conSource);
+            List<string> Matier = ["Mathématiques", "Physique", "SI"];
+            try
+            {
+                connection.Open();
+                foreach (string matier in Matier)
+                {
+                    string query = "SELECT COUNT(*) FROM " + matier + " WHERE Marked = \"1\"";
+                    var command = new SQLiteCommand(query, connection);
+                    var reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        int y = reader.GetInt16(0);
+                        System.Diagnostics.Debug.WriteLine(y,matier);
+                        if (y >= 1)
+                        {
+                            Name.Add(matier);
+                            System.Diagnostics.Debug.WriteLine("Pris");
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                //Testbox.Items.Add(e.ToString());
+            }
+
+
+            foreach(string matier in Name)
+            {
+                System.Diagnostics.Debug.WriteLine(matier);
+            }
+            ChargerButton(Name, sender);
+            connection.Close();
         }
 
 
@@ -269,8 +334,7 @@ namespace Sophieandme.Pages
             using (SQLiteConnection c = new SQLiteConnection(conSource))
             {
                 c.Open();
-                string query = "UPDATE " + App.Current.Properties["matier"].ToString() + " SET Marked = 1 where question = \"" + question[i] + "\" AND name = \"" + App.Current.Properties["nameindex"] + "\"";
-                System.Diagnostics.Debug.WriteLine(query);
+                string query = "UPDATE " + App.Current.Properties["nameindex"].ToString() + " SET Marked = \"1\" where question = \"" + question[i] + "\"";
                 using (SQLiteCommand cmd = new SQLiteCommand(query, c))
                 {
                     cmd.ExecuteNonQuery();
@@ -284,7 +348,7 @@ namespace Sophieandme.Pages
             using (SQLiteConnection c = new SQLiteConnection(conSource))
             {
                 c.Open();
-                string query = "UPDATE " + App.Current.Properties["matier"].ToString() + " SET Marked = 0 where question = \"" + question[i] + "\" AND name = \"" + App.Current.Properties["nameindex"] + "\"";
+                string query = "UPDATE " + App.Current.Properties["nameindex"].ToString() + " SET Marked = \"0\" where question = \"" + question[i] + "\"";
                 System.Diagnostics.Debug.WriteLine(query);
                 using (SQLiteCommand cmd = new SQLiteCommand(query, c))
                 {
@@ -336,21 +400,22 @@ namespace Sophieandme.Pages
             allresp.Visibility = Visibility.Visible;
             Question.Visibility = Visibility.Collapsed;
             tbTime.Visibility = Visibility.Collapsed;
-            string urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Resp" + App.Current.Properties["nameindex"].ToString().Replace(" ", "").Replace("è", "edb").Replace("ô", "o").Replace("é", "e").Replace(":", "").Replace(".", "") + ".html";
+            string urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTML\\Resp" + App.Current.Properties["nameindex"].ToString().Replace(" ", "").Replace("è", "edb").Replace("ô", "o").Replace("é", "e").Replace(":", "").Replace(".", "") + ".html";
             urif = urif.Replace("\\", "/");
-            System.Diagnostics.Debug.WriteLine(urif);
             System.Uri uri1 = new System.Uri(urif);
             if (File.Exists(urif))
             {
                 System.Diagnostics.Debug.WriteLine("Il existe");
-                webviewall.Source = uri1 as System.Uri;
+                webviewall_data.Source = uri1 as System.Uri;
+                System.Diagnostics.Debug.WriteLine("Source webview : ", webviewall.Source);
             }
             else
             {
                 Allresp();
-                webviewall.Source = uri1 as System.Uri;
+                webviewall_data.Source = uri1 as System.Uri;
+                System.Diagnostics.Debug.WriteLine("Source webview : ", webviewall.Source);
             }
-        }
+        } 
 
         private void ViewResp_Click(object sender, RoutedEventArgs e)
         {
@@ -359,18 +424,20 @@ namespace Sophieandme.Pages
             allresp.Visibility = Visibility.Visible;
             toolbar.Width = 240;
             string urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Resp" + App.Current.Properties["nameindex"].ToString().Replace(" ", "").Replace("è", "edb").Replace("ô", "o").Replace("é", "e").Replace(":", "").Replace(".", "") + ".html";
-            urif = urif.Replace("\\", "/");
-            System.Diagnostics.Debug.WriteLine(urif);
+            //string path = System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Resp" + App.Current.Properties["nameindex"].ToString().Replace(" ", "").Replace("è", "edb").Replace("ô", "o").Replace("é", "e").Replace(":", "").Replace(".", "") + ".html";
+            urif = urif.Replace("\\", "/");;
             System.Uri uri1 = new System.Uri(urif);
             if (File.Exists(urif))
             {
                 System.Diagnostics.Debug.WriteLine("Il existe");
-                webviewall.Source = uri1 as System.Uri;
+                webviewall_data.Source = uri1 as System.Uri;
+                System.Diagnostics.Debug.WriteLine("Source webview : ", webviewall.Source);
             }
             else
             {
                 Allresp();
-                webviewall.Source = uri1 as System.Uri;
+                webviewall_data.Source = uri1 as System.Uri;
+                System.Diagnostics.Debug.WriteLine("Source webview : ", webviewall.Source);
             }
         }
 
@@ -416,8 +483,6 @@ namespace Sophieandme.Pages
 
         private async void Reponse_button_Click(object sender, RoutedEventArgs e)
         {
-
-
             webviewrep.Visibility = Visibility.Visible;
             string urif = "";
             create(repnse[i].ToString(), i, "r");
@@ -508,24 +573,28 @@ namespace Sophieandme.Pages
                 if (url_question[i] == "" && url_rep[i] == "")
                 {
                     start += "<div class=\"card\">\r\n  <div class=\"container\">\r\n    <p>" + miseneformetext(question[i]) + "</p> \r\n <hr>\r\n    <p>" + miseneformetext(repnse[i]) + "</p> \r\n  </div>\r\n</div>\r\n";
+                    
                 }
                 else if (url_question[i] == "")
                 {
                     start += "<div class=\"card\">\r\n  <div class=\"container\">\r\n   <p>" + miseneformetext(question[i]) + "</p> \r\n  <hr>\r\n   <img src=\"" + url_rep[i].Replace("\\/", "/") + "\" alt=\"Avatar\" style=\"width:100%\">\r\n    <p>" + miseneformetext(repnse[i]) + "</p> \r\n  </div>\r\n</div>\r\n";
+                    
                 }
                 else if (url_rep[i] == "")
                 {
                     start += "<div class=\"card\">\r\n  <div class=\"container\">\r\n   <img src=\"" + url_question[i].Replace("\\/", "/") + "\" alt=\"Avatar\" style=\"width:100%\">\r\n    <p>" + miseneformetext(question[i]) + "</p> \r\n  <hr>\r\n    <p>" + miseneformetext(repnse[i]) + "</p> \r\n  </div>\r\n</div>\r\n";
+                    
                 }
                 else
                 {
                     start += "<div class=\"card\">\r\n  <div class=\"container\">\r\n   <img src=\"" + url_question[i].Replace("\\/", "/") + "\" alt=\"Avatar\" style=\"width:100%\">\r\n    <p>" + miseneformetext(question[i]) + "</p> \r\n  <hr>\r\n   <img src=\"" + url_rep[i].Replace("\\/", "/") + "\" alt=\"Avatar\" style=\"width:100%\">\r\n    <p>" + miseneformetext(repnse[i]) + "</p> \r\n  </div>\r\n</div>\r\n";
+                    
                 }
             }
             start += "</body>\r\n</html> \r\n";
-            string path = System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Resp" + App.Current.Properties["nameindex"].ToString().Replace(" ", "").Replace("è", "edb").Replace("ô", "o").Replace("é", "e").Replace(":", "").Replace(".", "") + ".html";
+            string path = System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTML\\Resp" + App.Current.Properties["nameindex"].ToString().Replace(" ", "").Replace("è", "edb").Replace("ô", "o").Replace("é", "e").Replace(":", "").Replace(".", "") + ".html";
             path = path.Replace("/", "\\");
-            System.Diagnostics.Debug.WriteLine(path);
+            System.Diagnostics.Debug.WriteLine("Source écrite",path);
             File.WriteAllText(path, start);
 
         }
@@ -578,7 +647,9 @@ namespace Sophieandme.Pages
 
             else
             {
-                query = "SELECT question,reponse,image_question_url,image_answer_url,Marked FROM " + App.Current.Properties["matier"].ToString() + " WHERE name = \"" + nameindex + "\"";
+                System.Diagnostics.Debug.WriteLine(App.Current.Properties["matier"]);
+                query = "SELECT question,reponse,image_question_url,image_answer_url,Marked FROM " + App.Current.Properties["nameindex"] + " WHERE Marked = \"1\"";
+                System.Diagnostics.Debug.WriteLine(query);
             }
 
 
@@ -591,15 +662,15 @@ namespace Sophieandme.Pages
                 Arepnse.Clear();
                 Aurl_question.Clear();
                 Aurl_rep.Clear();
+                AMarked.Clear();
                 while (reader.Read())
                 {
                     Aquestion.Add(reader.GetString(0));
                     Arepnse.Add(reader.GetString(1));
                     Aurl_question.Add(reader.GetString(2));
                     Aurl_rep.Add(reader.GetString(3));
-                    Markedinf.Add(reader.GetString(4));
+                    AMarked.Add(reader.GetString(4));
                 }
-
             }
             catch (Exception ex)
             {
@@ -616,11 +687,29 @@ namespace Sophieandme.Pages
         // ################################################################################################################### Fonction de formation des questions
         private async void questionform(int i)
         {
+            Question.Visibility = Visibility.Visible;
             Selection.Visibility = Visibility.Collapsed;
+            webviewques.Visibility = Visibility.Visible;
+            Reponse_button.Visibility = Visibility.Visible;
+            webviewrep.Visibility = Visibility.Collapsed;
+            Next_button.Visibility = Visibility.Collapsed;
+            Selection.Visibility = Visibility.Collapsed;
+            Count_text.Text = (i + 1).ToString() + "/" + question.Count.ToString();
+            Question.Visibility = Visibility.Visible;
             System.Diagnostics.Debug.WriteLine("#################################### question brut");
             System.Diagnostics.Debug.WriteLine(question[i].ToString());
             create(question[i].ToString(), i, "q");
             List<string> countword = question[i].Split(' ').ToList();
+            if (Markedinf[i].ToString() == "1")
+            {
+                Icon_Mark.IconFont = FontAwesome.Sharp.IconFont.Solid;
+                Marked_tgbutton.IsChecked = true;
+                System.Diagnostics.Debug.WriteLine("Marque");
+            }
+            else
+            {
+                Icon_Mark.IconFont = FontAwesome.Sharp.IconFont.Regular;
+            }
 
 
             string urif = "";
@@ -653,8 +742,6 @@ namespace Sophieandme.Pages
 
         private void create(string text, int i, string qor)
         {
-
-
             string questionf = miseneformetext(text);
             string htmlval = "";
             string path = "";
@@ -727,6 +814,8 @@ namespace Sophieandme.Pages
 
         private void Updateform(object sender, RoutedEventArgs e)
         {
+
+
             System.Windows.Controls.RadioButton boutonCLique = sender as System.Windows.Controls.RadioButton;
             string valeur = boutonCLique?.Tag as string;
             ButtonContainer.Children.Clear();
@@ -734,19 +823,22 @@ namespace Sophieandme.Pages
             App.Current.Properties["matier"] = valeur;
             System.Diagnostics.Debug.Write(valeur.ToString());
             var connection = new SQLiteConnection(conSource);
+            List<string> Matier = ["Mathématiques", "Phsique", "SI"];
             try
             {
                 connection.Open();
-                string query = "SELECT name FROM " + App.Current.Properties["matier"].ToString() + " ORDER BY name WHERE Marked=1";
-                var command = new SQLiteCommand(query, connection);
-                var reader = command.ExecuteReader();
-                while (reader.Read())
+                foreach(string matier in Matier)
                 {
-                    ////Testbox.Items.Add(reader.GetString(0));
-                    string y = reader.GetString(0);
-                    if (!Name.Contains(y))
+                    string query = "SELECT COUNT(*) FROM " + matier + " WHERE Marked = \"1\"";
+                    var command = new SQLiteCommand(query, connection);
+                    var reader = command.ExecuteReader();
+                    while (reader.Read())
                     {
-                        Name.Add(y);
+                        int y = reader.GetInt16(0);                        
+                        if (y > 1)
+                        {
+                            Name.Append(matier);
+                        }
                     }
                 }
             }
@@ -756,7 +848,6 @@ namespace Sophieandme.Pages
             }
 
             ChargerButton(Name, sender);
-
             connection.Close();
         }
 

@@ -29,18 +29,14 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
-
     <Grid>
 
         <!--  ##################################################################### Grille de base  -->
         <Grid x:Name="Selection" Visibility="Visible">
-
             <Grid.RowDefinitions>
                 <RowDefinition Height="100" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-
-
             <Border
                 Width="655"
                 Height="50"
@@ -147,8 +143,6 @@
         </Grid>
 
 
-
-
         <!--  ############################################################# Grille de quizz  -->
 
         <Grid x:Name="Question" Visibility="Collapsed">
@@ -159,8 +153,6 @@
             </Grid.RowDefinitions>
 
             <Grid Grid.Row="0" Panel.ZIndex="2">
-
-
                 <DockPanel
                     Grid.Row="0"
                     Height="100"

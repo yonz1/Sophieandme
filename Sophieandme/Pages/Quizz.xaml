@@ -36,7 +36,7 @@
 
         <!--  ########################################################## Panel d'affichage des matiére disponible  -->
 
-        <Grid x:Name="Selection" Visibility="Collapsed">
+        <Grid x:Name="Selection" Visibility="Visible">
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="100" />
@@ -47,7 +47,7 @@
             <Border
                 Width="530"
                 Height="50"
-                Background="{StaticResource Elementbackground}"
+                Background="{StaticResource main_background}"
                 BorderThickness="2"
                 CornerRadius="20">
                 <DockPanel
@@ -179,7 +179,7 @@
 
 
 
-        <Grid x:Name="Question" Visibility="Visible">
+        <Grid x:Name="Question" Visibility="Collapsed">
             <Grid.RowDefinitions>
                 <RowDefinition Height="100" />
                 <RowDefinition Height="*" />

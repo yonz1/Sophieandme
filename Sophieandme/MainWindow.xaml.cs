@@ -66,14 +66,28 @@ namespace Sophieandme
 
         public MainWindow()
         {
+            //############ Black
             App.Current.Properties["button_color"] = new SolidColorBrush(System.Windows.Media.Color.FromRgb(0x24, 0x24, 0x24));
+            App.Current.Properties["button_color_text"] = new SolidColorBrush(System.Windows.Media.Color.FromRgb(0xF5, 0xF5, 0xF5));
+            
+            //############### White
+            //App.Current.Properties["button_color"] = new SolidColorBrush(System.Windows.Media.Color.FromRgb(0xF5, 0xF5, 0xF5));
+            //App.Current.Properties["button_color_text"] = new SolidColorBrush(System.Windows.Media.Color.FromRgb(0x24, 0x24, 0x24));
             InitializeComponent();
             this.Loaded += MainWindow_Loaded;
             fcontainer.Navigate(new System.Uri("/Pages/Landing.xaml", UriKind.RelativeOrAbsolute));
 
 
+            //App.Current.Properties["html_back"] = "F5F5F5";
+            //App.Current.Properties["html_back_rep"] = "FFFFFF";
+            //App.Current.Properties["html_text"] = "242424";
+
             App.Current.Properties["html_back"] = "161717";
             App.Current.Properties["html_back_rep"] = "242424";
+            App.Current.Properties["html_text"] = "#F5F5F5";
+
+
+
         }
 
 
@@ -138,11 +152,21 @@ namespace Sophieandme
             fcontainer.Navigate(new System.Uri("/Pages/Quizz.xaml", UriKind.RelativeOrAbsolute));
             Rect1.Visibility = Visibility.Visible;
             Rect2.Visibility = Visibility.Hidden;
+            Rect3.Visibility = Visibility.Hidden;
         }
         private void Markedval_Click(object sender, RoutedEventArgs e)
         {
             fcontainer.Navigate(new System.Uri("/Pages/Marked.xaml", UriKind.RelativeOrAbsolute));
             Rect2.Visibility = Visibility.Visible;
+            Rect1.Visibility = Visibility.Hidden;
+            Rect3.Visibility = Visibility.Hidden;
+        }
+
+        private void Custom_Click(object sender, RoutedEventArgs e)
+        {
+            fcontainer.Navigate(new System.Uri("/Pages/Custom_quizz.xaml", UriKind.RelativeOrAbsolute));
+            Rect3.Visibility = Visibility.Visible;
+            Rect2.Visibility = Visibility.Hidden;
             Rect1.Visibility = Visibility.Hidden;
         }
     }
