@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+    <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+   <link rel="stylesheet" href="Style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.6.2/sql-wasm.js"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js"> </script> 
+  <title>MathJax example</title>
+</head>
+<body>
+
+  <div class="container">
+
+    
+    <div class="wave-group">
+      <input required="" type="text" class="input" id="Matier">
+  <span class="bar"></span>
+  <label class="label">
+    <span class="label-char" style="--index: 0">M</span>
+    <span class="label-char" style="--index: 1">a</span>
+    <span class="label-char" style="--index: 2">t</span>
+    <span class="label-char" style="--index: 3">i</span>
+    <span class="label-char" style="--index: 4">é</span>
+    <span class="label-char" style="--index: 5">r</span>
+    <span class="label-char" style="--index: 6">e</span>
+  </label>
+    </div>
+
+    <div class="wave-group">
+  <input required="" type="text" class="input" id="Name">
+  <span class="bar"></span>
+  <label class="label">
+    <span class="label-char" style="--index: 0">N</span>
+    <span class="label-char" style="--index: 1">a</span>
+    <span class="label-char" style="--index: 2">m</span>
+    <span class="label-char" style="--index: 3">e</span>
+  </label>
+</div>
+
+
+    <div id="div_question">
+       <textarea spellcheck="false"  id="inputText"  placeholder="Question : ..."></textarea>
+<button class="Btn" onclick="searchImage_quest">
+   <svg class="svgIcon" viewBox="0 0 384 512" height="1em" xmlns="http://www.w3.org/2000/svg"><path d="M169.4 470.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 370.8 224 64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 306.7L54.6 265.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"></path></svg>
+   <span class="icon2"></span>
+   <span class="tooltip">Download</span>
+</button>
+</div>
+
+
+  <p id="OutputText"  style="white-space: pre-wrap;"></p>
+
+  <div id="div_question">
+    <textarea spellcheck="false"  id="input_rep"  placeholder="Réponse : ..."></textarea>
+    <button class="Btn" onclick="searchImage_rep">
+   <svg class="svgIcon" viewBox="0 0 384 512" height="1em" xmlns="http://www.w3.org/2000/svg"><path d="M169.4 470.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 370.8 224 64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 306.7L54.6 265.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"></path></svg>
+   <span class="icon2"></span>
+   <span class="tooltip">Download</span>
+</button>
+    </div>
+
+
+  <p id="Output_rep"  style="white-space: pre-wrap;"></p>
+
+  <button class="animated-button" id="btnSave" onclick="save()">
+  <svg viewBox="0 0 24 24" class="arr-2" xmlns="http://www.w3.org/2000/svg">
+    <path
+      d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"
+    ></path>
+  </svg>
+  <span class="text">Modern Button</span>
+  <span class="circle"></span>
+  <svg viewBox="0 0 24 24" class="arr-1" xmlns="http://www.w3.org/2000/svg">
+    <path
+      d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"
+    ></path>
+  </svg>
+</button>
+</div>
+
+
+
+<!-- ########################################################################################### Partie script -->
+
+
+   <script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+  },
+  options: {
+    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+    renderActions: {
+      addMenu: [] // désactive le menu contextuel MathJax
+    }
+  }
+};
+    const textarea = document.getElementById('inputText')
+    const output = document.getElementById('OutputText')
+
+    textarea.addEventListener('input', () => {
+      output.innerHTML = textarea.value;
+      MathJax.typesetPromise([output]);
+    });
+    
+    const textarea_rep = document.getElementById('input_rep')
+    const Output_rep = document.getElementById('Output_rep')
+
+    textarea_rep.addEventListener('input', () => {
+      Output_rep.innerHTML = textarea_rep.value;
+      MathJax.typesetPromise([Output_rep]);
+    });
+  </script>
+  <script src="betterarea.js"></script>
+</body>
+</html>

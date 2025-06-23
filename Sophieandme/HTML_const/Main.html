@@ -12,7 +12,6 @@
         }
 
         p {
-            background: #242424;
             color: white;
             font-size: large;
             width: 30cm;
@@ -20,6 +19,9 @@
             align-self: center;
             margin-left: auto;
             margin-right: auto;
+            field-sizing: content;
+            min-width: 20cm;
+            max-width: 40cm;
         }
 
         textarea {
@@ -32,7 +34,10 @@
             resize: none;
             outline-color: #6C63ff;
             outline: none;
-            width: 30cm;
+            min-width: 20cm;
+            max-width: 40cm;
+            border-radius: 5px;
+            field-sizing: content;
         }
 
         body {
@@ -42,7 +47,7 @@
 </head>
 <body>
     <div>
-        <textarea spellcheck="false" id="inputText" rows="13" cols="50" placeholder="Entrer votre réponse"></textarea>
+        <textarea spellcheck="false" id="inputText" placeholder="Entrer votre réponse..."></textarea>
         <p id="OutputText" style="white-space: pre-wrap;"></p>
     </div>
 
@@ -137,6 +142,8 @@
             editing.value = text;
             editing.selectionStart = editing.selectionEnd = pos;
         });
+
+
 
     </script>
 </body>

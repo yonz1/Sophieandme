@@ -32,6 +32,7 @@ namespace Sophieandme.Pages
         List<string> url_question = new List<string>();
         List<string> url_rep = new List<string>();
 
+
         string conSource = "Data Source=..\\..\\..\\data_restored.db";
         public Landing()
         {
@@ -44,9 +45,20 @@ namespace Sophieandme.Pages
             urif = urif.Replace("\\", "/");
             System.Diagnostics.Debug.WriteLine(urif);
             System.Uri uri1 = new System.Uri(urif);
-            webviewallval.Source = uri1 as System.Uri;
-            webviewallval.Visibility = Visibility.Collapsed;
             Textfront.Content = "Welcome back " + App.Current.Properties["username"];
+
+
+            List<string> Name = ["Physique - Quizz20 : cinématique","Mathématique - Géometrie plane","Ingénieurie ...."];
+            foreach (var name in Name)
+            {
+                Quizz_recent.Items.Add(name);
+            }
+
+            List<string> Colles = ["09/12/24 - Blanquet", "09/12/24 - Fuxa", "09/12/24 - Ndoye"];
+            foreach (var col in Colles)
+            {
+                Colles_listbox.Items.Add(col);
+            }
         }
         private void readdb_chart()
         {
