@@ -111,21 +111,19 @@ namespace Sophieandme.Pages
             var connection = new SQLiteConnection(conSource);
             string valtoreq = "question,reponse,image_question_url, image_answer_url";
             string query = "";
-            if (mat == "Physique")
+            List<String> Matier = ["SI", "Anglais", "Français", "Erreurs", "Mathématiques"];
+
+            if (mat == "all")
             {
-                query = "SELECT " + valtoreq + " from Physique where Marked = 1";
+                query = "SELECT " + valtoreq + " from Physique where Marked = 1 ";
+                foreach (var value in Matier)
+                {
+                    query += " UNION SELECT " + valtoreq + " FROM " + value + " where Marked = 1";
+                }
             }
-            else if (mat == "SI")
+            else
             {
-                query = "SELECT " + valtoreq + " FROM SI where Marked = 1";
-            }
-            else if (mat == "Maths")
-            {
-                query = "SELECT " + valtoreq + " from Mathématiques where Marked = 1";
-            }
-            else if (mat == "all")
-            {
-                query = "SELECT " + valtoreq + " from Physique where Marked = 1 UNION SELECT " + valtoreq + " FROM SI where Marked = 1 UNION SELECT " + valtoreq + " from Mathématiques where Marked = 1";
+                query = "SELECT " + valtoreq + " FROM " + mat +  " where Marked = 1";
             }
             System.Diagnostics.Debug.WriteLine(query);
             try
@@ -200,7 +198,14 @@ namespace Sophieandme.Pages
 
         private void SIM_Click(object sender, RoutedEventArgs e)
         {
-            
+            Maths_label.Visibility = Visibility.Collapsed;
+            Physique_label.Visibility = Visibility.Collapsed;
+            SI_label.Visibility = Visibility.Visible;
+            Français_label.Visibility = Visibility.Collapsed;
+            Anglais_label.Visibility = Visibility.Collapsed;
+            Erreurs_label.Visibility = Visibility.Collapsed;
+            All_label.Visibility = Visibility.Collapsed;
+            Quizz_label.Visibility = Visibility.Collapsed;
             string mat = "SI";
             Generatevalue(mat);
             string urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Marked" + mat + ".html";
@@ -214,7 +219,14 @@ namespace Sophieandme.Pages
 
         private void AllM_Click(object sender, RoutedEventArgs e)
         {
-            
+            Maths_label.Visibility = Visibility.Collapsed;
+            Physique_label.Visibility = Visibility.Collapsed;
+            SI_label.Visibility = Visibility.Collapsed;
+            Français_label.Visibility = Visibility.Collapsed;
+            Anglais_label.Visibility = Visibility.Collapsed;
+            Erreurs_label.Visibility = Visibility.Collapsed;
+            All_label.Visibility = Visibility.Visible;
+            Quizz_label.Visibility = Visibility.Collapsed;
             string mat = "all";
             Generatevalue(mat);
             string urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Marked" + mat + ".html";
@@ -228,7 +240,14 @@ namespace Sophieandme.Pages
 
         private void PhysiqueM_Click(object sender, RoutedEventArgs e)
         {
-            
+            Maths_label.Visibility = Visibility.Collapsed;
+            Physique_label.Visibility = Visibility.Visible;
+            SI_label.Visibility = Visibility.Collapsed;
+            Français_label.Visibility = Visibility.Collapsed;
+            Anglais_label.Visibility = Visibility.Collapsed;
+            Erreurs_label.Visibility = Visibility.Collapsed;
+            All_label.Visibility = Visibility.Collapsed;
+            Quizz_label.Visibility = Visibility.Collapsed;
             string mat = "Physique";
             Generatevalue(mat);
             string urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Marked" + mat + ".html";
@@ -242,8 +261,15 @@ namespace Sophieandme.Pages
 
         private void MathsM_Click(object sender, RoutedEventArgs e)
         {
-            
-            string mat = "Maths";
+            Maths_label.Visibility = Visibility.Visible;
+            Physique_label.Visibility = Visibility.Collapsed;
+            SI_label.Visibility = Visibility.Collapsed;
+            Français_label.Visibility = Visibility.Collapsed;
+            Anglais_label.Visibility = Visibility.Collapsed;
+            Erreurs_label.Visibility = Visibility.Collapsed;
+            All_label.Visibility = Visibility.Collapsed;
+            Quizz_label.Visibility = Visibility.Collapsed;
+            string mat = "Mathématiques";
             Generatevalue(mat);
             string urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Marked" + mat + ".html";
             urif = urif.Replace("\\", "/");
@@ -256,6 +282,14 @@ namespace Sophieandme.Pages
 
         private void Quizz_Click(object sender, RoutedEventArgs e)
         {
+            Maths_label.Visibility = Visibility.Collapsed;
+            Physique_label.Visibility = Visibility.Collapsed;
+            SI_label.Visibility = Visibility.Collapsed;
+            Français_label.Visibility = Visibility.Collapsed;
+            Anglais_label.Visibility = Visibility.Collapsed;
+            Erreurs_label.Visibility = Visibility.Collapsed;
+            All_label.Visibility = Visibility.Collapsed;
+            Quizz_label.Visibility = Visibility.Visible;
             webviewall.Visibility = Visibility.Collapsed;
             ButtonContainer.Visibility = Visibility.Visible;
             Showbutton(sender);
@@ -267,7 +301,7 @@ namespace Sophieandme.Pages
             ButtonContainer.Children.Clear();
             Name.Clear();
             var connection = new SQLiteConnection(conSource);
-            List<string> Matier = ["Mathématiques", "Physique", "SI"];
+            List<string> Matier = ["Physique","SI", "Anglais", "Français", "Erreurs", "Mathématiques"];
             try
             {
                 connection.Open();
@@ -871,6 +905,68 @@ namespace Sophieandme.Pages
             }
         }
 
+        private void Français_Checked(object sender, RoutedEventArgs e)
+        {
+            string mat = "Français";
+            Generatevalue(mat);
+            string urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Marked" + mat + ".html";
+            urif = urif.Replace("\\", "/");
+            System.Diagnostics.Debug.WriteLine(urif);
+            System.Uri uri1 = new System.Uri(urif);
+            webviewall.Source = uri1 as System.Uri;
+            webviewall.Visibility = Visibility.Visible;
+            ButtonContainer.Visibility = Visibility.Collapsed;
+            Maths_label.Visibility = Visibility.Collapsed;
+            Physique_label.Visibility = Visibility.Collapsed;
+            SI_label.Visibility = Visibility.Collapsed;
+            Français_label.Visibility = Visibility.Visible;
+            Anglais_label.Visibility = Visibility.Collapsed;
+            Erreurs_label.Visibility = Visibility.Collapsed;
+            All_label.Visibility = Visibility.Collapsed;
+            Quizz_label.Visibility = Visibility.Collapsed;
+        }
+
+        private void Anglais_Checked(object sender, RoutedEventArgs e)
+        {
+            string mat = "Anglais";
+            Generatevalue(mat);
+            string urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Marked" + mat + ".html";
+            urif = urif.Replace("\\", "/");
+            System.Diagnostics.Debug.WriteLine(urif);
+            System.Uri uri1 = new System.Uri(urif);
+            webviewall.Source = uri1 as System.Uri;
+            webviewall.Visibility = Visibility.Visible;
+            ButtonContainer.Visibility = Visibility.Collapsed;
+            Maths_label.Visibility = Visibility.Collapsed;
+            Physique_label.Visibility = Visibility.Collapsed;
+            SI_label.Visibility = Visibility.Collapsed;
+            Français_label.Visibility = Visibility.Collapsed;
+            Anglais_label.Visibility = Visibility.Visible;
+            Erreurs_label.Visibility = Visibility.Collapsed;
+            All_label.Visibility = Visibility.Collapsed;
+            Quizz_label.Visibility = Visibility.Collapsed;
+        }
+
+        private void Erreur_Checked(object sender, RoutedEventArgs e)
+        {
+            string mat = "Erreurs";
+            Generatevalue(mat);
+            string urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Marked" + mat + ".html";
+            urif = urif.Replace("\\", "/");
+            System.Diagnostics.Debug.WriteLine(urif);
+            System.Uri uri1 = new System.Uri(urif);
+            webviewall.Source = uri1 as System.Uri;
+            webviewall.Visibility = Visibility.Visible;
+            ButtonContainer.Visibility = Visibility.Collapsed;
+            Maths_label.Visibility = Visibility.Collapsed;
+            Physique_label.Visibility = Visibility.Collapsed;
+            SI_label.Visibility = Visibility.Collapsed;
+            Français_label.Visibility = Visibility.Collapsed;
+            Anglais_label.Visibility = Visibility.Collapsed;
+            Erreurs_label.Visibility = Visibility.Visible;
+            Quizz_label.Visibility = Visibility.Collapsed;
+            All_label.Visibility = Visibility.Collapsed;
+        }
 
     }
 }

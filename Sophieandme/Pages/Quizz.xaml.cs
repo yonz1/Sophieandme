@@ -813,6 +813,7 @@ namespace Sophieandme.Pages
        
         private void Français_Checked(object sender, RoutedEventArgs e)
         {
+            Updateform(Français, e);
             Maths_label.Visibility = Visibility.Collapsed;
             Physique_label.Visibility = Visibility.Collapsed;
             SI_label.Visibility = Visibility.Collapsed;
@@ -824,6 +825,7 @@ namespace Sophieandme.Pages
 
         private void Anglais_Checked(object sender, RoutedEventArgs e)
         {
+            Updateform(Anglais, e);
             Maths_label.Visibility = Visibility.Collapsed;
             Physique_label.Visibility = Visibility.Collapsed;
             SI_label.Visibility = Visibility.Collapsed;
@@ -835,6 +837,7 @@ namespace Sophieandme.Pages
 
         private void Erreur_Checked(object sender, RoutedEventArgs e)
         {
+            Updateform(Erreur, e);
             Maths_label.Visibility = Visibility.Collapsed;
             Physique_label.Visibility = Visibility.Collapsed;
             SI_label.Visibility = Visibility.Collapsed;

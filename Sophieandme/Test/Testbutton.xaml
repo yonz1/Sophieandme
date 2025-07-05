@@ -8,8 +8,8 @@
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="Testbutton"
-    d:DesignHeight="450"
-    d:DesignWidth="800"
+    d:DesignHeight="50"
+    d:DesignWidth="200"
     mc:Ignorable="d">
 
 
@@ -22,31 +22,55 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
-    <Grid>
-        <!--<Button Background="Black" Style="{StaticResource Round_quizzselect}" />-->
-        <RadioButton
-            Name="Quizz"
-            Width="120"
-            Margin="0,40,0,0"
+    <Grid Background="Black">
+        <Label
+            x:Name="Maths_btn"
+            Margin="5,0,0,0"
+            Padding="0,0,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            HorizontalContentAlignment="left"
+            VerticalContentAlignment="Center"
+            Background="Black"
+            Content="Mathématiques"
+            FontFamily="Sans Serif Collection"
+            FontSize="6"
+            Foreground="#E5FFFFFF" />
+        <Rectangle
+            Width="44"
+            Height="3"
+            Margin="5,29,0,0"
+            HorizontalAlignment="Left"
             VerticalAlignment="Top"
-            BorderBrush="MediumPurple"
-            BorderThickness="10,0,0,0"
-            
-            DockPanel.Dock="Top"
-            Foreground="Gainsboro"
-            Style="{StaticResource NewMButtton}">
-            <StackPanel Orientation="Horizontal">
-                <fs:IconImage
-                    Margin="35,0,0,0"
-                    Foreground="{StaticResource Iconcolor}"
-                    Icon="UserGraduate"
-                    Style="{StaticResource NewMButtonIcon}" />
-                <TextBlock
-                    Margin="20,0,0,0"
-                    Foreground="{StaticResource Textcolor}"
-                    Style="{StaticResource NewMButtonText}"
-                    Text="Quizz" />
-            </StackPanel>
-        </RadioButton>
+            Fill="White"
+            Stroke="Black" />
+        <fs:IconImage
+            Width="30"
+            Height="30"
+            Margin="168,16,2,4"
+            Icon="Superscript"
+            Opacity="0.5"
+            RenderTransformOrigin="0.5,0.5"
+            Style="{StaticResource TopButtonIconrad}">
+            <fs:IconImage.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform />
+                    <SkewTransform />
+                    <RotateTransform Angle="18.311" />
+                    <TranslateTransform />
+                </TransformGroup>
+            </fs:IconImage.RenderTransform>
+            <fs:IconImage.Foreground>
+                <SolidColorBrush Opacity="1" Color="White" />
+            </fs:IconImage.Foreground>
+            <fs:IconImage.Effect>
+                <DropShadowEffect
+                    BlurRadius="100"
+                    Direction="210"
+                    Opacity="1"
+                    ShadowDepth="0"
+                    Color="#FF4252D8" />
+            </fs:IconImage.Effect>
+        </fs:IconImage>
     </Grid>
 </Page>

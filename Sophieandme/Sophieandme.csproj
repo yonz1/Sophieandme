@@ -16,6 +16,7 @@
     <None Remove="images\Lofi_Girl_logo_2024-removebg-preview.png" />
     <None Remove="milad-fakurian-_S-zZyQiOr8-unsplash.jpg" />
     <None Remove="Ryan-Gosling_0.jpg" />
+    <None Remove="Test\artworks-PrZDML5iUTjvD0Qk-3OpjrQ-t500x500.jpg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -52,6 +53,7 @@
     <Resource Include="images\Lofi_Girl_logo_2024-removebg-preview.png" />
     <Resource Include="milad-fakurian-_S-zZyQiOr8-unsplash.jpg" />
     <Resource Include="Ryan-Gosling_0.jpg" />
+    <Resource Include="Test\artworks-PrZDML5iUTjvD0Qk-3OpjrQ-t500x500.jpg" />
   </ItemGroup>
 
 </Project>
