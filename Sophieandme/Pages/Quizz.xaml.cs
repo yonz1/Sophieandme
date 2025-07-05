@@ -180,6 +180,8 @@ namespace Sophieandme.Pages
         }
 
 
+
+
         // ################################################################################################################### Fonction de formation des questions
         private async void questionform(int i)
         {
@@ -563,6 +565,9 @@ namespace Sophieandme.Pages
             tbTime.Visibility = Visibility.Collapsed;
         }
 
+
+
+        
         private void Allresp()
         {
             string start = "<!DOCTYPE html>\r\n<html>\r\n<head>\r\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\r\n   <style>\r\n  img{\r\n  max-width: 60%;\r\n  max-height: 60%;\r\n  max-height: 7cm;\r\n  margin-top: 0.4cm;\r\n  border-radius: 3%;\r\n} .card {\r\n    margin-top: 0.2cm;\r\n     margin-left: 0.2cm;  \r\n box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);\r\n  transition: 0.3s;\r\n    background-color: #" + App.Current.Properties["html_back_rep"] + ";\r\n   width: 40%;\r\n  border-radius: 5px;\r\n  display: inline-block;\r\n  max-width: 13cm;\r\n}\r\n\r p {\r\n    color: " + App.Current.Properties["html_text"] + ";\r\n    padding: 0.2cm;\r\n  }\r\n   \n.card:hover {\r\n  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);\r\n}\r\n\r\n\r\n.container {\r\n  padding: 2px 16px;\r\n}" + "body {\r\n    color: #" + App.Current.Properties["html_back_rep"] + ";\r\n    background-color: #" + App.Current.Properties["html_back"] + ";\r\n}\r\n" + " \r\n</style>\r\n</head>\r\n<body> <script id=\"MathJax-script\" async src=\"https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js\"> </script> \r\n ";
@@ -591,8 +596,13 @@ namespace Sophieandme.Pages
             path = path.Replace("/", "\\");
             System.Diagnostics.Debug.WriteLine(path);
             File.WriteAllText(path, start);
-
         }
+
+
+
+
+
+
 
         private void Timer_Checked(object sender, RoutedEventArgs e)
         {
@@ -705,15 +715,37 @@ namespace Sophieandme.Pages
         private void RadioButton_Checked(object sender, RoutedEventArgs e)
         {
             Updateform(Maths,e);
+            Maths_label.Visibility = Visibility.Visible;
+            Physique_label.Visibility = Visibility.Collapsed;
+            SI_label.Visibility = Visibility.Collapsed;
+            Français_label.Visibility = Visibility.Collapsed;
+            Anglais_label.Visibility = Visibility.Collapsed;
+            Erreurs_label.Visibility = Visibility.Collapsed;
+            All_label.Visibility = Visibility.Collapsed;
+            
         }
         private void Physique_Checked(object sender, RoutedEventArgs e)
         {
             Updateform(Physique, e);
+            Maths_label.Visibility = Visibility.Collapsed;
+            Physique_label.Visibility = Visibility.Visible;
+            SI_label.Visibility = Visibility.Collapsed;
+            Français_label.Visibility = Visibility.Collapsed;
+            Anglais_label.Visibility = Visibility.Collapsed;
+            Erreurs_label.Visibility = Visibility.Collapsed;
+            All_label.Visibility = Visibility.Collapsed;
         }
 
         private void Si_Checked(object sender, RoutedEventArgs e)
         {
             Updateform(SI, e);
+            Maths_label.Visibility = Visibility.Collapsed;
+            Physique_label.Visibility = Visibility.Collapsed;
+            SI_label.Visibility = Visibility.Visible;
+            Français_label.Visibility = Visibility.Collapsed;
+            Anglais_label.Visibility = Visibility.Collapsed;
+            Erreurs_label.Visibility = Visibility.Collapsed;
+            All_label.Visibility = Visibility.Collapsed;
         }
 
         private void All_Checked(object sender, RoutedEventArgs e)
@@ -724,7 +756,17 @@ namespace Sophieandme.Pages
             List<string> Matier = ["Mathématiques", "Physique", "SI"];
             ChargerButton(Matier,sender);
             App.Current.Properties["matier"] = "all";
+            Maths_label.Visibility = Visibility.Collapsed;
+            Physique_label.Visibility = Visibility.Collapsed;
+            SI_label.Visibility = Visibility.Collapsed;
+            Français_label.Visibility = Visibility.Collapsed;
+            Anglais_label.Visibility = Visibility.Collapsed;
+            Erreurs_label.Visibility = Visibility.Collapsed;
+            All_label.Visibility = Visibility.Visible;
         }
+
+
+
 
         private async void webviewques_NavigationCompleted(object sender, Microsoft.Web.WebView2.Core.CoreWebView2NavigationCompletedEventArgs e)
         {
@@ -766,6 +808,40 @@ namespace Sophieandme.Pages
         {
             System.Windows.Window win = new Response_paper();
             win.Show();
+        }
+
+       
+        private void Français_Checked(object sender, RoutedEventArgs e)
+        {
+            Maths_label.Visibility = Visibility.Collapsed;
+            Physique_label.Visibility = Visibility.Collapsed;
+            SI_label.Visibility = Visibility.Collapsed;
+            Français_label.Visibility = Visibility.Visible;
+            Anglais_label.Visibility = Visibility.Collapsed;
+            Erreurs_label.Visibility = Visibility.Collapsed;
+            All_label.Visibility = Visibility.Collapsed;
+        }
+
+        private void Anglais_Checked(object sender, RoutedEventArgs e)
+        {
+            Maths_label.Visibility = Visibility.Collapsed;
+            Physique_label.Visibility = Visibility.Collapsed;
+            SI_label.Visibility = Visibility.Collapsed;
+            Français_label.Visibility = Visibility.Collapsed;
+            Anglais_label.Visibility = Visibility.Visible;
+            Erreurs_label.Visibility = Visibility.Collapsed;
+            All_label.Visibility = Visibility.Collapsed;
+        }
+
+        private void Erreur_Checked(object sender, RoutedEventArgs e)
+        {
+            Maths_label.Visibility = Visibility.Collapsed;
+            Physique_label.Visibility = Visibility.Collapsed;
+            SI_label.Visibility = Visibility.Collapsed;
+            Français_label.Visibility = Visibility.Collapsed;
+            Anglais_label.Visibility = Visibility.Collapsed;
+            Erreurs_label.Visibility = Visibility.Visible;
+            All_label.Visibility = Visibility.Collapsed;
         }
     }
 }

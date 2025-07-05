@@ -4,6 +4,7 @@ using System.Windows.Data;
 
 namespace Sophieandme.Helper
 {
+
     public class IsLessThanConverter : IValueConverter
     {
         public static readonly IValueConverter Instance = new IsLessThanConverter();

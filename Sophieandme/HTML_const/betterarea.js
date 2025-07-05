@@ -1,3 +1,7 @@
+img_question = "";
+img_rep = "";
+
+
 const wordReplacements = {
   "sum": "\\sum_{k}^{n}",
   "prod": "\\prod_{k}^{n}",
@@ -65,18 +69,125 @@ window.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('textarea').forEach(setupInputBehavior);
 });
 
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+  },
+  options: {
+    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+    renderActions: {
+      addMenu: [] // désactive le menu contextuel MathJax
+    }
+  }
+};
+    const textarea = document.getElementById('inputText')
+    const output = document.getElementById('OutputText')
+
+    textarea.addEventListener('input', () => {
+      output.innerHTML = textarea.value;
+      MathJax.typesetPromise([output]);
+    });
+    
+    const textarea_rep = document.getElementById('input_rep')
+    const Output_rep = document.getElementById('Output_rep')
+
+    textarea_rep.addEventListener('input', () => {
+      Output_rep.innerHTML = textarea_rep.value;
+      MathJax.typesetPromise([Output_rep]);
+    });
 
 
-function save(){
-  const matier = document.getElementById("Matier").value;
-  const name = document.getElementById("Name").value;
-  const question = document.getElementById("inputText").value;
-  // const quest_img = document.getElementById("ques_imt").value;
-  const quest_img = 0
-  const rep = document.getElementById("input_rep").value;
-  // const rep_img = document.getElementById("rep_imt").value;
-  const rep_img = 0
+document.getElementById('searchImage_quest').addEventListener('click', function()
+{
+  document.getElementById('fileInput').click();
+});
 
-  const data = {matier, name, question,quest_img,rep,rep_img};
-  window.chrome.webview.postMessage(data);
+document.getElementById('searchImage_rep').addEventListener('click', function()
+{
+  document.getElementById('fileInpu_rept').click();
+});
+
+
+function save(button) {
+   const action = "save";
+   const matier = document.getElementById("Matier").value;
+   const name = document.getElementById("Name").value;
+   const question = document.getElementById("inputText").value;
+   const rep = document.getElementById("input_rep").value;
+  console.log(matier);
+  console.log(name);
+  console.log(question);
+  console.log(rep);
+  console.log(img_question); 
+  console.log(img_rep);
+
+
+
+    const data = { action, matier, name, question, img_question, rep, img_rep };
+    document.querySelectorAll('input,textarea').forEach(el => el.value = "");
+    const textarea = document.getElementById('inputText')
+    const output = document.getElementById('OutputText')
+    Output_rep.innerHTML = textarea_rep.value;
+    output.innerHTML = textarea.value;
+    window.chrome.webview.postMessage(data);
 }
+
+document.getElementById("btnclear").addEventListener("click",function() {
+  document.querySelectorAll('input,textarea').forEach(el => el.value = "");
+      const textarea = document.getElementById('inputText')
+    const output = document.getElementById('OutputText')
+  Output_rep.innerHTML = textarea_rep.value;
+  output.innerHTML = textarea.value;
+});
+
+
+
+document.getElementById('fileInpu_rept').addEventListener('change', function (event) {
+  const file = event.target.files[0];
+  const banner = document.getElementById('rep_img');
+
+  if (file && file.type.startsWith('image/')) {
+    const reader = new FileReader();
+
+    reader.onload = function (e) {
+      img_rep = e.target.result; 
+      // banner.src = e.target.result;
+      // banner.style.maxWidth = "10cm"; 
+      // banner.style.height = "auto";   
+      // banner.style.maxHeight = "10cm"; 
+    };
+
+    reader.readAsDataURL(file);
+  } else {
+    alert("Veuillez sélectionner une image.");
+  }
+});
+
+
+
+
+document.getElementById('fileInput').addEventListener('change', function (event) {
+  const file = event.target.files[0];
+  const banner = document.getElementById('ques_img');
+
+  if (file && file.type.startsWith('image/')) {
+    const reader = new FileReader();
+
+    reader.onload = function (e) {
+      img_question = e.target.result; 
+      // banner.src = e.target.result;
+      // banner.style.maxWidth = "10cm"; 
+      // banner.style.height = "auto";   
+      // banner.style.maxHeight = "10cm"; 
+    };
+
+    reader.readAsDataURL(file);
+  } else {
+    alert("Veuillez sélectionner une image.");
+  }
+});
+console.log(document.getElementById("input").files[0]);
+
+
+

@@ -37,8 +37,7 @@
         </Grid.RowDefinitions>
         <Border
             Height="50"
-            Margin="508,0,0,0"
-            HorizontalAlignment="Left"
+            HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Background="{StaticResource main_background}"
             BorderThickness="2"
@@ -73,14 +72,16 @@
                     materialDesign:ButtonAssist.CornerRadius="20"
                     Background="Transparent"
                     Click="custom_but_Click"
-                    Content="Dossier"
+                    Content="Created"
                     DockPanel.Dock="Left"
                     Foreground="{StaticResource Textcolor}"
                     Style="{StaticResource topquizzmat}"
                     Tag="Physique" />
-
             </DockPanel>
         </Border>
+
+
+        <!--  ################################################################################################################# Interface de création de quizz  -->
 
         <Grid
             x:Name="Create_grid"
@@ -91,12 +92,11 @@
                     x:Name="webviewall"
                     Grid.Row="1"
                     Grid.ColumnSpan="2"
-                    Margin="30,30,30,30"
                     Source="file:///C:/Users/Bastien/source/repos/Sophieandme/Sophieandme/Math.html" />
             </DockPanel>
         </Grid>
 
-
+        <!--  ################################################################################################################# Interface de choix de dossier et de quizz  -->
 
         <Grid
             x:Name="custom_folder_grid"
@@ -107,15 +107,58 @@
                 Grid.ColumnSpan="2"
                 Margin="-10,0,10,0"
                 VerticalScrollBarVisibility="Hidden">
-                <WrapPanel
-                    x:Name="Quizzcontain"
-                    Grid.Row="1"
-                    Margin="0,30,0,0"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Orientation="Horizontal" />
+                <Grid>
+                    <DockPanel>
+                        <DockPanel
+                            x:Name="Return_panel"
+                            Height="50"
+                            VerticalAlignment="Top"
+                            DockPanel.Dock="Top"
+                            Visibility="Collapsed">
+                            <Button
+                                x:Name="return_btn"
+                                Width="120"
+                                Height="40"
+                                HorizontalAlignment="Left"
+                                Click="return_btn_Click"
+                                DockPanel.Dock="Top"
+                                Foreground="Gainsboro"
+                                Style="{StaticResource MaterialDesignFlatButton}">
+                                <StackPanel Orientation="Horizontal">
+                                    <fs:IconImage
+                                        Width="20"
+                                        Height="20"
+                                        Foreground="{Binding RelativeSource={RelativeSource AncestorType={x:Type Button}}, Path=Foreground}"
+                                        Icon="ArrowLeft" />
+                                    <TextBlock
+                                        Margin="15,0,0,0"
+                                        VerticalAlignment="Center"
+                                        FontSize="13"
+                                        Text="Matières" />
+                                </StackPanel>
+                            </Button>
+                        </DockPanel>
+                        <WrapPanel
+                            x:Name="Quizzcontain"
+                            Grid.Row="1"
+                            Margin="0,30,0,0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Top"
+                            Orientation="Horizontal" />
+                        <wv2:WebView2
+                            x:Name="webview_added"
+                            Grid.Row="1"
+                            Grid.ColumnSpan="2"
+                            Margin="20"
+                            DockPanel.Dock="Top"
+                            Source="file:///C:/Users/Bastien/source/repos/Sophieandme/Sophieandme/Math.html"
+                            Visibility="Collapsed" />
+                    </DockPanel>
+                </Grid>
             </ScrollViewer>
+
         </Grid>
 
+        <!--  ################################################################################ Interface de quizz  -->
     </Grid>
 </Page>

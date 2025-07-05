@@ -45,73 +45,284 @@
 
 
             <Border
-                Width="530"
                 Height="50"
+                HorizontalAlignment="Center"
                 Background="{StaticResource main_background}"
                 BorderThickness="2"
                 CornerRadius="20">
                 <DockPanel
-                    Height="60"
+                    Height="50"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Background="Transparent"
                     LastChildFill="True">
                     <RadioButton
                         x:Name="Maths"
-                        Width="120"
+                        Width="55"
                         Height="40"
-                        Margin="5,0,5,0"
+                        Margin="2.5,0,0,0"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         materialDesign:ButtonAssist.CornerRadius="20"
                         Checked="RadioButton_Checked"
-                        Content="Maths"
                         DockPanel.Dock="Left"
                         Foreground="{StaticResource Textcolor}"
                         Style="{StaticResource topquizzmat}"
-                        Tag="Mathématiques" />
+                        Tag="Mathématiques">
+                        <StackPanel
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal">
+                            <fs:IconImage
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Foreground="{StaticResource Iconcolor}"
+                                Icon="Superscript"
+                                Style="{StaticResource NewMButtonIcon}" />
+                        </StackPanel>
+                    </RadioButton>
+                    <Label
+                        x:Name="Maths_label"
+                        Margin="0,0,2.5,0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Content="Maths"
+                        FontSize="16"
+                        FontWeight="Bold"
+                        Foreground="{StaticResource Textcolor}"
+                        Visibility="Collapsed" />
+
+
+
                     <RadioButton
                         x:Name="Physique"
-                        Width="120"
+                        Width="55"
                         Height="40"
-                        Margin="5,0,5,0"
+                        Margin="2.5,0,0,0"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         materialDesign:ButtonAssist.CornerRadius="20"
                         Checked="Physique_Checked"
-                        Content="Physique"
                         DockPanel.Dock="Left"
                         Foreground="{StaticResource Textcolor}"
                         Style="{StaticResource topquizzmat}"
-                        Tag="Physique" />
+                        Tag="Physique">
+                        <StackPanel
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal">
+                            <fs:IconImage
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Foreground="{StaticResource Iconcolor}"
+                                Icon="Atom"
+                                Style="{StaticResource NewMButtonIcon}" />
+                        </StackPanel>
+                    </RadioButton>
+                    <Label
+                        x:Name="Physique_label"
+                        Margin="0,0,2.5,0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Content="Physique"
+                        FontSize="16"
+                        FontWeight="Bold"
+                        Foreground="{StaticResource Textcolor}"
+                        Visibility="Collapsed" />
+
+
+
+
                     <RadioButton
                         x:Name="SI"
-                        Width="120"
+                        Width="55"
                         Height="40"
-                        Margin="5,0,5,0"
+                        Margin="2.5,0,0,0"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         materialDesign:ButtonAssist.CornerRadius="20"
                         Checked="Si_Checked"
-                        Content="SI"
                         DockPanel.Dock="Left"
                         Foreground="{StaticResource Textcolor}"
                         Style="{StaticResource topquizzmat}"
-                        Tag="SI" />
+                        Tag="SI">
+                        <StackPanel
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal">
+                            <fs:IconImage
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Foreground="{StaticResource Iconcolor}"
+                                Icon="Gears"
+                                Style="{StaticResource NewMButtonIcon}" />
+                        </StackPanel>
+                    </RadioButton>
+                    <Label
+                        x:Name="SI_label"
+                        Margin="0,0,2.5,0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Content="SI"
+                        FontSize="16"
+                        FontWeight="Bold"
+                        Foreground="{StaticResource Textcolor}"
+                        Visibility="Collapsed" />
+
+
+
+
+                    <RadioButton
+                        x:Name="Français"
+                        Width="55"
+                        Height="40"
+                        Margin="2.5,0,0,0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        materialDesign:ButtonAssist.CornerRadius="20"
+                        Checked="Français_Checked"
+                        DockPanel.Dock="Left"
+                        Foreground="{StaticResource Textcolor}"
+                        Style="{StaticResource topquizzmat}"
+                        Tag="Français">
+                        <StackPanel
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal">
+                            <fs:IconImage
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Foreground="{StaticResource Iconcolor}"
+                                Icon="Book"
+                                Style="{StaticResource NewMButtonIcon}" />
+                        </StackPanel>
+                    </RadioButton>
+                    <Label
+                        x:Name="Français_label"
+                        Margin="0,0,2.5,0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Content="Français"
+                        FontSize="16"
+                        FontWeight="Bold"
+                        Foreground="{StaticResource Textcolor}"
+                        Visibility="Collapsed" />
+
+
+
+
+
+                    <RadioButton
+                        x:Name="Anglais"
+                        Width="55"
+                        Height="40"
+                        Margin="2.5,0,0,0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        materialDesign:ButtonAssist.CornerRadius="20"
+                        Checked="Anglais_Checked"
+                        DockPanel.Dock="Left"
+                        Foreground="{StaticResource Textcolor}"
+                        Style="{StaticResource topquizzmat}"
+                        Tag="Anglais">
+                        <StackPanel
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal">
+                            <fs:IconImage
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Foreground="{StaticResource Iconcolor}"
+                                Icon="EarthAmericas"
+                                Style="{StaticResource NewMButtonIcon}" />
+                        </StackPanel>
+                    </RadioButton>
+                    <Label
+                        x:Name="Anglais_label"
+                        Margin="0,0,2.5,0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Content="Anglais"
+                        FontSize="16"
+                        FontWeight="Bold"
+                        Foreground="{StaticResource Textcolor}"
+                        Visibility="Collapsed" />
+
+
+
+
+
+                    <RadioButton
+                        x:Name="Erreur"
+                        Width="55"
+                        Height="40"
+                        Margin="2.5,0,0,0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        materialDesign:ButtonAssist.CornerRadius="20"
+                        Checked="Erreur_Checked"
+                        DockPanel.Dock="Left"
+                        Foreground="{StaticResource Textcolor}"
+                        Style="{StaticResource topquizzmat}"
+                        Tag="Erreurs">
+                        <StackPanel
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal">
+                            <fs:IconImage
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Foreground="{StaticResource Iconcolor}"
+                                Icon="Superpowers"
+                                Style="{StaticResource NewMButtonIcon}" />
+                        </StackPanel>
+                    </RadioButton>
+                    <Label
+                        x:Name="Erreurs_label"
+                        Margin="0,0,2.5,0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Content="Erreurs"
+                        FontSize="16"
+                        FontWeight="Bold"
+                        Foreground="{StaticResource Textcolor}"
+                        Visibility="Collapsed" />
+
                     <RadioButton
                         x:Name="All"
-                        Width="120"
+                        Width="55"
                         Height="40"
-                        Margin="5,0,5,0"
+                        Margin="2.5,0,0,0"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         materialDesign:ButtonAssist.CornerRadius="20"
                         Checked="All_Checked"
-                        Content="All"
                         DockPanel.Dock="Left"
                         Foreground="{StaticResource Textcolor}"
                         Style="{StaticResource topquizzmat}"
-                        Tag="All" />
+                        Tag="All">
+                        <StackPanel
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal">
+                            <fs:IconImage
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Foreground="{StaticResource Iconcolor}"
+                                Icon="Landmark"
+                                Style="{StaticResource NewMButtonIcon}" />
+                        </StackPanel>
+                    </RadioButton>
+                    <Label
+                        x:Name="All_label"
+                        Margin="0,0,2.5,0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Content="All"
+                        FontSize="16"
+                        FontWeight="Bold"
+                        Foreground="{StaticResource Textcolor}"
+                        Visibility="Collapsed" />
                 </DockPanel>
             </Border>
             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Hidden">
