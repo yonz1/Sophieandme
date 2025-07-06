@@ -55,6 +55,7 @@ using System.Drawing;
 using MaterialDesignThemes.Wpf;
 using Microsoft.Web.WebView2.Core;
 using System.Windows.Media.Media3D;
+using System.Diagnostics.Metrics;
 
 
 
@@ -329,8 +330,6 @@ namespace Sophieandme.Pages
 
         private async void Reponse_button_Click(object sender, RoutedEventArgs e)
         {
-
-
             webviewrep.Visibility=Visibility.Visible;
             string urif = "";
             create(repnse[i].ToString(), i, "r");
@@ -358,9 +357,6 @@ namespace Sophieandme.Pages
             webviewrep.Source = uri1 as System.Uri;
             Reponse_button.Visibility = Visibility.Collapsed;
             Next_button.Visibility = Visibility.Visible;
-
-
-
         }
 
 
@@ -369,11 +365,30 @@ namespace Sophieandme.Pages
         private void Next_button_Click(object sender, RoutedEventArgs e)
         {
             i++;
+            string query = "";
             if (i == id.Count)
             {
                 i = 0;
                 Question.Visibility = Visibility.Collapsed;
                 Endquizz.Visibility = Visibility.Visible;
+                try
+                {
+                    using (SQLiteConnection c = new SQLiteConnection(conSource))
+                    {
+                        c.Open();
+                        query = "UPDATE " + App.Current.Properties["matier"].ToString() + " SET Ended='1' WHERE name = \"" + App.Current.Properties["nameindex"].ToString() + "\"";
+                        System.Diagnostics.Debug.WriteLine(query);
+                        using (SQLiteCommand cmd = new SQLiteCommand(query, c))
+                        {
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+                }
+                catch
+                {
+                    System.Diagnostics.Debug.WriteLine("Error occured while loging the data");
+                }
+
             }
             else
             {
@@ -402,13 +417,10 @@ namespace Sophieandme.Pages
                 query = "SELECT id,question,reponse,image_question_url,image_answer_url,difficulty,Marked FROM " + nameindex;
                 App.Current.Properties["matier"] = nameindex;
             }
-
             else
             {
                 query = "SELECT id,question,reponse,image_question_url,image_answer_url,difficulty,Marked  FROM " + App.Current.Properties["matier"].ToString() + " WHERE name = \"" + nameindex + "\"";
             }
-
-
             try
             {
                 connection.Open();
@@ -431,9 +443,6 @@ namespace Sophieandme.Pages
                     Adifficulty.Add(reader.GetString(5));
                     AMarked.Add(reader.GetString(6));
                 }
-
-
-                
             }
             catch (Exception ex)
             {
@@ -441,24 +450,6 @@ namespace Sophieandme.Pages
                 System.Diagnostics.Debug.WriteLine(ex.ToString());
             }
         }
-        
-
-
-
-        //###################################################################################### Récupération des infos dans la base de données 
-        //private void Testbox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        //{
-        //    _stopwatch.Reset();
-        //    _stopwatch.Start();
-        //    _timer.Start();
-        //    string nameindex = //Testbox.SelectedItem.ToString();
-        //    System.Diagnostics.Debug.WriteLine(nameindex);
-        //    App.Current.Properties["nameindex"] =  nameindex;
-        //    retrievequizz(nameindex);
-        //    shuffle();
-        //    questionform(i);
-        //    Quizzgrid.Visibility = Visibility.Collapsed;
-        //}
 
         private void Back_quizz_Click(object sender, RoutedEventArgs e)
         {
@@ -641,6 +632,7 @@ namespace Sophieandme.Pages
 
         private void stopwatchlogic()
         {
+            App.Current.Properties["Timer"] += _stopwatch.ElapsedMilliseconds.ToString();
             _stopwatch.Stop();
             _timer.Stop();
             _stopwatch.Reset();

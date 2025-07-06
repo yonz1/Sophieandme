@@ -106,8 +106,7 @@ namespace Sophieandme
 
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
-
-            // FIle.Delete(@"C:\...");
+            System.Diagnostics.Debug.WriteLine(App.Current.Properties["Timer"]);
             DirectoryInfo d = new DirectoryInfo(@"../../../HTML");
             FileInfo[] Files = d.GetFiles();
             string str = "";

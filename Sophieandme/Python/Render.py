@@ -1,4 +1,5 @@
-﻿import json
+﻿import datetime
+import json
 import sqlite3
 import sys
 import os
@@ -14,6 +15,9 @@ import  yaml
 
 con_i = sqlite3.connect("C:\\Users\\Bastien\\source\\repos\\Sophieandme\\Sophieandme\\data_restored.db")
 cur_i = con_i.cursor()
+
+con_f = sqlite3.connect("C:\\Users\\Bastien\\source\\repos\\Sophieandme\\Sophieandme\\user_value.db")
+curf_f = con_f.cursor()
 
 class util:
     def name(n):
@@ -49,9 +53,10 @@ def replace_none(obj):
 
 
 url = "https://www.sophieand.me/quizzs#"
-cookies = {"laravel_session" : "eyJpdiI6IjZMNlZxdzdxTlwvbFV0cWxuSHNzNzB3PT0iLCJ2YWx1ZSI6IjM2bm9pWWNUYWxQYVlUQVZ2clpBRWdlUWEydmZSdUNWZUN1b28ybGJqRHNVb1VVMDdyeUZ4RGFGZkVLelhvVkdZZUprNlNmZE5adk5NU0xuRjd4VnlRPT0iLCJtYWMiOiJmZTA2NDM2N2YzYWJjNmQ4MTM0ZTY3MzVkYTRhOWRhY2NiMzZjNTQ1NGQ2MDg4NDIxNjllMzU3N2RiMTkxMjFkIn0%3D"}
+cookies = {"laravel_session" : "eyJpdiI6IkIzYklaZUhkYjZQc2VvbU1YYURRSFE9PSIsInZhbHVlIjoiRnQyR1NjcGRWXC9PTUh3K2hmSWRweERlTlVRRDBCdkNOTGU0UkwyVHM1ZTkyWGNzTCsxbUVFMjg3SEsybm5cL0hvcE1MK3VwMXY2U2tDck4wY3VtZnJaUT09IiwibWFjIjoiYTkyZjEyMGJmYjM4NjZmODc1NTRkMzY4NTM2MjgxMmNjMWVjMzU2ZDcyYzgxOWNjZDZlNWE1YTU1MWQ0M2ZjNiJ9"}
 req = requests.get(url, cookies = cookies)
 s = req.text
+print(s)
 start = "ReactDOM.render(React.createElement(window.StudentApp,"
 end = "), document.getElementById('studentApp'));"
 data = find_between(s, start,end)
@@ -111,6 +116,12 @@ for k in idtot:
         exist = cur_i.execute(verifpresence)
         count = str(exist.fetchall()).replace("(", "").replace(")", "").replace("[", "").replace("]", "").replace(",", "")
         if int(count) == 0:
+          value =  datetime.datetime.now()
+          Command = "INSERT INTO Date (Name,Inserted) VALUES (?,?)"
+          val = (name,value)
+          curf_f.execute(Command, val)
+          con_f.commit()
+
           for i in value:
             question = dico2[i]["question"]["question"].encode('utf-8', 'replace').decode()
             answer = dico2[i]["question"]["answer"].encode('utf-8', 'replace').decode()
@@ -147,7 +158,6 @@ for k in idtot:
 ####" Enlever la valeur ), document.getElementById('studentApp')); });
 ####### Supprimer les espaces entre les valeurs 
 ##### Remplacer tout les null par "null", tout les false par "false" et tout les tru par "true"
-
 
 
 

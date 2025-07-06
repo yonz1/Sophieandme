@@ -968,5 +968,7 @@ namespace Sophieandme.Pages
             All_label.Visibility = Visibility.Collapsed;
         }
 
+
+
     }
 }

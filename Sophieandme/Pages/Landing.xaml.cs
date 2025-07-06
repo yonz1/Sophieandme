@@ -18,27 +18,57 @@ using FontAwesome.Sharp;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.IO;
+using System.Security.Cryptography;
 
 namespace Sophieandme.Pages
 {
     /// <summary>
     /// Logique d'interaction pour Landing.xaml
     /// </summary>
+    /// 
+    public static class DateTimeExtensions
+    {
+        public static DateTime StartOfWeek(this DateTime dt, DayOfWeek startOfWeek)
+        {
+            int diff = (7 + (dt.DayOfWeek - startOfWeek)) % 7;
+            return dt.AddDays(-1 * diff).Date;
+        }
+    }
+
     public partial class Landing : Page
     {
+        DateTime localDate = DateTime.Parse("11/03/2025").StartOfWeek(DayOfWeek.Monday);
+        //DateTime dt = DateTime.Now.StartOfWeek(DayOfWeek.Monday);
 
         List<string> question = new List<string>();
         List<string> reponse = new List<string>();
         List<string> url_question = new List<string>();
         List<string> url_rep = new List<string>();
 
+        List<string> Nom = new List<string>();
+        List<string> Date = new List<string>();
+        List<string> heure = new List<string>();
+        List<string> Jours = new List<string>();
+        List<string> Salle = new List<string>();
+        List<string> Matier = new List<string>();
+        List<string> Colles = new List<string>();
+        List<int> Indices = new List<int>();
+
+        List<string> Recent = new List<string>();
 
         string conSource = "Data Source=..\\..\\..\\data_restored.db";
+        string Sourceuser = "Data Source=..\\..\\..\\user_value.db";
+
+
         public Landing()
         {
+
+            App.Current.Properties["Timer"] = 0;
             InitializeComponent();
             readdb_chart();
             readdb();
+            Colles_ret();
+            recent_quizz();
             string mat = "all";
             Generatevalue(mat);
             string urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Marked" + mat + ".html";
@@ -48,18 +78,102 @@ namespace Sophieandme.Pages
             Textfront.Content = "Welcome back " + App.Current.Properties["username"];
 
 
-            List<string> Name = ["Physique - Quizz20 : cinématique","Mathématique - Géometrie plane","Ingénieurie ...."];
-            foreach (var name in Name)
+            int j = 0;
+            foreach (var rec in Recent)
             {
-                Quizz_recent.Items.Add(name);
+                if (j < 5)
+                {
+                    Quizz_recent.Items.Add(rec);
+                    j++;
+                }
             }
 
-            List<string> Colles = ["09/12/24 - Blanquet", "09/12/24 - Fuxa", "09/12/24 - Ndoye"];
+
+            System.Diagnostics.Debug.WriteLine(localDate);
+            proc_colle();
+            int i = 0;
+
             foreach (var col in Colles)
             {
-                Colles_listbox.Items.Add(col);
+                if (i < 5)
+                {
+                    Colles_listbox.Items.Add(col);
+                    i++;
+                }
             }
         }
+
+        private void recent_quizz()
+        {
+            var connection = new SQLiteConnection(Sourceuser);
+            string query = "SELECt Name FROM Date ORDER BY Inserted DESC";
+            try
+            {
+                connection.Open();
+                var command = new SQLiteCommand(query, connection);
+                var reader = command.ExecuteReader();
+                Recent.Clear();
+                while (reader.Read()) 
+                {
+                    Recent.Add(reader.GetString(0));
+                }
+            }
+            catch { }
+        }
+
+
+        private void proc_colle()
+        {
+            for (int i = 0; i < Date.Count; i++)
+            {
+                DateTime actDate = DateTime.Parse(Date[i]);
+                if (localDate <= actDate)
+                {
+                    Indices.Add(i);
+                }
+            }
+            foreach (var indice in  Indices)
+            {
+                System.Diagnostics.Debug.WriteLine(Date[indice].Replace("00:00:00", ""));
+                string txt = Date[indice].Replace("00:00:00","") + " " + Jours[indice] + " " +  heure[indice] + " " + Nom[indice]; 
+                Colles.Add(txt);
+            }
+        }
+
+
+        private void Colles_ret()
+        {
+            var connection = new SQLiteConnection(Sourceuser);
+            string query = "SELECT nom,Date,heure,Jours,Salle,Matiére FROM Colles";
+            try
+            {
+                connection.Open();
+                var command = new SQLiteCommand(query, connection);
+                var reader = command.ExecuteReader();
+                Nom.Clear();
+                Date.Clear();
+                heure.Clear();
+                Jours.Clear();
+                Salle.Clear();
+                Matier.Clear();
+                while (reader.Read())
+                {
+                    Nom.Add(reader.GetString(0));
+                    Date.Add(reader.GetString(1));
+                    heure.Add(reader.GetString(2));
+                    Jours.Add(reader.GetString(3));
+                    Salle.Add(reader.GetString(4));
+                    Matier.Add(reader.GetString(5));
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show(ex.ToString());
+                System.Diagnostics.Debug.WriteLine(ex.ToString());
+            }
+        }
+
+
         private void readdb_chart()
         {
             Values1 = new ChartValues<double> { };
@@ -297,6 +411,12 @@ namespace Sophieandme.Pages
                 return valeurDebut + contenu + valeurFin;
             });
             return questionf;
+        }
+
+
+        private void db_fill()
+        {
+
         }
     }
 }

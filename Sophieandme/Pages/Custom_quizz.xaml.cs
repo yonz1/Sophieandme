@@ -20,6 +20,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Media.TextFormatting;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using static CSharpMath.Rendering.Text.TextAtom;
@@ -126,6 +127,7 @@ namespace Sophieandme.Pages
         private void WebView_WebMessageReceived(object sender, CoreWebView2WebMessageReceivedEventArgs e)
         {
             Quizzcontain.Children.Clear();
+            string Tempsource = "Data Source=..\\..\\..\\user_value.db";
             string json = e.WebMessageAsJson;   
             var data = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(json);
             System.Diagnostics.Debug.WriteLine(data["action"]);
@@ -141,6 +143,9 @@ namespace Sophieandme.Pages
                 string rep = "\"" + data["rep"].ToString() + "\"";
                 string rep_img = "\"" + data["img_rep"].ToString() + "\"";
 
+
+                try
+                {
                 using (SQLiteConnection c = new SQLiteConnection(conSource))
                 {
                     c.Open();
@@ -163,6 +168,42 @@ namespace Sophieandme.Pages
                         }
                     }
                 }
+            }
+            catch
+            {
+                MessageBox.Show("An error occured while saving your quizz");
+            }
+            
+            try
+            {
+                using (SQLiteConnection c = new SQLiteConnection(Tempsource))
+                {
+                    c.Open();
+                    query = "SELECT COUNT(*) FROM Date WHERE  name = " + nom;
+                    System.Diagnostics.Debug.WriteLine(query);
+                    using (SQLiteCommand cmd = new SQLiteCommand(query, c))
+                    {
+                        cmd.ExecuteNonQuery();
+                        long count = (long)cmd.ExecuteScalar();
+                        System.Diagnostics.Debug.WriteLine(count);
+
+                        if (count == 0)
+                        {
+                            query = "INSERT INTO Date (Name,Inserted) VALUES (" + nom + ",\"" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.ffffff") + "\")";
+                            System.Diagnostics.Debug.WriteLine(query);
+                            using (SQLiteCommand insertCmd = new SQLiteCommand(query, c))
+                            {
+                                insertCmd.ExecuteNonQuery();
+                            }
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                System.Diagnostics.Debug.WriteLine("Error occured while loging the data");
+            }
+
 
                 //using (SQLiteConnection c = new SQLiteConnection(conSource))
                 //{
@@ -193,9 +234,18 @@ namespace Sophieandme.Pages
                         cmd.ExecuteNonQuery();
                     }
                 }
+
+                query = "DELETE FROM DATE WHERE Name = \"" + App.Current.Properties["nameindex"].ToString() + "\"";
+                using (SQLiteConnection c = new SQLiteConnection(Tempsource))
+                {
+                    c.Open();
+                    System.Diagnostics.Debug.WriteLine(query);
+                    using (SQLiteCommand cmd = new SQLiteCommand(query, c))
+                    {
+                        cmd.ExecuteNonQuery();
+                    }
+                }
             }
-
-
         }
 
         private void custom_but_Click(object sender, RoutedEventArgs e)
@@ -316,7 +366,7 @@ namespace Sophieandme.Pages
 
         private void Showdata()
         {
-            string start = "<!DOCTYPE html>\r\n<html>\r\n<head>\r\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\r\n   <style>\r\n  img{\r\n  max-width: 60%;\r\n  max-height: 60%;\r\n  max-height: 7cm;\r\n  margin-top: 0.4cm;\r\n  border-radius: 3%;\r\n} .card {\r\n    margin-top: 0.2cm;\r\n     margin-left: 0.2cm;  \r\n box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);\r\n  transition: 0.3s;\r\n    background-color: #" + App.Current.Properties["html_back_rep"] + ";\r\n   width: 40%;\r\n  border-radius: 5px;\r\n  display: inline-block;\r\n  max-width: 13cm;\r\n}\r\n\r p {\r\n    color: " + App.Current.Properties["html_text"] + ";\r\n    padding: 0.2cm;\r\n  }\r\n   \n.card:hover {\r\n  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);\r\n}\r\n\r\n\r\n.container {\r\n  padding: 2px 16px;\r\n}" + "body {\r\n    color: #" + App.Current.Properties["html_back_rep"] + ";\r\n    background-color: #" + App.Current.Properties["html_back"] + ";\r\n}\r\n" + " \r\n</style>\r\n</head>\r\n<body> <script id=\"MathJax-script\" async src=\"https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js\"> </script> \r\n     <link rel=\"stylesheet\" href=\"../HTML_const/Created.css\"> ";
+            string start = "<!DOCTYPE html>\r\n<html>\r\n<head>\r\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\r\n   <style>\r\n  img{\r\n  max-width: 60%;\r\n  max-height: 60%;\r\n  max-height: 7cm;\r\n  margin-top: 0.4cm;\r\n  border-radius: 3%;\r\n} .card {\r\n    margin-top: 0.2cm;\r\n     margin-left: 0.2cm;  \r\n box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);\r\n  transition: 0.3s;\r\n    background-color: #" + App.Current.Properties["html_back_rep"] + ";\r\n   width: 40%;\r\n  border-radius: 5px;\r\n  display: inline-block;\r\n  max-width: 13cm;\r\n}\r\n\r p {\r\n font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;\r\n    color: " + App.Current.Properties["html_text"] + ";\r\n    padding: 0.2cm;\r\n  }\r\n   \n.card:hover {\r\n  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);\r\n}\r\n\r\n\r\n.container {\r\n  padding: 2px 16px;\r\n}" + "body {\r\n    color: #" + App.Current.Properties["html_back_rep"] + ";\r\n    background-color: #" + App.Current.Properties["html_back"] + ";\r\n}\r\n" + " \r\n</style>\r\n</head>\r\n<body> <script id=\"MathJax-script\" async src=\"https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js\"> </script> \r\n     <link rel=\"stylesheet\" href=\"../HTML_const/Created.css\"> ";
 
             for (int i = 0; i < id.Count; i++)
             {
