@@ -388,7 +388,6 @@ namespace Sophieandme.Pages
                 {
                     System.Diagnostics.Debug.WriteLine("Error occured while loging the data");
                 }
-
             }
             else
             {
@@ -396,10 +395,7 @@ namespace Sophieandme.Pages
                 questionform(i);
                 //System.Diagnostics.Debug.WriteLine(i.ToString());
             }
-            
-
         }
-
         private void Back_btn_Click(object sender, RoutedEventArgs e)
         {
             Selection.Visibility = Visibility.Visible;

@@ -23,6 +23,8 @@ using Sophieandme;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 using System.IO;
+using FontAwesome.Sharp;
+using System.Diagnostics.Metrics;
 
 
 namespace Sophieandme
@@ -85,9 +87,45 @@ namespace Sophieandme
             App.Current.Properties["html_back"] = "161717";
             App.Current.Properties["html_back_rep"] = "242424";
             App.Current.Properties["html_text"] = "#F5F5F5";
+            add_log_dash();
+
+
+        }
 
 
 
+        private void add_log_dash()
+        {
+            string query = "";
+            string Sourceuser = "Data Source=..\\..\\..\\user_value.db";
+            try
+            {
+                using (SQLiteConnection c = new SQLiteConnection(Sourceuser))
+                {
+                    c.Open();
+                    query = "SELECT COUNT(*) FROM Dash WHERE DATE = \"" + DateTime.Now.ToString("yyyy-MM-dd") + "\"";
+                    System.Diagnostics.Debug.WriteLine(query);
+                    using (SQLiteCommand cmd = new SQLiteCommand(query, c))
+                    {
+                        long count = (long)cmd.ExecuteScalar();
+                        System.Diagnostics.Debug.WriteLine(count);
+
+                        if (count == 0)
+                        {
+                            query = "INSERT INTO Dash (Date,Time) VALUES (\""  + DateTime.Now.ToString("yyyy-MM-dd") + "\",0)";
+                            System.Diagnostics.Debug.WriteLine(query);
+                            using (SQLiteCommand insertCmd = new SQLiteCommand(query, c))
+                            {
+                                insertCmd.ExecuteNonQuery();
+                            }
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                MessageBox.Show("An error occured while logging Data");
+            }
         }
 
 
@@ -106,12 +144,33 @@ namespace Sophieandme
 
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
+            string query = "";
+            string Sourceuser = "Data Source=..\\..\\..\\user_value.db";
             System.Diagnostics.Debug.WriteLine(App.Current.Properties["Timer"]);
+            try
+            {
+                using (SQLiteConnection c = new SQLiteConnection(Sourceuser))
+                {
+                    c.Open();
+                    query = "UPDATE DASH SET Time = " + App.Current.Properties["Timer"] + " where Date =  \"" + DateTime.Now.ToString("yyyy-MM-dd") + "\"";
+                    System.Diagnostics.Debug.WriteLine(query);
+                    using (SQLiteCommand cmd = new SQLiteCommand(query, c))
+                    {
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch
+            {
+                System.Windows.Forms.MessageBox.Show("An error occured while saving your quizz");
+            }
+
             DirectoryInfo d = new DirectoryInfo(@"../../../HTML");
             FileInfo[] Files = d.GetFiles();
             string str = "";
             foreach ( FileInfo f in Files )
                 File.Delete(f.FullName);
+
 
             System.Threading.Thread.Sleep(300);
             Application.Current.Shutdown();

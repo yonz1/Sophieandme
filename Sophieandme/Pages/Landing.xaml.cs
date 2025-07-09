@@ -19,6 +19,8 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.IO;
 using System.Security.Cryptography;
+using System.Diagnostics.Metrics;
+using LiveCharts.Wpf;
 
 namespace Sophieandme.Pages
 {
@@ -65,8 +67,9 @@ namespace Sophieandme.Pages
 
             App.Current.Properties["Timer"] = 0;
             InitializeComponent();
-            readdb_chart();
-            readdb();
+            //readdb_chart();
+            //readdb();
+            gauge_val();
             Colles_ret();
             recent_quizz();
             string mat = "all";
@@ -102,6 +105,57 @@ namespace Sophieandme.Pages
                 }
             }
         }
+
+
+        private void gauge_val()
+        {
+            string query = "";
+            long countT = 0;
+            long countE = 0;
+            float val = 0;
+            //List<string> Mat = ["Physique", "Mathématiques", "Français", "Anglais", "Erreurs", "SI"]; 
+            Dictionary<string, Gauge> Mat = new Dictionary<string, Gauge>();
+            Mat.Add("Mathématiques", Math_gauge);
+            Mat.Add("Physique", Physique_gauge);
+            Mat.Add("SI", Si_gauge);
+
+            foreach (KeyValuePair<string, Gauge> entry in Mat)
+            {
+                using (SQLiteConnection c = new SQLiteConnection(conSource))
+                {
+                    c.Open();
+                    query = "SELECT COUNT(*) FROM " + entry.Key;
+                    System.Diagnostics.Debug.WriteLine(query);
+                    using (SQLiteCommand cmd = new SQLiteCommand(query, c))
+                    {
+                        countT = (long)cmd.ExecuteScalar();
+                        System.Diagnostics.Debug.WriteLine(countT);
+
+                    }
+                    query = "SELECT COUNT(*) FROM " + entry.Key + " WHERE Ended = \"1\"";
+                    using (SQLiteCommand cmd = new SQLiteCommand(query, c))
+                    {
+                        countE = (long)cmd.ExecuteScalar();
+                        System.Diagnostics.Debug.WriteLine(countE);
+
+                    }
+                    
+                }
+                if (countE != 0)
+                {
+                    val = (int)Math.Round((double)(100 * countE) / countT);
+                }
+                else
+                {
+                    val = 0;
+                }
+                
+                System.Diagnostics.Debug.WriteLine(val);
+                entry.Value.Value = Math.Floor(val);
+
+            }
+        }
+
 
         private void recent_quizz()
         {
@@ -178,8 +232,7 @@ namespace Sophieandme.Pages
         {
             Values1 = new ChartValues<double> { };
             DataContext = this;
-            string conSource = "Data Source=C:\\Users\\Bastien\\source\\repos\\WpfApp2\\WpfApp2\\result2.db";
-            var connection = new SQLiteConnection(conSource);
+            var connection = new SQLiteConnection(Sourceuser);
             connection.Open();
             Labels = new[] { "" };
             string query = "select date from result_scan_test_manual2";

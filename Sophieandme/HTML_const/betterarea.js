@@ -4,18 +4,19 @@ img_rep = "";
 
 const wordReplacements = {
   "sum": "\\sum_{k}^{n}",
-  "prod": "\\prod_{k}^{n}",
+  "proab": "\\prod_{a}^{b}",
   "sqrt": "\\sqrt{a}",
-  "integr": "\\int_{a}^{b}",
-  "limit": "\\lim_{x \\to a}",
+  "intab": "\\int_{a}^{b}",
+  "limab": "\\lim_{x \\to a}",
   "inf": "\\infty",
   "implique": "\\implies",
   "equivalent": "\\iff",
   "binom": "\\binom{n}{k}",
-  "deriv": "\\dv{f}{x}",
+  "dfx": "\\dv{f}{x}",
   "inclue": "\\subset",
   "mat3": "\\begin{pmatrix}\r\n &  &  \\\\\r\n &  &  \\\\\r\n &  & \r\n\\end{pmatrix}",
-  "mat2": "\\begin{pmatrix}\r\n &  \\\\\r\n & \r\n\\end{pmatrix}"
+  "mat2": "\\begin{pmatrix}\r\n &  \\\\\r\n & \r\n\\end{pmatrix}",
+  "...": "\\cdots"
 };
 
 const keymap = {
@@ -35,7 +36,9 @@ const keymap = {
   '>': { value: '> ', pos: 2 },
   '~': { value: '~~', pos: 1 },
   '/': { value: '\\frac{}{}', pos: 6 },
-  '$': { value: '$$', pos: 1 }
+  '$': { value: '$$', pos: 1 },
+  '&': { value: '^', pos: 1 }
+
 };
 
 function setupInputBehavior(editing) {

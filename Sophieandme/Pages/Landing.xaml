@@ -80,6 +80,7 @@
 
                             <lvc:CartesianChart.AxisY>
                                 <lvc:Axis
+                                    Title="Temps (min)"
                                     FontSize="13"
                                     Foreground="{StaticResource Textcolor}"
                                     MinValue="0">
@@ -91,6 +92,7 @@
 
                             <lvc:CartesianChart.AxisX>
                                 <lvc:Axis
+                                    Title="Jours"
                                     FontSize="13"
                                     Foreground="White"
                                     Labels="{Binding Labels}"
@@ -153,6 +155,7 @@
                                 FontSize="20"
                                 Foreground="{StaticResource Textcolor}" />
                             <lvc:Gauge
+                                x:Name="Math_gauge"
                                 Grid.Row="2"
                                 Grid.Column="1"
                                 Width="130"
@@ -205,6 +208,7 @@
                                 FontSize="20"
                                 Foreground="{StaticResource Textcolor}" />
                             <lvc:Gauge
+                                x:Name="Physique_gauge"
                                 Grid.Row="2"
                                 Grid.Column="1"
                                 Width="130"
@@ -260,6 +264,7 @@
                                 FontSize="20"
                                 Foreground="{StaticResource Textcolor}" />
                             <lvc:Gauge
+                                x:Name="Si_gauge"
                                 Grid.Row="2"
                                 Grid.Column="1"
                                 Width="130"
@@ -296,6 +301,9 @@
             </Grid>
             <Grid Grid.Column="1">
                 <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
                     <RowDefinition />
                     <RowDefinition />
                 </Grid.RowDefinitions>

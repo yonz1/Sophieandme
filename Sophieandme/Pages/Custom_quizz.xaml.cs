@@ -153,7 +153,6 @@ namespace Sophieandme.Pages
                     System.Diagnostics.Debug.WriteLine(query);
                     using (SQLiteCommand cmd = new SQLiteCommand(query, c))
                     {
-                        cmd.ExecuteNonQuery();
                         long count = (long)cmd.ExecuteScalar();
                         System.Diagnostics.Debug.WriteLine(count);
 
@@ -183,7 +182,6 @@ namespace Sophieandme.Pages
                     System.Diagnostics.Debug.WriteLine(query);
                     using (SQLiteCommand cmd = new SQLiteCommand(query, c))
                     {
-                        cmd.ExecuteNonQuery();
                         long count = (long)cmd.ExecuteScalar();
                         System.Diagnostics.Debug.WriteLine(count);
 
