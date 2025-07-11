@@ -3,20 +3,19 @@ img_rep = "";
 
 
 const wordReplacements = {
-  "sum": "\\sum_{k}^{n}",
-  "proab": "\\prod_{a}^{b}",
-  "sqrt": "\\sqrt{a}",
+  "sommeab": "\\sum_{k}^{n}",
+  "produitab": "\\prod_{a}^{b}",
+  "raci": "\\sqrt{}",
   "intab": "\\int_{a}^{b}",
   "limab": "\\lim_{x \\to a}",
   "inf": "\\infty",
   "implique": "\\implies",
   "equivalent": "\\iff",
-  "binom": "\\binom{n}{k}",
-  "dfx": "\\dv{f}{x}",
+  "binomnk": "\\binom{n}{k}",
+  "dfx": "\\frac{d }{dx}",
   "inclue": "\\subset",
   "mat3": "\\begin{pmatrix}\r\n &  &  \\\\\r\n &  &  \\\\\r\n &  & \r\n\\end{pmatrix}",
   "mat2": "\\begin{pmatrix}\r\n &  \\\\\r\n & \r\n\\end{pmatrix}",
-  "...": "\\cdots"
 };
 
 const keymap = {
@@ -24,7 +23,6 @@ const keymap = {
   '(': { value: '()', pos: 1 },
   '{': { value: '{}', pos: 1 },
   '[': { value: '[]', pos: 1 },
-  '\'': { value: '\'\'', pos: 1 },
   '"': { value: '""', pos: 1 },
   '“': { value: '“”', pos: 1 },
   '`': { value: '``', pos: 1 },

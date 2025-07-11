@@ -40,7 +40,7 @@ namespace WpfApp2.Pages.Settings
                 using (SQLiteCommand cmd = new SQLiteCommand(query, c))
                 {
                     cmd.ExecuteNonQuery();
-                    Window win = new login();
+                    Window win = new Sophieandme.Window.loginCopier();
                     var w = Application.Current.Windows[0];
                     w.Close();
                     win.Show();

@@ -13,12 +13,12 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace WpfApp2.Windows
+namespace Sophieandme.Window
 {
     /// <summary>
     /// Logique d'interaction pour MessageBox.xaml
     /// </summary>
-    public partial class customMessageBox : Window
+    public partial class customMessageBox : System.Windows.Window
     {
         public customMessageBox(string Message, MessageType Type, MessageButtons Buttons)
         {

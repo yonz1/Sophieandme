@@ -98,7 +98,7 @@ namespace Sophieandme.Pages
 
             foreach (var col in Colles)
             {
-                if (i < 5)
+                if (i < 8)
                 {
                     Colles_listbox.Items.Add(col);
                     i++;
@@ -139,8 +139,8 @@ namespace Sophieandme.Pages
                         System.Diagnostics.Debug.WriteLine(countE);
 
                     }
-                    
                 }
+                
                 if (countE != 0)
                 {
                     val = (int)Math.Round((double)(100 * countE) / countT);
@@ -171,8 +171,9 @@ namespace Sophieandme.Pages
                 {
                     Recent.Add(reader.GetString(0));
                 }
+                connection.Close();
             }
-            catch { }
+            catch { connection.Close(); }
         }
 
 
@@ -219,9 +220,11 @@ namespace Sophieandme.Pages
                     Salle.Add(reader.GetString(4));
                     Matier.Add(reader.GetString(5));
                 }
+                connection.Close();
             }
             catch (Exception ex)
             {
+                connection.Close();
                 System.Windows.Forms.MessageBox.Show(ex.ToString());
                 System.Diagnostics.Debug.WriteLine(ex.ToString());
             }

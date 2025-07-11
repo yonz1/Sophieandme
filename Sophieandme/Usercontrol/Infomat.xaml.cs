@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WpfApp2.User_control
+namespace Sophieandme.Usercontrol
 {
     /// <summary>
-    /// Logique d'interaction pour DropDownMenu.xaml
+    /// Logique d'interaction pour Infomat.xaml
     /// </summary>
-    public partial class DropDownMenu : UserControl
+    public partial class Infomat : UserControl
     {
-        public DropDownMenu()
+        public Infomat()
         {
             InitializeComponent();
         }

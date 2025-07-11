@@ -1,9 +1,8 @@
 - Corriger la taille du plein écran 
 - Essayer de corriger la taille des images (certaine sont dur à voir même sur sophieandme)
-- Ajouter le quizz de Marked #### Avancée- bien (manque les réponses totale)
 - Modifier la DB pour complétition des quizz
 - Ajouter le thème blanc ### Avancée
-- Ajouter la mise à jours automatique des quizz
+- Ajouter la mise à jours automatique des quizz ### Avancée
 - Ajouter l'affichage en vert des bonnes réponses (Partie de bonne réponses)
 
 
@@ -11,4 +10,4 @@
 
 - Implémentation du serveur cloud 
 - Implémentation des api Slack pour un enregistrement automatique 
-- Création de quizz personnaliser 
+- Implémentation des api pronote et Plus+

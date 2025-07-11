@@ -16,3 +16,15 @@ function get_val(button) {
     console.log(id);
     window.chrome.webview.postMessage(data);
 }
+
+
+function get_data(button) {
+
+    const card = button.closest(".card")
+    const id = button.value;
+    const action = "edit";
+    const data = { action, id };
+    console.log(id);
+    window.chrome.webview.postMessage(data);
+
+}

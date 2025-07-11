@@ -158,7 +158,7 @@ namespace Sophieandme.Pages
 
                         if (count == 0)
                         {
-                            query = "INSERT INTO " + matier + " (id,difficulty ,name, question , reponse,image_question_url,image_answer_url,Marked) VALUES (100,1," + nom + "," + question + "," + rep + "," + quest_im + "," + rep_img + ",0)";
+                            query = "INSERT INTO " + matier + " (id,difficulty ,name,question,reponse,image_question_url,image_answer_url,Marked) VALUES (100,1," + nom + "," + question + "," + rep + "," + quest_im + "," + rep_img + ",0)";
                             System.Diagnostics.Debug.WriteLine(query);
                             using (SQLiteCommand insertCmd = new SQLiteCommand(query, c))
                             {
@@ -201,19 +201,6 @@ namespace Sophieandme.Pages
             {
                 System.Diagnostics.Debug.WriteLine("Error occured while loging the data");
             }
-
-
-                //using (SQLiteConnection c = new SQLiteConnection(conSource))
-                //{
-                //    c.Open();
-                //    string query = "INSERT INTO " + matier + " (id,difficulty ,name, question , reponse,image_question_url,image_answer_url,Marked) VALUES (100,1," + nom + "," + question + "," + rep + "," + quest_im + "," + rep_img + ",0)";
-                //    System.Diagnostics.Debug.WriteLine(query);
-                //    using (SQLiteCommand cmd = new SQLiteCommand(query, c))
-                //    {
-                //        cmd.ExecuteNonQuery();
-                //    }
-                //}
-                //Thread.Sleep(250);
             }
 
 
@@ -243,6 +230,35 @@ namespace Sophieandme.Pages
                         cmd.ExecuteNonQuery();
                     }
                 }
+            }
+            else if (data["action"].ToString() == "edit")
+            {
+                string conSource = "Data Source=..\\..\\..\\data_restored.db";
+                string val = data["id"].ToString().Replace("\\large", "").Replace("\\(", "$").Replace("\\)", "$");
+
+                string query = "SELECT question,reponse,image_question_url,image_answer_url FROM " + App.Current.Properties["matier"].ToString() + " WHERE ID = \"100\" AND name = \"" + App.Current.Properties["nameindex"].ToString() + "\" AND  REPLACE(question, ' ', '') =  REPLACE(\"" + val + "\", ' ', '')";
+                System.Diagnostics.Debug.WriteLine(query);
+                using (SQLiteConnection c = new SQLiteConnection(conSource))
+                {
+                    c.Open();
+                    System.Diagnostics.Debug.WriteLine(query);
+                    using (SQLiteCommand cmd = new SQLiteCommand(query, c))
+                    {
+                        var reader = cmd.ExecuteReader();
+                        while (reader.Read())
+                        {
+                            string question     = reader.GetString(0);
+                            string reponse       = reader.GetString(1);
+                            string image_question_url = reader.GetString(2);
+                            string image_answer_url = reader.GetString(3);
+                            System.Diagnostics.Debug.WriteLine(App.Current.Properties["matier"].ToString());
+                            System.Diagnostics.Debug.WriteLine(App.Current.Properties["nameindex"].ToString());
+                            System.Diagnostics.Debug.WriteLine(question);
+                            System.Diagnostics.Debug.WriteLine(reponse);
+                        }
+                    }
+                }
+                
             }
         }
 
@@ -297,7 +313,7 @@ namespace Sophieandme.Pages
             App.Current.Properties["matier"] = Mat;
             Updateform(sender,e);
             Quizzcontain.Visibility = Visibility.Visible;
-            Return_panel.Visibility = Visibility.Collapsed;
+            Return_panel.Visibility = Visibility.Visible;
             webviewall.Visibility = Visibility.Collapsed;
             webview_added.Visibility = Visibility.Collapsed;
         }
@@ -372,23 +388,26 @@ namespace Sophieandme.Pages
                 {
                     // Balisage du boutton 
                     start += " <div class=\"card\">\r\n  <div class=\"container\">\r\n    <button class=\"bin-button\" value=\"" + miseneformetext(question[i]) + "\" onclick=\"get_val(this)\">\r\n  <svg\r\n    class=\"bin-top\"\r\n    viewBox=\"0 0 39 7\"\r\n    fill=\"none\"\r\n    xmlns=\"http://www.w3.org/2000/svg\"\r\n  >\r\n    <line y1=\"5\" x2=\"39\" y2=\"5\" stroke=\"white\" stroke-width=\"4\"></line>\r\n    <line\r\n      x1=\"12\"\r\n      y1=\"1.5\"\r\n      x2=\"26.0357\"\r\n      y2=\"1.5\"\r\n      stroke=\"white\"\r\n      stroke-width=\"3\"\r\n    ></line>\r\n  </svg>\r\n  <svg\r\n    class=\"bin-bottom\"\r\n    viewBox=\"0 0 33 39\"\r\n    fill=\"none\"\r\n    xmlns=\"http://www.w3.org/2000/svg\"\r\n  >\r\n    <mask id=\"path-1-inside-1_8_19\" fill=\"white\">\r\n      <path\r\n        d=\"M0 0H33V35C33 37.2091 31.2091 39 29 39H4C1.79086 39 0 37.2091 0 35V0Z\"\r\n      ></path>\r\n    </mask>\r\n    <path\r\n      d=\"M0 0H33H0ZM37 35C37 39.4183 33.4183 43 29 43H4C-0.418278 43 -4 39.4183 -4 35H4H29H37ZM4 43C-0.418278 43 -4 39.4183 -4 35V0H4V35V43ZM37 0V35C37 39.4183 33.4183 43 29 43V35V0H37Z\"\r\n      fill=\"white\"\r\n      mask=\"url(#path-1-inside-1_8_19)\"\r\n    ></path>\r\n    <path d=\"M12 6L12 29\" stroke=\"white\" stroke-width=\"4\"></path>\r\n    <path d=\"M21 6V29\" stroke=\"white\" stroke-width=\"4\"></path>\r\n  </svg>\r\n</button>\r\n";
+                    start += " <button class=\"editBtn\" value=\"" + miseneformetext(question[i]) + "\" onclick=\"get_data(this)\">\r\n  <svg height=\"0.1em\" viewBox=\"0 0 512 512\">\r\n    <path\r\n      d=\"M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1v32c0 8.8 7.2 16 16 16h32zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z\"\r\n    ></path>\r\n  </svg>\r\n</button>";
                     // Balisage de la carte 
                     start += " <p>" + miseneformetext(question[i]) + "</p> \r\n <hr>\r\n    <p>" + miseneformetext(repnse[i]) + "</p> \r\n  </div>\r\n</div>\r\n";
                 }
                 else if (url_question[i] == "")
                 {
                     start += "<div class=\"card\">\r\n  <div class=\"container\">\r\n    <button class=\"bin-button\" value=\"" + miseneformetext(question[i]) + "\" onclick=\"get_val(this)\">\r\n  <svg\r\n    class=\"bin-top\"\r\n    viewBox=\"0 0 39 7\"\r\n    fill=\"none\"\r\n    xmlns=\"http://www.w3.org/2000/svg\"\r\n  >\r\n    <line y1=\"5\" x2=\"39\" y2=\"5\" stroke=\"white\" stroke-width=\"4\"></line>\r\n    <line\r\n      x1=\"12\"\r\n      y1=\"1.5\"\r\n      x2=\"26.0357\"\r\n      y2=\"1.5\"\r\n      stroke=\"white\"\r\n      stroke-width=\"3\"\r\n    ></line>\r\n  </svg>\r\n  <svg\r\n    class=\"bin-bottom\"\r\n    viewBox=\"0 0 33 39\"\r\n    fill=\"none\"\r\n    xmlns=\"http://www.w3.org/2000/svg\"\r\n  >\r\n    <mask id=\"path-1-inside-1_8_19\" fill=\"white\">\r\n      <path\r\n        d=\"M0 0H33V35C33 37.2091 31.2091 39 29 39H4C1.79086 39 0 37.2091 0 35V0Z\"\r\n      ></path>\r\n    </mask>\r\n    <path\r\n      d=\"M0 0H33H0ZM37 35C37 39.4183 33.4183 43 29 43H4C-0.418278 43 -4 39.4183 -4 35H4H29H37ZM4 43C-0.418278 43 -4 39.4183 -4 35V0H4V35V43ZM37 0V35C37 39.4183 33.4183 43 29 43V35V0H37Z\"\r\n      fill=\"white\"\r\n      mask=\"url(#path-1-inside-1_8_19)\"\r\n    ></path>\r\n    <path d=\"M12 6L12 29\" stroke=\"white\" stroke-width=\"4\"></path>\r\n    <path d=\"M21 6V29\" stroke=\"white\" stroke-width=\"4\"></path>\r\n  </svg>\r\n</button>\r\n";
+                    start += " <button class=\"editBtn\" value=\"" + miseneformetext(question[i]) + "\" onclick=\"get_data(this)\">\r\n  <svg height=\"0.1em\" viewBox=\"0 0 512 512\">\r\n    <path\r\n      d=\"M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1v32c0 8.8 7.2 16 16 16h32zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z\"\r\n    ></path>\r\n  </svg>\r\n</button>";
                     start += " <p>" + miseneformetext(question[i]) + "</p> \r\n  <hr>\r\n   <img src=\"" + url_rep[i].Replace("\\/", "/") + "\" alt=\"Avatar\" style=\"width:100%\">\r\n    <p>" + miseneformetext(repnse[i]) + "</p> \r\n  </div>\r\n</div>\r\n";
                 }
                 else if (url_rep[i] == "")
                 {
                     start += "<div class=\"card\">\r\n  <div class=\"container\">\r\n    <button class=\"bin-button\" value=\"" + miseneformetext(question[i]) + "\" onclick=\"get_val(this)\">\r\n  <svg\r\n    class=\"bin-top\"\r\n    viewBox=\"0 0 39 7\"\r\n    fill=\"none\"\r\n    xmlns=\"http://www.w3.org/2000/svg\"\r\n  >\r\n    <line y1=\"5\" x2=\"39\" y2=\"5\" stroke=\"white\" stroke-width=\"4\"></line>\r\n    <line\r\n      x1=\"12\"\r\n      y1=\"1.5\"\r\n      x2=\"26.0357\"\r\n      y2=\"1.5\"\r\n      stroke=\"white\"\r\n      stroke-width=\"3\"\r\n    ></line>\r\n  </svg>\r\n  <svg\r\n    class=\"bin-bottom\"\r\n    viewBox=\"0 0 33 39\"\r\n    fill=\"none\"\r\n    xmlns=\"http://www.w3.org/2000/svg\"\r\n  >\r\n    <mask id=\"path-1-inside-1_8_19\" fill=\"white\">\r\n      <path\r\n        d=\"M0 0H33V35C33 37.2091 31.2091 39 29 39H4C1.79086 39 0 37.2091 0 35V0Z\"\r\n      ></path>\r\n    </mask>\r\n    <path\r\n      d=\"M0 0H33H0ZM37 35C37 39.4183 33.4183 43 29 43H4C-0.418278 43 -4 39.4183 -4 35H4H29H37ZM4 43C-0.418278 43 -4 39.4183 -4 35V0H4V35V43ZM37 0V35C37 39.4183 33.4183 43 29 43V35V0H37Z\"\r\n      fill=\"white\"\r\n      mask=\"url(#path-1-inside-1_8_19)\"\r\n    ></path>\r\n    <path d=\"M12 6L12 29\" stroke=\"white\" stroke-width=\"4\"></path>\r\n    <path d=\"M21 6V29\" stroke=\"white\" stroke-width=\"4\"></path>\r\n  </svg>\r\n</button>\r\n";
+                    start += " <button class=\"editBtn\" value=\"" + miseneformetext(question[i]) + "\" onclick=\"get_data(this)\">\r\n  <svg height=\"0.1em\" viewBox=\"0 0 512 512\">\r\n    <path\r\n      d=\"M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1v32c0 8.8 7.2 16 16 16h32zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z\"\r\n    ></path>\r\n  </svg>\r\n</button>";
                     start += "  <img src=\"" + url_question[i].Replace("\\/", "/") + "\" alt=\"Avatar\" style=\"width:100%\">\r\n    <p>" + miseneformetext(question[i]) + "</p> \r\n  <hr>\r\n    <p>" + miseneformetext(repnse[i]) + "</p> \r\n  </div>\r\n</div>\r\n";
                 }
                 else
                 {
-
                     start += " <div class=\"card\">\r\n  <div class=\"container\">\r\n    <button class=\"bin-button\" value=\"" + miseneformetext(question[i]) + "\" onclick=\"get_val(this)\">\r\n  <svg\r\n    class=\"bin-top\"\r\n    viewBox=\"0 0 39 7\"\r\n    fill=\"none\"\r\n    xmlns=\"http://www.w3.org/2000/svg\"\r\n  >\r\n    <line y1=\"5\" x2=\"39\" y2=\"5\" stroke=\"white\" stroke-width=\"4\"></line>\r\n    <line\r\n      x1=\"12\"\r\n      y1=\"1.5\"\r\n      x2=\"26.0357\"\r\n      y2=\"1.5\"\r\n      stroke=\"white\"\r\n      stroke-width=\"3\"\r\n    ></line>\r\n  </svg>\r\n  <svg\r\n    class=\"bin-bottom\"\r\n    viewBox=\"0 0 33 39\"\r\n    fill=\"none\"\r\n    xmlns=\"http://www.w3.org/2000/svg\"\r\n  >\r\n    <mask id=\"path-1-inside-1_8_19\" fill=\"white\">\r\n      <path\r\n        d=\"M0 0H33V35C33 37.2091 31.2091 39 29 39H4C1.79086 39 0 37.2091 0 35V0Z\"\r\n      ></path>\r\n    </mask>\r\n    <path\r\n      d=\"M0 0H33H0ZM37 35C37 39.4183 33.4183 43 29 43H4C-0.418278 43 -4 39.4183 -4 35H4H29H37ZM4 43C-0.418278 43 -4 39.4183 -4 35V0H4V35V43ZM37 0V35C37 39.4183 33.4183 43 29 43V35V0H37Z\"\r\n      fill=\"white\"\r\n      mask=\"url(#path-1-inside-1_8_19)\"\r\n    ></path>\r\n    <path d=\"M12 6L12 29\" stroke=\"white\" stroke-width=\"4\"></path>\r\n    <path d=\"M21 6V29\" stroke=\"white\" stroke-width=\"4\"></path>\r\n  </svg>\r\n</button>\r\n";
+                    start += " <button class=\"editBtn\" value=\"" + miseneformetext(question[i]) + "\" onclick=\"get_data(this)\">\r\n  <svg height=\"0.1em\" viewBox=\"0 0 512 512\">\r\n    <path\r\n      d=\"M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1v32c0 8.8 7.2 16 16 16h32zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z\"\r\n    ></path>\r\n  </svg>\r\n</button>";
                     start += "<img src=\"" + url_question[i].Replace("\\/", "/") + "\" alt=\"Avatar\" style=\"width:100%\">\r\n    <p>" + miseneformetext(question[i]) + "</p> \r\n  <hr>\r\n   <img src=\"" + url_rep[i].Replace("\\/", "/") + "\" alt=\"Avatar\" style=\"width:100%\">\r\n    <p>" + miseneformetext(repnse[i]) + "</p> \r\n  </div>\r\n</div>\r\n";
                 }
             }

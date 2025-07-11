@@ -18,23 +18,24 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Microsoft.VisualBasic.ApplicationServices;
 using Sophieandme;
+using Sophieandme.Window;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 
 
 
-namespace WpfApp2.Windows
+namespace Sophieandme.Window
 {
     /// <summary>
     /// Logique d'interaction pour login.xaml
     /// </summary>
-   
-    public partial class login : Window
+
+    public partial class loginCopier : System.Windows.Window
     {
 
         string Username = "";
-        public login()
+        public loginCopier()
         {
             InitializeComponent();
 
@@ -45,7 +46,7 @@ namespace WpfApp2.Windows
         {
             Username = Usernamebox.Text.ToString();
             string Password = PasswordBox.Password.ToString();
-            
+
             //bool? result1 = new customMessageBox(EncryptShA(Password), MessageType.Error, MessageButtons.Ok).ShowDialog();
             Password = EncryptShA(Password);
             if (VerifyUser(Username, Password))
@@ -88,7 +89,7 @@ namespace WpfApp2.Windows
                     }
                 }
                 App.Current.Properties["username"] = Username;
-                Window win = new MainWindow();
+                System.Windows.Window win = new MainWindow();
                 win.Show();
                 this.Close();
             }
@@ -96,7 +97,7 @@ namespace WpfApp2.Windows
             {
                 bool? result = new customMessageBox("Incorrect Credentials", MessageType.Error, MessageButtons.Ok).ShowDialog();
             }
-            
+
 
         }
 
@@ -118,7 +119,7 @@ namespace WpfApp2.Windows
                             string usernamerec = rdr.GetString(0);
                             string passwordrec = rdr.GetString(1);
                             System.Diagnostics.Debug.WriteLine("#################################### Utilisatuer dans la base de données : ", usernamerec);
-                            if (usernamerec == username && passwordrec == password) 
+                            if (usernamerec == username && passwordrec == password)
                             {
                                 // Return pareil que VerifyPassword
                                 return true;
@@ -134,10 +135,10 @@ namespace WpfApp2.Windows
         }
 
         private string EncryptShA(string password)
-        { 
+        {
             var crypt = new System.Security.Cryptography.SHA256Managed();
             var hash = new System.Text.StringBuilder();
-            byte[] crypto = crypt.ComputeHash(Encoding.UTF8.GetBytes(password));   
+            byte[] crypto = crypt.ComputeHash(Encoding.UTF8.GetBytes(password));
             foreach (byte theByte in crypto)
             {
                 hash.Append(theByte.ToString("x2"));
@@ -149,8 +150,8 @@ namespace WpfApp2.Windows
 
         // A changer en Bool
 
-        private bool VerifyPasswordSQL(string password, string conSource) 
-        { 
+        private bool VerifyPasswordSQL(string password, string conSource)
+        {
 
             //string query = "SELECT Password from Users";
             //var command = new SQLiteCommand(query, connection);
@@ -190,7 +191,7 @@ namespace WpfApp2.Windows
                     }
                 }
             }
-            return false ;
+            return false;
         }
 
         private void Registerform_Click(object sender, RoutedEventArgs e)
@@ -219,7 +220,7 @@ namespace WpfApp2.Windows
             while (reader.Read())
             {
                 int number = reader.GetInt16(0);
-               // bool? result2 = new customMessageBox(number.ToString(), MessageType.Error, MessageButtons.Ok).ShowDialog();
+                // bool? result2 = new customMessageBox(number.ToString(), MessageType.Error, MessageButtons.Ok).ShowDialog();
                 if (number != 0)
                 {
                     bool? result1 = new customMessageBox("This email is already registered.", MessageType.Error, MessageButtons.Ok).ShowDialog();
@@ -232,13 +233,13 @@ namespace WpfApp2.Windows
                     //bool? result5 = new customMessageBox(Password, MessageType.Error, MessageButtons.Ok).ShowDialog();
                     try
                     {
-                        string Input = "INSERT into Users(Username, Password, Email) VALUES (" +  "\"" + Username + "\"" + "," + "\"" + Password + "\"" +  "," + "\"" +  email + "\"" + ")";
+                        string Input = "INSERT into Users(Username, Password, Email) VALUES (" + "\"" + Username + "\"" + "," + "\"" + Password + "\"" + "," + "\"" + email + "\"" + ")";
                         //MessageBox.Show(Input.ToString());
                         command = new SQLiteCommand(Input, connection);
                         var test = command.ExecuteNonQuery();
                         //MessageBox.Show(test.ToString());
                         connection.Close();
-                        bool? result1 = new customMessageBox("Registration succeed, welcome to Sophieandme", MessageType.Success, MessageButtons.Ok).ShowDialog();
+                        bool? result1 = new Sophieandme.Window.  customMessageBox("Registration succeed, welcome to Sophieandme", MessageType.Success, MessageButtons.Ok).ShowDialog();
                         textBox2.Text = "";
                         textBox3.Text = "";
                         textBox4.Password = "";
@@ -252,6 +253,7 @@ namespace WpfApp2.Windows
                     }
                 }
             }
+            connection.Close();
         }
 
         [DllImport("user32.dll")]
@@ -295,7 +297,8 @@ namespace WpfApp2.Windows
                                 App.Current.Properties["email"] = email.ToString();
                                 App.Current.Properties["photo"] = photo.ToString();
                                 App.Current.Properties["username"] = username.ToString();
-                                Window win = new MainWindow();
+                                System.Windows.Window win = new MainWindow();
+
                                 win.Show();
                                 this.Close();
                             }

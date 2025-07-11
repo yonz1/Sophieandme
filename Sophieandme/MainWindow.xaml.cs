@@ -87,7 +87,7 @@ namespace Sophieandme
             App.Current.Properties["html_back"] = "161717";
             App.Current.Properties["html_back_rep"] = "242424";
             App.Current.Properties["html_text"] = "#F5F5F5";
-            add_log_dash();
+            //add_log_dash();
 
 
         }
@@ -176,6 +176,8 @@ namespace Sophieandme
             Application.Current.Shutdown();
         }
 
+
+
         [DllImport("user32.dll")]
         public static extern IntPtr SendMessage(IntPtr hWnd, int wParam, int wMsg, int lParam);
 
@@ -207,6 +209,7 @@ namespace Sophieandme
 
         private void Quizz_Click(object sender, RoutedEventArgs e)
         {
+            
             fcontainer.Navigate(new System.Uri("/Pages/Quizz.xaml", UriKind.RelativeOrAbsolute));
             Rect1.Visibility = Visibility.Visible;
             Rect2.Visibility = Visibility.Hidden;
@@ -215,6 +218,7 @@ namespace Sophieandme
         private void Markedval_Click(object sender, RoutedEventArgs e)
         {
             fcontainer.Navigate(new System.Uri("/Pages/Marked.xaml", UriKind.RelativeOrAbsolute));
+            
             Rect2.Visibility = Visibility.Visible;
             Rect1.Visibility = Visibility.Hidden;
             Rect3.Visibility = Visibility.Hidden;
@@ -222,6 +226,7 @@ namespace Sophieandme
 
         private void Custom_Click(object sender, RoutedEventArgs e)
         {
+            
             fcontainer.Navigate(new System.Uri("/Pages/Custom_quizz.xaml", UriKind.RelativeOrAbsolute));
             Rect3.Visibility = Visibility.Visible;
             Rect2.Visibility = Visibility.Hidden;

@@ -6,7 +6,6 @@
     xmlns:local="clr-namespace:Sophieandme.Pages"
     xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:uc="clr-namespace:WpfApp2.User_control"
     xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
     Title="Landing"
     d:DesignHeight="740"
@@ -303,12 +302,12 @@
                 <Grid.RowDefinitions>
                     <RowDefinition />
                     <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
                 </Grid.RowDefinitions>
                 <Border
-                    Margin="10,10,15,20"
+                    Grid.Row="1"
+                    Height="250"
+                    Margin="10,0,15,20"
+                    VerticalAlignment="Top"
                     Background="{StaticResource Elementbackground}"
                     CornerRadius="20">
                     <DockPanel>
@@ -336,10 +335,8 @@
                 </Border>
 
                 <Border
-                    Grid.Row="1"
-                    Height="250"
-                    Margin="10,0,15,20"
-                    VerticalAlignment="Top"
+                    Grid.Row="0"
+                    Margin="10,10,15,20"
                     Background="{StaticResource Elementbackground}"
                     CornerRadius="20">
                     <DockPanel>
