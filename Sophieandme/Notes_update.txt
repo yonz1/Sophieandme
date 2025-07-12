@@ -5,9 +5,22 @@
 - Ajouter la mise à jours automatique des quizz ### Avancée
 - Ajouter l'affichage en vert des bonnes réponses (Partie de bonne réponses)
 
+- Faire attention au 2 boutons supprimer et modifier
+
 
 #### 2éme partie
 
 - Implémentation du serveur cloud 
 - Implémentation des api Slack pour un enregistrement automatique 
 - Implémentation des api pronote et Plus+
+
+
+
+#### Landing 
+
+- Les pourcentages de complétition de quizz
+- Les cours les moins réussie (ou quizz)
+- Quizz rapide aléatoire 
+- Dernier message slack 
+
+ 

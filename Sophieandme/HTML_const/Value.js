@@ -1,4 +1,5 @@
 let nom = [];
+let infos = [];
 
 
 function autocomplete(inp, arr) {
@@ -103,5 +104,7 @@ var matiére = ["Physique", "Mathématiques", "Français", "Anglais", "Erreurs",
 
 autocomplete(document.getElementById("Matier"), matiére);
 autocomplete(document.getElementById("Name"), window.nom);
+
+
 
 

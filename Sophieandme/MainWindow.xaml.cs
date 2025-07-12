@@ -25,6 +25,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 using System.IO;
 using FontAwesome.Sharp;
 using System.Diagnostics.Metrics;
+using System.Reflection;
 
 
 namespace Sophieandme
@@ -77,7 +78,7 @@ namespace Sophieandme
             //App.Current.Properties["button_color_text"] = new SolidColorBrush(System.Windows.Media.Color.FromRgb(0x24, 0x24, 0x24));
             InitializeComponent();
             this.Loaded += MainWindow_Loaded;
-            fcontainer.Navigate(new System.Uri("/Pages/Landing.xaml", UriKind.RelativeOrAbsolute));
+            fcontainer.Navigate(new System.Uri("/Pages/Landing_web.xaml", UriKind.RelativeOrAbsolute));
 
 
             //App.Current.Properties["html_back"] = "F5F5F5";
@@ -88,6 +89,8 @@ namespace Sophieandme
             App.Current.Properties["html_back_rep"] = "242424";
             App.Current.Properties["html_text"] = "#F5F5F5";
             //add_log_dash();
+
+
 
 
         }

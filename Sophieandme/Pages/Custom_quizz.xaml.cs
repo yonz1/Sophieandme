@@ -9,6 +9,7 @@ using System.Diagnostics.Metrics;
 using System.Diagnostics.SymbolStore;
 using System.Linq;
 using System.Reflection;
+using System.Security.AccessControl;
 using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
@@ -23,6 +24,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Media.TextFormatting;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Xamarin.Forms.PlatformConfiguration;
 using static CSharpMath.Rendering.Text.TextAtom;
 
 namespace Sophieandme.Pages
@@ -31,7 +33,7 @@ namespace Sophieandme.Pages
     public partial class Custom_quizz : Page
     {
     string conSource = "Data Source=..\\..\\..\\data_restored.db";
-
+        string Tempsource = "Data Source=..\\..\\..\\user_value.db";
 
 
         // ##################################################################### Liste utiliser aprés mélange
@@ -69,11 +71,17 @@ namespace Sophieandme.Pages
 
         public Custom_quizz()
         {
+
             Matier = ["Physique", "Mathématiques", "Français", "Anglais", "Erreurs", "SI"];
             InitializeComponent();
+            string urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTML_const\\Custom.html";
+            urif = urif.Replace("\\", "/");
+            System.Uri uri1 = new System.Uri(urif);
+            webviewall.Source = uri1 as System.Uri;
+            retrieve_nom();
         }
 
-        private async void suggestions()
+        private void retrieve_nom()
         {
             string query = "SELECT Name FROM Mathématiques UNION SELECT Name FROM SI UNION SELECT Name FROM Physique";
             var connection = new SQLiteConnection(conSource);
@@ -87,24 +95,19 @@ namespace Sophieandme.Pages
                     noms.Add(reader.GetString(0));
                 }
                 connection.Close();
-                foreach (var item in noms)
-                {
-                    System.Diagnostics.Debug.WriteLine(item);
-                }
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine(ex.ToString());
             }
-            string json = JsonSerializer.Serialize(noms); 
-            string jsCode = $"window.nom = {json};";
-            System.Diagnostics.Debug.WriteLine(jsCode);
-            await webviewall.CoreWebView2.ExecuteScriptAsync(jsCode);
         }
 
+        private void Create_Click_1(object sender, RoutedEventArgs e)
+        {
+            custom_logic("Add");
+        }
 
-
-        private async void Create_Click_1(object sender, RoutedEventArgs e)
+        private async void custom_logic(string action)
         {
             Quizzcontain.Visibility = Visibility.Collapsed;
             webview_added.Visibility = Visibility.Collapsed;
@@ -113,39 +116,78 @@ namespace Sophieandme.Pages
             await webviewall.EnsureCoreWebView2Async(null);
             webviewall.CoreWebView2.WebMessageReceived += WebView_WebMessageReceived;
             Create_grid.Visibility = Visibility.Visible;
-            string urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTML_const\\Custom.html";
-            urif = urif.Replace("\\", "/");
-            System.Uri uri1 = new System.Uri(urif);
-            webviewall.Source = uri1 as System.Uri;
             suggestions();
+            button_data(action);
+
+
+        }
+
+        private async void suggestions()
+        {
+            string json = JsonSerializer.Serialize(noms);
+            string jsCode = $"window.nom = {json};";
+            System.Diagnostics.Debug.WriteLine(jsCode);
+            await webviewall.CoreWebView2.ExecuteScriptAsync(jsCode);
+        }
+
+        private async void button_data(string action)
+        {
+            string infos = action;
+            System.Diagnostics.Debug.WriteLine(infos);
+            string json = JsonSerializer.Serialize(infos);
+            string jsCode = $"button_fill('{infos}')";
+            System.Diagnostics.Debug.WriteLine(jsCode);
+            await webviewall.CoreWebView2.ExecuteScriptAsync(jsCode);
         }
 
 
 
-
-
+        //##################################################################################################################   Logique de reception avec webview
         private void WebView_WebMessageReceived(object sender, CoreWebView2WebMessageReceivedEventArgs e)
         {
             Quizzcontain.Children.Clear();
-            string Tempsource = "Data Source=..\\..\\..\\user_value.db";
+           
             string json = e.WebMessageAsJson;   
             var data = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(json);
             System.Diagnostics.Debug.WriteLine(data["action"]);
 
-
             if (data["action"].ToString() == "save")
             {
-                string query = "";
-                string matier = "\"" + data["matier"].ToString() + "\"";
-                string nom = "\"" + data["name"].ToString() + "\"";
-                string question = "\"" + data["question"].ToString() + "\"";
-                string quest_im = "\"" + data["img_question"].ToString() + "\"";
-                string rep = "\"" + data["rep"].ToString() + "\"";
-                string rep_img = "\"" + data["img_rep"].ToString() + "\"";
+                save_logic(data);
+            }
+
+            else if (data["action"].ToString() == "Delete")
+            { 
+                Delete_logic(data);
+            }
+
+            else if (data["action"].ToString() == "edit")
+            {
+                edit_logic(data);
+            }
+
+            else if (data["action"].ToString() == "Replace")
+            {
+                replace_logic(data);
+            }
+        }
 
 
-                try
-                {
+
+        private void save_logic(Dictionary<string, object> data)
+        {
+           
+            string query = "";
+            string matier = "\"" + data["matier"].ToString() + "\"";
+            string nom = "\"" + data["name"].ToString() + "\"";
+            string question = "\"" + data["question"].ToString() + "\"";
+            string quest_im = "\"" + data["img_question"].ToString() + "\"";
+            string rep = "\"" + data["rep"].ToString() + "\"";
+            string rep_img = "\"" + data["img_rep"].ToString() + "\"";
+
+
+            try
+            {
                 using (SQLiteConnection c = new SQLiteConnection(conSource))
                 {
                     c.Open();
@@ -172,7 +214,7 @@ namespace Sophieandme.Pages
             {
                 MessageBox.Show("An error occured while saving your quizz");
             }
-            
+
             try
             {
                 using (SQLiteConnection c = new SQLiteConnection(Tempsource))
@@ -201,66 +243,112 @@ namespace Sophieandme.Pages
             {
                 System.Diagnostics.Debug.WriteLine("Error occured while loging the data");
             }
+        }
+
+
+        private void Delete_logic(Dictionary<string, object> data)
+        {
+
+            string val = data["id"].ToString().Replace("\\large", "").Replace("\\(", "$").Replace("\\)", "$");
+
+            string query = "DELETE FROM " + App.Current.Properties["matier"].ToString() + " WHERE ID = \"100\" AND name = \"" + App.Current.Properties["nameindex"].ToString() + "\" AND  REPLACE(question, ' ', '') =  REPLACE(\"" + val + "\", ' ', '')";
+            System.Diagnostics.Debug.WriteLine(query);
+            using (SQLiteConnection c = new SQLiteConnection(conSource))
+            {
+                c.Open();
+                System.Diagnostics.Debug.WriteLine(query);
+                using (SQLiteCommand cmd = new SQLiteCommand(query, c))
+                {
+                    cmd.ExecuteNonQuery();
+                }
             }
 
-
-            else if (data["action"].ToString() == "Delete")
+            query = "DELETE FROM DATE WHERE Name = \"" + App.Current.Properties["nameindex"].ToString() + "\"";
+            using (SQLiteConnection c = new SQLiteConnection(Tempsource))
             {
-                string val = data["id"].ToString().Replace("\\large", "").Replace("\\(", "$").Replace("\\)", "$");
-
-                string query = "DELETE FROM " + App.Current.Properties["matier"].ToString() + " WHERE ID = \"100\" AND name = \"" + App.Current.Properties["nameindex"].ToString() + "\" AND  REPLACE(question, ' ', '') =  REPLACE(\"" + val + "\", ' ', '')";   
+                c.Open();
                 System.Diagnostics.Debug.WriteLine(query);
-                using (SQLiteConnection c = new SQLiteConnection(conSource))
+                using (SQLiteCommand cmd = new SQLiteCommand(query, c))
                 {
-                    c.Open();
-                    System.Diagnostics.Debug.WriteLine(query);
-                    using (SQLiteCommand cmd = new SQLiteCommand(query, c))
-                    {
-                        cmd.ExecuteNonQuery();
-                    }
+                    cmd.ExecuteNonQuery();
                 }
-
-                query = "DELETE FROM DATE WHERE Name = \"" + App.Current.Properties["nameindex"].ToString() + "\"";
-                using (SQLiteConnection c = new SQLiteConnection(Tempsource))
-                {
-                    c.Open();
-                    System.Diagnostics.Debug.WriteLine(query);
-                    using (SQLiteCommand cmd = new SQLiteCommand(query, c))
-                    {
-                        cmd.ExecuteNonQuery();
-                    }
-                }
-            }
-            else if (data["action"].ToString() == "edit")
-            {
-                string conSource = "Data Source=..\\..\\..\\data_restored.db";
-                string val = data["id"].ToString().Replace("\\large", "").Replace("\\(", "$").Replace("\\)", "$");
-
-                string query = "SELECT question,reponse,image_question_url,image_answer_url FROM " + App.Current.Properties["matier"].ToString() + " WHERE ID = \"100\" AND name = \"" + App.Current.Properties["nameindex"].ToString() + "\" AND  REPLACE(question, ' ', '') =  REPLACE(\"" + val + "\", ' ', '')";
-                System.Diagnostics.Debug.WriteLine(query);
-                using (SQLiteConnection c = new SQLiteConnection(conSource))
-                {
-                    c.Open();
-                    System.Diagnostics.Debug.WriteLine(query);
-                    using (SQLiteCommand cmd = new SQLiteCommand(query, c))
-                    {
-                        var reader = cmd.ExecuteReader();
-                        while (reader.Read())
-                        {
-                            string question     = reader.GetString(0);
-                            string reponse       = reader.GetString(1);
-                            string image_question_url = reader.GetString(2);
-                            string image_answer_url = reader.GetString(3);
-                            System.Diagnostics.Debug.WriteLine(App.Current.Properties["matier"].ToString());
-                            System.Diagnostics.Debug.WriteLine(App.Current.Properties["nameindex"].ToString());
-                            System.Diagnostics.Debug.WriteLine(question);
-                            System.Diagnostics.Debug.WriteLine(reponse);
-                        }
-                    }
-                }
-                
             }
         }
+
+        private async void edit_logic(Dictionary<string, object> data)
+        {
+            string question;
+            string reponse;
+            string image_question_url;
+            string image_answer_url;
+            string conSource = "Data Source=..\\..\\..\\data_restored.db";
+            string val = data["id"].ToString().Replace("\\large", "").Replace("\\(", "$").Replace("\\)", "$");
+            App.Current.Properties["old_quest"] = val;
+
+            string query = "SELECT question,reponse,image_question_url,image_answer_url FROM " + App.Current.Properties["matier"].ToString() + " WHERE ID = \"100\" AND name = \"" + App.Current.Properties["nameindex"].ToString() + "\" AND  REPLACE(question, ' ', '') =  REPLACE(\"" + val + "\", ' ', '')";
+            System.Diagnostics.Debug.WriteLine(query);
+            using (SQLiteConnection c = new SQLiteConnection(conSource))
+            {
+                c.Open();
+                System.Diagnostics.Debug.WriteLine(query);
+                using (SQLiteCommand cmd = new SQLiteCommand(query, c))
+                {
+                    var reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        question = reader.GetString(0);
+                        reponse = reader.GetString(1);
+                        image_question_url = reader.GetString(2);
+                        image_answer_url = reader.GetString(3);
+                        custom_logic("");
+                        List<string> infos = [App.Current.Properties["matier"].ToString(), App.Current.Properties["nameindex"].ToString(), question, reponse, image_question_url, image_answer_url];
+                        System.Diagnostics.Debug.WriteLine(infos);
+                        string json = JsonSerializer.Serialize(infos);
+                        string jsCode = $"fill_edit({json});";
+                        System.Diagnostics.Debug.WriteLine(jsCode);
+                        await webviewall.CoreWebView2.ExecuteScriptAsync(jsCode);
+
+                    }
+                }
+            }
+        }
+
+        private void replace_logic(Dictionary<string, object> data)
+        {
+            string query = "";
+            string matier = "\"" + data["matier"].ToString() + "\"";
+            string nom = "\"" + data["name"].ToString() + "\"";
+            string question = "\"" + data["question"].ToString() + "\"";
+            string quest_im = "\"" + data["img_question"].ToString() + "\"";
+            string rep = "\"" + data["rep"].ToString() + "\"";
+            string rep_img = "\"" + data["img_rep"].ToString() + "\"";
+
+            if (data["matier"].ToString() == App.Current.Properties["matier"].ToString())
+            {
+
+            
+            query = "UPDATE " + App.Current.Properties["matier"].ToString() + " SET name = " + nom +  ", question = " + question + ",reponse = "+ rep  + ", image_question_url = " + quest_im + ", image_answer_url = " + rep_img +" WHERE ID = \"100\" AND name = \"" + App.Current.Properties["nameindex"].ToString() + "\" AND  REPLACE(question, ' ', '') =  REPLACE(\"" + App.Current.Properties["old_quest"].ToString() + "\", ' ', '')";
+            System.Diagnostics.Debug.WriteLine(query);
+                using (SQLiteConnection c = new SQLiteConnection(conSource))
+                {
+                    c.Open();
+                    System.Diagnostics.Debug.WriteLine(query);
+                    using (SQLiteCommand cmd = new SQLiteCommand(query, c))
+                    {
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please Select the same theme");
+            }
+
+
+
+    }
+
+        //################################################################################################################## Fin Logique de reception avec webview
 
         private void custom_but_Click(object sender, RoutedEventArgs e)
         {
@@ -381,34 +469,28 @@ namespace Sophieandme.Pages
         private void Showdata()
         {
             string start = "<!DOCTYPE html>\r\n<html>\r\n<head>\r\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\r\n   <style>\r\n  img{\r\n  max-width: 60%;\r\n  max-height: 60%;\r\n  max-height: 7cm;\r\n  margin-top: 0.4cm;\r\n  border-radius: 3%;\r\n} .card {\r\n    margin-top: 0.2cm;\r\n     margin-left: 0.2cm;  \r\n box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);\r\n  transition: 0.3s;\r\n    background-color: #" + App.Current.Properties["html_back_rep"] + ";\r\n   width: 40%;\r\n  border-radius: 5px;\r\n  display: inline-block;\r\n  max-width: 13cm;\r\n}\r\n\r p {\r\n font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;\r\n    color: " + App.Current.Properties["html_text"] + ";\r\n    padding: 0.2cm;\r\n  }\r\n   \n.card:hover {\r\n  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);\r\n}\r\n\r\n\r\n.container {\r\n  padding: 2px 16px;\r\n}" + "body {\r\n    color: #" + App.Current.Properties["html_back_rep"] + ";\r\n    background-color: #" + App.Current.Properties["html_back"] + ";\r\n}\r\n" + " \r\n</style>\r\n</head>\r\n<body> <script id=\"MathJax-script\" async src=\"https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js\"> </script> \r\n     <link rel=\"stylesheet\" href=\"../HTML_const/Created.css\"> ";
+            // Balisage des bouttons 
 
             for (int i = 0; i < id.Count; i++)
             {
+                string rec = " <div class=\"card\">\r\n  <div class=\"container\">\r\n    <button class=\"bin-button\" value=\"" + miseneformetext(question[i]) + "\" onclick=\"get_val(this)\">\r\n  <svg\r\n    class=\"bin-top\"\r\n    viewBox=\"0 0 39 7\"\r\n    fill=\"none\"\r\n    xmlns=\"http://www.w3.org/2000/svg\"\r\n  >\r\n    <line y1=\"5\" x2=\"39\" y2=\"5\" stroke=\"white\" stroke-width=\"4\"></line>\r\n    <line\r\n      x1=\"12\"\r\n      y1=\"1.5\"\r\n      x2=\"26.0357\"\r\n      y2=\"1.5\"\r\n      stroke=\"white\"\r\n      stroke-width=\"3\"\r\n    ></line>\r\n  </svg>\r\n  <svg\r\n    class=\"bin-bottom\"\r\n    viewBox=\"0 0 33 39\"\r\n    fill=\"none\"\r\n    xmlns=\"http://www.w3.org/2000/svg\"\r\n  >\r\n    <mask id=\"path-1-inside-1_8_19\" fill=\"white\">\r\n      <path\r\n        d=\"M0 0H33V35C33 37.2091 31.2091 39 29 39H4C1.79086 39 0 37.2091 0 35V0Z\"\r\n      ></path>\r\n    </mask>\r\n    <path\r\n      d=\"M0 0H33H0ZM37 35C37 39.4183 33.4183 43 29 43H4C-0.418278 43 -4 39.4183 -4 35H4H29H37ZM4 43C-0.418278 43 -4 39.4183 -4 35V0H4V35V43ZM37 0V35C37 39.4183 33.4183 43 29 43V35V0H37Z\"\r\n      fill=\"white\"\r\n      mask=\"url(#path-1-inside-1_8_19)\"\r\n    ></path>\r\n    <path d=\"M12 6L12 29\" stroke=\"white\" stroke-width=\"4\"></path>\r\n    <path d=\"M21 6V29\" stroke=\"white\" stroke-width=\"4\"></path>\r\n  </svg>\r\n</button>\r\n";
+                rec += " <button class=\"editBtn\" value=\"" + miseneformetext(question[i]) + "\" onclick=\"get_data(this)\">\r\n  <svg height=\"0.1em\" viewBox=\"0 0 512 512\">\r\n    <path\r\n      d=\"M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1v32c0 8.8 7.2 16 16 16h32zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z\"\r\n    ></path>\r\n  </svg>\r\n</button>";
                 if (url_question[i] == "" && url_rep[i] == "")
-                {
-                    // Balisage du boutton 
-                    start += " <div class=\"card\">\r\n  <div class=\"container\">\r\n    <button class=\"bin-button\" value=\"" + miseneformetext(question[i]) + "\" onclick=\"get_val(this)\">\r\n  <svg\r\n    class=\"bin-top\"\r\n    viewBox=\"0 0 39 7\"\r\n    fill=\"none\"\r\n    xmlns=\"http://www.w3.org/2000/svg\"\r\n  >\r\n    <line y1=\"5\" x2=\"39\" y2=\"5\" stroke=\"white\" stroke-width=\"4\"></line>\r\n    <line\r\n      x1=\"12\"\r\n      y1=\"1.5\"\r\n      x2=\"26.0357\"\r\n      y2=\"1.5\"\r\n      stroke=\"white\"\r\n      stroke-width=\"3\"\r\n    ></line>\r\n  </svg>\r\n  <svg\r\n    class=\"bin-bottom\"\r\n    viewBox=\"0 0 33 39\"\r\n    fill=\"none\"\r\n    xmlns=\"http://www.w3.org/2000/svg\"\r\n  >\r\n    <mask id=\"path-1-inside-1_8_19\" fill=\"white\">\r\n      <path\r\n        d=\"M0 0H33V35C33 37.2091 31.2091 39 29 39H4C1.79086 39 0 37.2091 0 35V0Z\"\r\n      ></path>\r\n    </mask>\r\n    <path\r\n      d=\"M0 0H33H0ZM37 35C37 39.4183 33.4183 43 29 43H4C-0.418278 43 -4 39.4183 -4 35H4H29H37ZM4 43C-0.418278 43 -4 39.4183 -4 35V0H4V35V43ZM37 0V35C37 39.4183 33.4183 43 29 43V35V0H37Z\"\r\n      fill=\"white\"\r\n      mask=\"url(#path-1-inside-1_8_19)\"\r\n    ></path>\r\n    <path d=\"M12 6L12 29\" stroke=\"white\" stroke-width=\"4\"></path>\r\n    <path d=\"M21 6V29\" stroke=\"white\" stroke-width=\"4\"></path>\r\n  </svg>\r\n</button>\r\n";
-                    start += " <button class=\"editBtn\" value=\"" + miseneformetext(question[i]) + "\" onclick=\"get_data(this)\">\r\n  <svg height=\"0.1em\" viewBox=\"0 0 512 512\">\r\n    <path\r\n      d=\"M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1v32c0 8.8 7.2 16 16 16h32zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z\"\r\n    ></path>\r\n  </svg>\r\n</button>";
-                    // Balisage de la carte 
-                    start += " <p>" + miseneformetext(question[i]) + "</p> \r\n <hr>\r\n    <p>" + miseneformetext(repnse[i]) + "</p> \r\n  </div>\r\n</div>\r\n";
+                { 
+              // Balisage de la carte 
+                    start += rec + " <p>" + miseneformetext(question[i]) + "</p> \r\n <hr>\r\n    <p>" + miseneformetext(repnse[i]) + "</p> \r\n  </div>\r\n</div>\r\n";
                 }
                 else if (url_question[i] == "")
                 {
-                    start += "<div class=\"card\">\r\n  <div class=\"container\">\r\n    <button class=\"bin-button\" value=\"" + miseneformetext(question[i]) + "\" onclick=\"get_val(this)\">\r\n  <svg\r\n    class=\"bin-top\"\r\n    viewBox=\"0 0 39 7\"\r\n    fill=\"none\"\r\n    xmlns=\"http://www.w3.org/2000/svg\"\r\n  >\r\n    <line y1=\"5\" x2=\"39\" y2=\"5\" stroke=\"white\" stroke-width=\"4\"></line>\r\n    <line\r\n      x1=\"12\"\r\n      y1=\"1.5\"\r\n      x2=\"26.0357\"\r\n      y2=\"1.5\"\r\n      stroke=\"white\"\r\n      stroke-width=\"3\"\r\n    ></line>\r\n  </svg>\r\n  <svg\r\n    class=\"bin-bottom\"\r\n    viewBox=\"0 0 33 39\"\r\n    fill=\"none\"\r\n    xmlns=\"http://www.w3.org/2000/svg\"\r\n  >\r\n    <mask id=\"path-1-inside-1_8_19\" fill=\"white\">\r\n      <path\r\n        d=\"M0 0H33V35C33 37.2091 31.2091 39 29 39H4C1.79086 39 0 37.2091 0 35V0Z\"\r\n      ></path>\r\n    </mask>\r\n    <path\r\n      d=\"M0 0H33H0ZM37 35C37 39.4183 33.4183 43 29 43H4C-0.418278 43 -4 39.4183 -4 35H4H29H37ZM4 43C-0.418278 43 -4 39.4183 -4 35V0H4V35V43ZM37 0V35C37 39.4183 33.4183 43 29 43V35V0H37Z\"\r\n      fill=\"white\"\r\n      mask=\"url(#path-1-inside-1_8_19)\"\r\n    ></path>\r\n    <path d=\"M12 6L12 29\" stroke=\"white\" stroke-width=\"4\"></path>\r\n    <path d=\"M21 6V29\" stroke=\"white\" stroke-width=\"4\"></path>\r\n  </svg>\r\n</button>\r\n";
-                    start += " <button class=\"editBtn\" value=\"" + miseneformetext(question[i]) + "\" onclick=\"get_data(this)\">\r\n  <svg height=\"0.1em\" viewBox=\"0 0 512 512\">\r\n    <path\r\n      d=\"M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1v32c0 8.8 7.2 16 16 16h32zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z\"\r\n    ></path>\r\n  </svg>\r\n</button>";
-                    start += " <p>" + miseneformetext(question[i]) + "</p> \r\n  <hr>\r\n   <img src=\"" + url_rep[i].Replace("\\/", "/") + "\" alt=\"Avatar\" style=\"width:100%\">\r\n    <p>" + miseneformetext(repnse[i]) + "</p> \r\n  </div>\r\n</div>\r\n";
+                    start += rec + " <p>" + miseneformetext(question[i]) + "</p> \r\n  <hr>\r\n   <img src=\"" + url_rep[i].Replace("\\/", "/") + "\" alt=\"Avatar\" style=\"width:100%\">\r\n    <p>" + miseneformetext(repnse[i]) + "</p> \r\n  </div>\r\n</div>\r\n";
                 }
                 else if (url_rep[i] == "")
                 {
-                    start += "<div class=\"card\">\r\n  <div class=\"container\">\r\n    <button class=\"bin-button\" value=\"" + miseneformetext(question[i]) + "\" onclick=\"get_val(this)\">\r\n  <svg\r\n    class=\"bin-top\"\r\n    viewBox=\"0 0 39 7\"\r\n    fill=\"none\"\r\n    xmlns=\"http://www.w3.org/2000/svg\"\r\n  >\r\n    <line y1=\"5\" x2=\"39\" y2=\"5\" stroke=\"white\" stroke-width=\"4\"></line>\r\n    <line\r\n      x1=\"12\"\r\n      y1=\"1.5\"\r\n      x2=\"26.0357\"\r\n      y2=\"1.5\"\r\n      stroke=\"white\"\r\n      stroke-width=\"3\"\r\n    ></line>\r\n  </svg>\r\n  <svg\r\n    class=\"bin-bottom\"\r\n    viewBox=\"0 0 33 39\"\r\n    fill=\"none\"\r\n    xmlns=\"http://www.w3.org/2000/svg\"\r\n  >\r\n    <mask id=\"path-1-inside-1_8_19\" fill=\"white\">\r\n      <path\r\n        d=\"M0 0H33V35C33 37.2091 31.2091 39 29 39H4C1.79086 39 0 37.2091 0 35V0Z\"\r\n      ></path>\r\n    </mask>\r\n    <path\r\n      d=\"M0 0H33H0ZM37 35C37 39.4183 33.4183 43 29 43H4C-0.418278 43 -4 39.4183 -4 35H4H29H37ZM4 43C-0.418278 43 -4 39.4183 -4 35V0H4V35V43ZM37 0V35C37 39.4183 33.4183 43 29 43V35V0H37Z\"\r\n      fill=\"white\"\r\n      mask=\"url(#path-1-inside-1_8_19)\"\r\n    ></path>\r\n    <path d=\"M12 6L12 29\" stroke=\"white\" stroke-width=\"4\"></path>\r\n    <path d=\"M21 6V29\" stroke=\"white\" stroke-width=\"4\"></path>\r\n  </svg>\r\n</button>\r\n";
-                    start += " <button class=\"editBtn\" value=\"" + miseneformetext(question[i]) + "\" onclick=\"get_data(this)\">\r\n  <svg height=\"0.1em\" viewBox=\"0 0 512 512\">\r\n    <path\r\n      d=\"M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1v32c0 8.8 7.2 16 16 16h32zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z\"\r\n    ></path>\r\n  </svg>\r\n</button>";
-                    start += "  <img src=\"" + url_question[i].Replace("\\/", "/") + "\" alt=\"Avatar\" style=\"width:100%\">\r\n    <p>" + miseneformetext(question[i]) + "</p> \r\n  <hr>\r\n    <p>" + miseneformetext(repnse[i]) + "</p> \r\n  </div>\r\n</div>\r\n";
+                    start += rec + "<img src=\"" + url_question[i].Replace("\\/", "/") + "\" alt=\"Avatar\" style=\"width:100%\">\r\n    <p>" + miseneformetext(question[i]) + "</p> \r\n  <hr>\r\n    <p>" + miseneformetext(repnse[i]) + "</p> \r\n  </div>\r\n</div>\r\n";
                 }
                 else
                 {
-                    start += " <div class=\"card\">\r\n  <div class=\"container\">\r\n    <button class=\"bin-button\" value=\"" + miseneformetext(question[i]) + "\" onclick=\"get_val(this)\">\r\n  <svg\r\n    class=\"bin-top\"\r\n    viewBox=\"0 0 39 7\"\r\n    fill=\"none\"\r\n    xmlns=\"http://www.w3.org/2000/svg\"\r\n  >\r\n    <line y1=\"5\" x2=\"39\" y2=\"5\" stroke=\"white\" stroke-width=\"4\"></line>\r\n    <line\r\n      x1=\"12\"\r\n      y1=\"1.5\"\r\n      x2=\"26.0357\"\r\n      y2=\"1.5\"\r\n      stroke=\"white\"\r\n      stroke-width=\"3\"\r\n    ></line>\r\n  </svg>\r\n  <svg\r\n    class=\"bin-bottom\"\r\n    viewBox=\"0 0 33 39\"\r\n    fill=\"none\"\r\n    xmlns=\"http://www.w3.org/2000/svg\"\r\n  >\r\n    <mask id=\"path-1-inside-1_8_19\" fill=\"white\">\r\n      <path\r\n        d=\"M0 0H33V35C33 37.2091 31.2091 39 29 39H4C1.79086 39 0 37.2091 0 35V0Z\"\r\n      ></path>\r\n    </mask>\r\n    <path\r\n      d=\"M0 0H33H0ZM37 35C37 39.4183 33.4183 43 29 43H4C-0.418278 43 -4 39.4183 -4 35H4H29H37ZM4 43C-0.418278 43 -4 39.4183 -4 35V0H4V35V43ZM37 0V35C37 39.4183 33.4183 43 29 43V35V0H37Z\"\r\n      fill=\"white\"\r\n      mask=\"url(#path-1-inside-1_8_19)\"\r\n    ></path>\r\n    <path d=\"M12 6L12 29\" stroke=\"white\" stroke-width=\"4\"></path>\r\n    <path d=\"M21 6V29\" stroke=\"white\" stroke-width=\"4\"></path>\r\n  </svg>\r\n</button>\r\n";
-                    start += " <button class=\"editBtn\" value=\"" + miseneformetext(question[i]) + "\" onclick=\"get_data(this)\">\r\n  <svg height=\"0.1em\" viewBox=\"0 0 512 512\">\r\n    <path\r\n      d=\"M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1v32c0 8.8 7.2 16 16 16h32zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z\"\r\n    ></path>\r\n  </svg>\r\n</button>";
-                    start += "<img src=\"" + url_question[i].Replace("\\/", "/") + "\" alt=\"Avatar\" style=\"width:100%\">\r\n    <p>" + miseneformetext(question[i]) + "</p> \r\n  <hr>\r\n   <img src=\"" + url_rep[i].Replace("\\/", "/") + "\" alt=\"Avatar\" style=\"width:100%\">\r\n    <p>" + miseneformetext(repnse[i]) + "</p> \r\n  </div>\r\n</div>\r\n";
+                    start += rec + "<img src=\"" + url_question[i].Replace("\\/", "/") + "\" alt=\"Avatar\" style=\"width:100%\">\r\n    <p>" + miseneformetext(question[i]) + "</p> \r\n  <hr>\r\n   <img src=\"" + url_rep[i].Replace("\\/", "/") + "\" alt=\"Avatar\" style=\"width:100%\">\r\n    <p>" + miseneformetext(repnse[i]) + "</p> \r\n  </div>\r\n</div>\r\n";
                 }
             }
             start += " <script src=\"../HTML_const/Delete.js\"></script>\r\n  </body>\r\n</html> \r\n";

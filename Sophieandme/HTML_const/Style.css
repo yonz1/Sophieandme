@@ -422,8 +422,6 @@ input[type=file] {
 }
 
     .animated-button:hover {
-        background-color: #23c483;
-        box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
         color: #fff;
         transform: translateY(-7px);
     }
@@ -432,12 +430,21 @@ input[type=file] {
         transform: translateY(-1px);
     }
 
-
+#btnSave:hover {
+    background-color: #23c483;
+    box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+}
 
 #btnclear:hover {
     background-color: red;
     box-shadow: 0px 15px 20px #B00020;
 }
+
+#btnReplace:hover {
+    background-color: rgb(0, 202, 255);
+    box-shadow: 0px 10px 10px #00CAFF;
+}
+
 
 /* From Uiverse.io by alexruix */
 .input-group {

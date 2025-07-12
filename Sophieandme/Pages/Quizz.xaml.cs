@@ -376,6 +376,7 @@ namespace Sophieandme.Pages
                     using (SQLiteConnection c = new SQLiteConnection(conSource))
                     {
                         c.Open();
+                        
                         query = "UPDATE " + App.Current.Properties["matier"].ToString() + " SET Ended='1' WHERE name = \"" + App.Current.Properties["nameindex"].ToString() + "\"";
                         System.Diagnostics.Debug.WriteLine(query);
                         using (SQLiteCommand cmd = new SQLiteCommand(query, c))
@@ -636,11 +637,22 @@ namespace Sophieandme.Pages
 
         private void Marquer_Checked(object sender, RoutedEventArgs e)
         {
+            List<string> Mat = ["Physique", "Mathématiques", "Français", "Anglais", "Erreurs", "SI"];
+            string query = "";
             Icon_Mark.IconFont = FontAwesome.Sharp.IconFont.Solid;
             using (SQLiteConnection c = new SQLiteConnection(conSource))
             {
                 c.Open();
-                string query = "UPDATE " + App.Current.Properties["matier"].ToString() + " SET Marked = 1 where question = \"" + question[i] + "\" AND name = \"" + App.Current.Properties["nameindex"] + "\"" ;
+                if (Mat.Contains(App.Current.Properties["nameindex"].ToString()))
+                {
+                    
+                    query = "UPDATE TOP(1) " + App.Current.Properties["matier"].ToString() + " SET Marked = 1 where question = \"" + question[i] + "\"";
+                }
+                else
+                {
+                    query = "UPDATE " + App.Current.Properties["matier"].ToString() + " SET Marked = 1 where question = \"" + question[i] + "\" AND name = \"" + App.Current.Properties["nameindex"] + "\"";
+                }
+                    
                 System.Diagnostics.Debug.WriteLine(query);
                 using (SQLiteCommand cmd = new SQLiteCommand(query, c))
                 {
