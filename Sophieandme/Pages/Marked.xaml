@@ -17,6 +17,7 @@
     TextElement.Foreground="{DynamicResource MaterialDesignBody}"
     TextOptions.TextFormattingMode="Ideal"
     TextOptions.TextRenderingMode="Auto"
+    Loaded="Page_Loaded"
     mc:Ignorable="d">
 
 
@@ -510,8 +511,7 @@
                                 DockPanel.Dock="Right"
                                 Foreground="{StaticResource Top_iconc_color}"
                                 Style="{StaticResource TopButtonrad}"
-                                Tag="{StaticResource Glass}"
-                                Unchecked="Marquer_Unchecked">
+                                Tag="{StaticResource Glass}">
                                 <fs:IconImage
                                     Width="30"
                                     Height="30"
@@ -520,7 +520,7 @@
                                     Style="{StaticResource TopButtonIconrad}" />
                             </ToggleButton>
 
-                            <ToggleButton
+                            <!--<ToggleButton
                                 x:Name="Marked_tgbutton"
                                 Width="40"
                                 Height="40"
@@ -541,7 +541,7 @@
                                     Icon="Bookmark"
                                     IconFont="Regular"
                                     Style="{StaticResource TopButtonIconrad}" />
-                            </ToggleButton>
+                            </ToggleButton>-->
                             <Button
                                 x:Name="Direct_rep"
                                 Width="40"

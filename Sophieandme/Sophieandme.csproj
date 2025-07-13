@@ -25,6 +25,7 @@
 
   <ItemGroup>
     <Folder Include="HTML\" />
+    <Folder Include="Views\" />
   </ItemGroup>
 
   <ItemGroup>

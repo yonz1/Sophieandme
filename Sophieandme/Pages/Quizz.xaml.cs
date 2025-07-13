@@ -640,24 +640,39 @@ namespace Sophieandme.Pages
             List<string> Mat = ["Physique", "Mathématiques", "Français", "Anglais", "Erreurs", "SI"];
             string query = "";
             Icon_Mark.IconFont = FontAwesome.Sharp.IconFont.Solid;
-            using (SQLiteConnection c = new SQLiteConnection(conSource))
+
+            try
             {
-                c.Open();
-                if (Mat.Contains(App.Current.Properties["nameindex"].ToString()))
+                using (SQLiteConnection c = new SQLiteConnection(conSource))
                 {
-                    
-                    query = "UPDATE TOP(1) " + App.Current.Properties["matier"].ToString() + " SET Marked = 1 where question = \"" + question[i] + "\"";
+                    c.Open();
+                    query = "SELECT COUNT(*) FROM Marked WHERE  question = \"" + question[i] + "\" AND Matier = \"" + App.Current.Properties["matier"].ToString() + "\"";
+                    System.Diagnostics.Debug.WriteLine(query);
+                    using (SQLiteCommand cmd = new SQLiteCommand(query, c))
+                    {
+                        long count = (long)cmd.ExecuteScalar();
+                        System.Diagnostics.Debug.WriteLine(count);
+
+                        if (count == 0)
+                        {
+                            string mat = "\"" + App.Current.Properties["matier"].ToString() + "\",";
+                            string quest = "\"" + question[i] + "\",";
+                            string rep = "\"" + repnse[i] + "\",";
+                            string question_img = "\"" + url_question[i] + "\",";
+                            string reponse_img = "\"" + url_rep[i] + "\"";
+                            query = "INSERT INTO Marked (Matier,question,reponse,question_img,reponse_img) VALUES (" + mat + quest + rep + question_img + reponse_img + ")";
+                            System.Diagnostics.Debug.WriteLine(query);
+                            using (SQLiteCommand insertCmd = new SQLiteCommand(query, c))
+                            {
+                                insertCmd.ExecuteNonQuery();
+                            }
+                        }
+                    }
                 }
-                else
-                {
-                    query = "UPDATE " + App.Current.Properties["matier"].ToString() + " SET Marked = 1 where question = \"" + question[i] + "\" AND name = \"" + App.Current.Properties["nameindex"] + "\"";
-                }
-                    
-                System.Diagnostics.Debug.WriteLine(query);
-                using (SQLiteCommand cmd = new SQLiteCommand(query, c))
-                {
-                    cmd.ExecuteNonQuery();
-                }
+            }
+            catch
+            {
+                System.Windows.Forms.MessageBox.Show("An error occured while saving your quizz");
             }
         }
 

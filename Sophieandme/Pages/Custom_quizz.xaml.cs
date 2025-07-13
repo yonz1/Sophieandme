@@ -113,8 +113,7 @@ namespace Sophieandme.Pages
             webview_added.Visibility = Visibility.Collapsed;
             webviewall.Visibility = Visibility.Visible;
             Return_panel.Visibility = Visibility.Collapsed;
-            await webviewall.EnsureCoreWebView2Async(null);
-            webviewall.CoreWebView2.WebMessageReceived += WebView_WebMessageReceived;
+
             Create_grid.Visibility = Visibility.Visible;
             suggestions();
             button_data(action);
@@ -138,7 +137,8 @@ namespace Sophieandme.Pages
             string jsCode = $"button_fill('{infos}')";
             System.Diagnostics.Debug.WriteLine(jsCode);
             await webviewall.CoreWebView2.ExecuteScriptAsync(jsCode);
-        }
+            
+            }
 
 
 

@@ -1,4 +1,5 @@
-﻿using CSharpMath.Forms;
+﻿using CommonWin32.API;
+using CSharpMath.Forms;
 using FontAwesome.Sharp;
 using Microsoft.Web.WebView2.Core;
 using Sophieandme.Window;
@@ -13,6 +14,7 @@ using System.Linq;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Timers;
@@ -61,7 +63,7 @@ namespace Sophieandme.Pages
         List<string> url_questionaf = new List<string>();
         List<string> url_repaf = new List<string>();
 
-
+        List<string> labels_list = ["Maths_label", "Physique_label", "SI_label", "Français_label", "Anglais_label", "Erreurs_label", "Quizz_label", "All_label"];
         private Stopwatch _stopwatch;
         private System.Timers.Timer _timer;
         private const string _startTimeDisplay = "00:00";
@@ -81,9 +83,42 @@ namespace Sophieandme.Pages
 
             _stopwatch.Start();
             _timer.Start();
+
+
+            string urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTML_const\\Marked.html";
+            urif = urif.Replace("\\", "/");
+            System.Diagnostics.Debug.WriteLine(urif);
+            System.Uri uri1 = new System.Uri(urif);
+            webviewall.Source = uri1 as System.Uri;
         }
 
-        private void OnTimerElapse(object sender, ElapsedEventArgs e)
+
+        private async void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            await webviewall.EnsureCoreWebView2Async(null);
+            webviewall.CoreWebView2.WebMessageReceived += WebView_WebMessageReceived;
+        }
+
+        private void WebView_WebMessageReceived(object sender, CoreWebView2WebMessageReceivedEventArgs e)
+        {
+            string json = e.WebMessageAsJson;
+            var data = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(json);
+            System.Diagnostics.Debug.WriteLine(data["id"]);
+            string val = data["id"].ToString().Replace("\\large", "").Replace("\\(", "$").Replace("\\)", "$");
+            string query = "DELETE FROM Marked WHERE REPLACE(question, ' ', '') =  REPLACE(\"" + val + "\", ' ', '')";
+            System.Diagnostics.Debug.WriteLine(query);
+            using (SQLiteConnection c = new SQLiteConnection(conSource))
+            {
+                c.Open();
+                System.Diagnostics.Debug.WriteLine(query);
+                using (SQLiteCommand cmd = new SQLiteCommand(query, c))
+                {
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+            private void OnTimerElapse(object sender, ElapsedEventArgs e)
         {
             App.Current.Dispatcher.Invoke(() => tbTime.Text = _stopwatch.Elapsed.ToString(@"mm\:ss"));
         }
@@ -98,32 +133,24 @@ namespace Sophieandme.Pages
             System.Diagnostics.Debug.WriteLine("Test1");
             Getmarked(mat);
             System.Diagnostics.Debug.WriteLine("Test2");
-            GenerateHTML(mat);
-            foreach (string question in question)
-            {
-                System.Diagnostics.Debug.WriteLine(question);
-            }
+            send_data(questionaf, reponseaf);
             
         }
 
         private void Getmarked(string mat)
         {
             var connection = new SQLiteConnection(conSource);
-            string valtoreq = "question,reponse,image_question_url, image_answer_url";
+            string valtoreq = "question,reponse,question_img,reponse_img";
             string query = "";
             List<String> Matier = ["SI", "Anglais", "Français", "Erreurs", "Mathématiques"];
 
             if (mat == "all")
             {
-                query = "SELECT " + valtoreq + " from Physique where Marked = 1 ";
-                foreach (var value in Matier)
-                {
-                    query += " UNION SELECT " + valtoreq + " FROM " + value + " where Marked = 1";
-                }
+                query = "SELECT " + valtoreq + " FROM Marked ";
             }
             else
             {
-                query = "SELECT " + valtoreq + " FROM " + mat +  " where Marked = 1";
+                query = "SELECT " + valtoreq + " FROM Marked where Matier = \"" + mat  + "\"" ;
             }
             System.Diagnostics.Debug.WriteLine(query);
             try
@@ -134,10 +161,10 @@ namespace Sophieandme.Pages
                 var reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    questionaf.Add(reader.GetString(0));
-                    reponseaf.Add(reader.GetString(1));
-                    url_questionaf.Add(reader.GetString(2));
-                    url_repaf.Add(reader.GetString(3));
+                    questionaf.Add(miseneformetext(reader.GetString(0)));
+                    reponseaf.Add(miseneformetext(reader.GetString(1)));
+                    url_questionaf.Add(miseneformetext(reader.GetString(2)));
+                    url_repaf.Add(miseneformetext(reader.GetString(3)));
                 }
                 foreach (string question in question)
                 {
@@ -148,36 +175,6 @@ namespace Sophieandme.Pages
             {
             }
             connection.Close();
-        }
-
-        private void GenerateHTML(string mat)
-        {
-            string start = "<!DOCTYPE html>\r\n<html>\r\n<head>\r\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\r\n   <style>\r\n  img{\r\n  max-width: 60%;\r\n  max-height: 60%;\r\n  max-height: 7cm;\r\n  margin-top: 0.4cm;\r\n  border-radius: 3%;\r\n} .card {\r\n    margin-top: 0.2cm;\r\n     margin-left: 0.2cm;  \r\n box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);\r\n  transition: 0.3s;\r\n    background-color: #" + App.Current.Properties["html_back_rep"] + ";\r\n   width: 40%;\r\n  border-radius: 5px;\r\n  display: inline-block;\r\n  max-width: 13cm;\r\n}\r\n\r p {\r\n    color: white;\r\n    padding: 0.2cm;\r\n  }\r\n   \n.card:hover {\r\n  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);\r\n}\r\n\r\n\r\n.container {\r\n  padding: 2px 16px;\r\n}" + "body {\r\n    color: #" + App.Current.Properties["html_back_rep"] + ";\r\n    background-color: #" + App.Current.Properties["html_back"] + ";\r\n}\r\n" + " \r\n</style>\r\n</head>\r\n<body> <script id=\"MathJax-script\" async src=\"https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js\"> </script> \r\n ";
-
-            for (int i = 0; i < questionaf.Count; i++)
-            {
-                if (url_questionaf[i] == "" && url_repaf[i] == "")
-                {
-                    start += "<div class=\"card\">\r\n  <div class=\"container\">\r\n    <p>" + miseneformetext(questionaf[i]) + "</p> \r\n <hr>\r\n    <p>" + miseneformetext(reponseaf[i]) + "</p> \r\n  </div>\r\n</div>\r\n";
-                }
-                else if (url_questionaf[i] == "")
-                {
-                    start += "<div class=\"card\">\r\n  <div class=\"container\">\r\n   <p>" + miseneformetext(questionaf[i]) + "</p> \r\n  <hr>\r\n   <img src=\"" + url_rep[i].Replace("\\/", "/") + "\" alt=\"Avatar\" style=\"width:100%\">\r\n    <p>" + miseneformetext(reponseaf[i]) + "</p> \r\n  </div>\r\n</div>\r\n";
-                }
-                else if (url_repaf[i] == "")
-                {
-                    start += "<div class=\"card\">\r\n  <div class=\"container\">\r\n   <img src=\"" + url_questionaf[i].Replace("\\/", "/") + "\" alt=\"Avatar\" style=\"width:100%\">\r\n    <p>" + miseneformetext(questionaf[i]) + "</p> \r\n  <hr>\r\n    <p>" + miseneformetext(reponseaf[i]) + "</p> \r\n  </div>\r\n</div>\r\n";
-                }
-                else
-                {
-                    start += "<div class=\"card\">\r\n  <div class=\"container\">\r\n   <img src=\"" + url_questionaf[i].Replace("\\/", "/") + "\" alt=\"Avatar\" style=\"width:100%\">\r\n    <p>" + miseneformetext(questionaf[i]) + "</p> \r\n  <hr>\r\n   <img src=\"" + url_repaf[i].Replace("\\/", "/") + "\" alt=\"Avatar\" style=\"width:100%\">\r\n    <p>" + miseneformetext(reponseaf[i]) + "</p> \r\n  </div>\r\n</div>\r\n";
-                }
-            }
-            start += "</body>\r\n</html> \r\n";
-            string path = System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Marked" + mat + ".html";
-            path = path.Replace("/", "\\");
-            System.Diagnostics.Debug.WriteLine(path);
-            File.WriteAllText(path, start);
         }
 
         public static string miseneformetext(string text)
@@ -196,106 +193,6 @@ namespace Sophieandme.Pages
         }
 
 
-        private void SIM_Click(object sender, RoutedEventArgs e)
-        {
-            Maths_label.Visibility = Visibility.Collapsed;
-            Physique_label.Visibility = Visibility.Collapsed;
-            SI_label.Visibility = Visibility.Visible;
-            Français_label.Visibility = Visibility.Collapsed;
-            Anglais_label.Visibility = Visibility.Collapsed;
-            Erreurs_label.Visibility = Visibility.Collapsed;
-            All_label.Visibility = Visibility.Collapsed;
-            Quizz_label.Visibility = Visibility.Collapsed;
-            string mat = "SI";
-            Generatevalue(mat);
-            string urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Marked" + mat + ".html";
-            urif = urif.Replace("\\", "/");
-            System.Diagnostics.Debug.WriteLine(urif);
-            System.Uri uri1 = new System.Uri(urif);
-            webviewall.Source = uri1 as System.Uri;
-            webviewall.Visibility = Visibility.Visible;
-            ButtonContainer.Visibility = Visibility.Collapsed;
-        }
-
-        private void AllM_Click(object sender, RoutedEventArgs e)
-        {
-            Maths_label.Visibility = Visibility.Collapsed;
-            Physique_label.Visibility = Visibility.Collapsed;
-            SI_label.Visibility = Visibility.Collapsed;
-            Français_label.Visibility = Visibility.Collapsed;
-            Anglais_label.Visibility = Visibility.Collapsed;
-            Erreurs_label.Visibility = Visibility.Collapsed;
-            All_label.Visibility = Visibility.Visible;
-            Quizz_label.Visibility = Visibility.Collapsed;
-            string mat = "all";
-            Generatevalue(mat);
-            string urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Marked" + mat + ".html";
-            urif = urif.Replace("\\", "/");
-            System.Diagnostics.Debug.WriteLine(urif);
-            System.Uri uri1 = new System.Uri(urif);
-            webviewall.Source = uri1 as System.Uri;
-            webviewall.Visibility = Visibility.Visible;
-            ButtonContainer.Visibility = Visibility.Collapsed;
-        }
-
-        private void PhysiqueM_Click(object sender, RoutedEventArgs e)
-        {
-            Maths_label.Visibility = Visibility.Collapsed;
-            Physique_label.Visibility = Visibility.Visible;
-            SI_label.Visibility = Visibility.Collapsed;
-            Français_label.Visibility = Visibility.Collapsed;
-            Anglais_label.Visibility = Visibility.Collapsed;
-            Erreurs_label.Visibility = Visibility.Collapsed;
-            All_label.Visibility = Visibility.Collapsed;
-            Quizz_label.Visibility = Visibility.Collapsed;
-            string mat = "Physique";
-            Generatevalue(mat);
-            string urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Marked" + mat + ".html";
-            urif = urif.Replace("\\", "/");
-            System.Diagnostics.Debug.WriteLine(urif);
-            System.Uri uri1 = new System.Uri(urif);
-            webviewall.Source = uri1 as System.Uri;
-            webviewall.Visibility = Visibility.Visible;
-            ButtonContainer.Visibility = Visibility.Collapsed;
-        }
-
-        private void MathsM_Click(object sender, RoutedEventArgs e)
-        {
-            Maths_label.Visibility = Visibility.Visible;
-            Physique_label.Visibility = Visibility.Collapsed;
-            SI_label.Visibility = Visibility.Collapsed;
-            Français_label.Visibility = Visibility.Collapsed;
-            Anglais_label.Visibility = Visibility.Collapsed;
-            Erreurs_label.Visibility = Visibility.Collapsed;
-            All_label.Visibility = Visibility.Collapsed;
-            Quizz_label.Visibility = Visibility.Collapsed;
-            string mat = "Mathématiques";
-            Generatevalue(mat);
-            string urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Marked" + mat + ".html";
-            urif = urif.Replace("\\", "/");
-            System.Diagnostics.Debug.WriteLine(urif);
-            System.Uri uri1 = new System.Uri(urif);
-            webviewall.Source = uri1 as System.Uri;
-            webviewall.Visibility = Visibility.Visible;
-            ButtonContainer.Visibility = Visibility.Collapsed;
-        }
-
-        private void Quizz_Click(object sender, RoutedEventArgs e)
-        {
-            Maths_label.Visibility = Visibility.Collapsed;
-            Physique_label.Visibility = Visibility.Collapsed;
-            SI_label.Visibility = Visibility.Collapsed;
-            Français_label.Visibility = Visibility.Collapsed;
-            Anglais_label.Visibility = Visibility.Collapsed;
-            Erreurs_label.Visibility = Visibility.Collapsed;
-            All_label.Visibility = Visibility.Collapsed;
-            Quizz_label.Visibility = Visibility.Visible;
-            webviewall.Visibility = Visibility.Collapsed;
-            ButtonContainer.Visibility = Visibility.Visible;
-            Showbutton(sender);
-
-        }
-
         private void Showbutton(object sender)
         {
             ButtonContainer.Children.Clear();
@@ -307,7 +204,8 @@ namespace Sophieandme.Pages
                 connection.Open();
                 foreach (string matier in Matier)
                 {
-                    string query = "SELECT COUNT(*) FROM " + matier + " WHERE Marked = \"1\"";
+                    string query = "SELECT COUNT(*) FROM Marked WHERE Matier = \"" + matier +  "\"";
+                    System.Diagnostics.Debug.WriteLine(query);
                     var command = new SQLiteCommand(query, connection);
                     var reader = command.ExecuteReader();
                     while (reader.Read())
@@ -360,35 +258,6 @@ namespace Sophieandme.Pages
             _stopwatch.Stop();
             _timer.Stop();
             _stopwatch.Reset();
-        }
-
-        private void Marquer_Checked(object sender, RoutedEventArgs e)
-        {
-            Icon_Mark.IconFont = FontAwesome.Sharp.IconFont.Solid;
-            using (SQLiteConnection c = new SQLiteConnection(conSource))
-            {
-                c.Open();
-                string query = "UPDATE " + App.Current.Properties["nameindex"].ToString() + " SET Marked = \"1\" where question = \"" + question[i] + "\"";
-                using (SQLiteCommand cmd = new SQLiteCommand(query, c))
-                {
-                    cmd.ExecuteNonQuery();
-                }
-            }
-        }
-
-        private void Marquer_Unchecked(object sender, RoutedEventArgs e)
-        {
-            Icon_Mark.IconFont = FontAwesome.Sharp.IconFont.Regular;
-            using (SQLiteConnection c = new SQLiteConnection(conSource))
-            {
-                c.Open();
-                string query = "UPDATE " + App.Current.Properties["nameindex"].ToString() + " SET Marked = \"0\" where question = \"" + question[i] + "\"";
-                System.Diagnostics.Debug.WriteLine(query);
-                using (SQLiteCommand cmd = new SQLiteCommand(query, c))
-                {
-                    cmd.ExecuteNonQuery();
-                }
-            }
         }
 
         private void Next_button_Click(object sender, RoutedEventArgs e)
@@ -664,7 +533,6 @@ namespace Sophieandme.Pages
                 repnse.Add(Arepnse[i]);
                 url_question.Add(Aurl_question[i]);
                 url_rep.Add(Aurl_rep[i]);
-                Markedinf.Add(AMarked[i]);
             }
             System.Diagnostics.Debug.WriteLine("Test3");
         }
@@ -675,14 +543,15 @@ namespace Sophieandme.Pages
             string query = "";
             if (App.Current.Properties["matier"] == "all")
             {
-                query = "SELECT id,question,reponse,image_question_url,image_answer_url,difficulty,Marked FROM " + nameindex;
+                query = "SELECT question,reponse, question_img,reponse_img FROM Marked";
                 App.Current.Properties["matier"] = nameindex;
             }
 
             else
             {
                 System.Diagnostics.Debug.WriteLine(App.Current.Properties["matier"]);
-                query = "SELECT question,reponse,image_question_url,image_answer_url,Marked FROM " + App.Current.Properties["nameindex"] + " WHERE Marked = \"1\"";
+                System.Diagnostics.Debug.WriteLine(nameindex);
+                query = "SELECT question,reponse, question_img,reponse_img FROM MARKED WHERE Matier= \"" + nameindex + "\"";
                 System.Diagnostics.Debug.WriteLine(query);
             }
 
@@ -703,7 +572,6 @@ namespace Sophieandme.Pages
                     Arepnse.Add(reader.GetString(1));
                     Aurl_question.Add(reader.GetString(2));
                     Aurl_rep.Add(reader.GetString(3));
-                    AMarked.Add(reader.GetString(4));
                 }
             }
             catch (Exception ex)
@@ -734,16 +602,6 @@ namespace Sophieandme.Pages
             System.Diagnostics.Debug.WriteLine(question[i].ToString());
             create(question[i].ToString(), i, "q");
             List<string> countword = question[i].Split(' ').ToList();
-            if (Markedinf[i].ToString() == "1")
-            {
-                Icon_Mark.IconFont = FontAwesome.Sharp.IconFont.Solid;
-                Marked_tgbutton.IsChecked = true;
-                System.Diagnostics.Debug.WriteLine("Marque");
-            }
-            else
-            {
-                Icon_Mark.IconFont = FontAwesome.Sharp.IconFont.Regular;
-            }
 
 
             string urif = "";
@@ -863,7 +721,7 @@ namespace Sophieandme.Pages
                 connection.Open();
                 foreach(string matier in Matier)
                 {
-                    string query = "SELECT COUNT(*) FROM " + matier + " WHERE Marked = \"1\"";
+                    string query = "SELECT COUNT(*) FROM Maked WHERE Matier = \"" + matier + "\"";
                     var command = new SQLiteCommand(query, connection);
                     var reader = command.ExecuteReader();
                     while (reader.Read())
@@ -905,70 +763,105 @@ namespace Sophieandme.Pages
             }
         }
 
-        private void Français_Checked(object sender, RoutedEventArgs e)
+
+
+        private void SIM_Click(object sender, RoutedEventArgs e)
         {
-            string mat = "Français";
-            Generatevalue(mat);
-            string urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Marked" + mat + ".html";
-            urif = urif.Replace("\\", "/");
-            System.Diagnostics.Debug.WriteLine(urif);
-            System.Uri uri1 = new System.Uri(urif);
-            webviewall.Source = uri1 as System.Uri;
+            clear_label("SI_label", this);
+            Generatevalue("SI");
             webviewall.Visibility = Visibility.Visible;
             ButtonContainer.Visibility = Visibility.Collapsed;
-            Maths_label.Visibility = Visibility.Collapsed;
-            Physique_label.Visibility = Visibility.Collapsed;
-            SI_label.Visibility = Visibility.Collapsed;
-            Français_label.Visibility = Visibility.Visible;
-            Anglais_label.Visibility = Visibility.Collapsed;
-            Erreurs_label.Visibility = Visibility.Collapsed;
-            All_label.Visibility = Visibility.Collapsed;
-            Quizz_label.Visibility = Visibility.Collapsed;
+        }
+
+        private void AllM_Click(object sender, RoutedEventArgs e)
+        {
+            clear_label("All_label", this);
+            Generatevalue("all");
+
+            webviewall.Visibility = Visibility.Visible;
+            ButtonContainer.Visibility = Visibility.Collapsed;
+        }
+
+        private void PhysiqueM_Click(object sender, RoutedEventArgs e)
+        {
+            clear_label("Physique_label", this);
+            Generatevalue("Physique");
+            webviewall.Visibility = Visibility.Visible;
+            ButtonContainer.Visibility = Visibility.Collapsed;
+        }
+
+        private void MathsM_Click(object sender, RoutedEventArgs e)
+        {
+            clear_label("Maths_label", this);
+            Generatevalue("Mathématiques");
+
+
+            webviewall.Visibility = Visibility.Visible;
+            ButtonContainer.Visibility = Visibility.Collapsed;
+        }
+
+        private void Quizz_Click(object sender, RoutedEventArgs e)
+        {
+            clear_label("Quizz_label", this);
+            Showbutton(sender);
+            webviewall.Visibility = Visibility.Collapsed;
+            ButtonContainer.Visibility = Visibility.Visible;
+
+        }
+
+
+        private void Français_Checked(object sender, RoutedEventArgs e)
+        {
+            clear_label("Français_label", this);
+            Generatevalue("Français");
+            webviewall.Visibility = Visibility.Visible;
+            ButtonContainer.Visibility = Visibility.Collapsed;
+            
         }
 
         private void Anglais_Checked(object sender, RoutedEventArgs e)
         {
-            string mat = "Anglais";
-            Generatevalue(mat);
-            string urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Marked" + mat + ".html";
-            urif = urif.Replace("\\", "/");
-            System.Diagnostics.Debug.WriteLine(urif);
-            System.Uri uri1 = new System.Uri(urif);
-            webviewall.Source = uri1 as System.Uri;
+            clear_label("Anglais_label", this);
+            Generatevalue("Anglais");
             webviewall.Visibility = Visibility.Visible;
             ButtonContainer.Visibility = Visibility.Collapsed;
-            Maths_label.Visibility = Visibility.Collapsed;
-            Physique_label.Visibility = Visibility.Collapsed;
-            SI_label.Visibility = Visibility.Collapsed;
-            Français_label.Visibility = Visibility.Collapsed;
-            Anglais_label.Visibility = Visibility.Visible;
-            Erreurs_label.Visibility = Visibility.Collapsed;
-            All_label.Visibility = Visibility.Collapsed;
-            Quizz_label.Visibility = Visibility.Collapsed;
+            
         }
 
         private void Erreur_Checked(object sender, RoutedEventArgs e)
         {
-            string mat = "Erreurs";
-            Generatevalue(mat);
-            string urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Marked" + mat + ".html";
-            urif = urif.Replace("\\", "/");
-            System.Diagnostics.Debug.WriteLine(urif);
-            System.Uri uri1 = new System.Uri(urif);
-            webviewall.Source = uri1 as System.Uri;
+            clear_label("Erreurs_label", this);
+            Generatevalue("Erreurs");
             webviewall.Visibility = Visibility.Visible;
             ButtonContainer.Visibility = Visibility.Collapsed;
-            Maths_label.Visibility = Visibility.Collapsed;
-            Physique_label.Visibility = Visibility.Collapsed;
-            SI_label.Visibility = Visibility.Collapsed;
-            Français_label.Visibility = Visibility.Collapsed;
-            Anglais_label.Visibility = Visibility.Collapsed;
-            Erreurs_label.Visibility = Visibility.Visible;
-            Quizz_label.Visibility = Visibility.Collapsed;
-            All_label.Visibility = Visibility.Collapsed;
+
+            
         }
 
+        private async void send_data(List<string> question,List<string> rep)
+        { 
+            string json = JsonSerializer.Serialize(question);
+            string json2 = JsonSerializer.Serialize(rep);
+            string jsCode = $"createcard({json},{json2})";
+            System.Diagnostics.Debug.WriteLine(jsCode);
+            await webviewall.CoreWebView2.ExecuteScriptAsync(jsCode);
+        }
 
+        private void clear_label(string aimlab,FrameworkElement root)
+        {
+            foreach (var item in labels_list) 
+            {
+                var label = root.FindName(item) as System.Windows.Controls.Label;
+                if (item == aimlab)
+                {
+                    label.Visibility = Visibility.Visible;    
+                }
+                else
+                {
+                    label.Visibility = Visibility.Collapsed;
+                }
+            }
+        }
 
     }
 }

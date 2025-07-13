@@ -5,7 +5,12 @@
 - Ajouter la mise à jours automatique des quizz ### Avancée
 - Ajouter l'affichage en vert des bonnes réponses (Partie de bonne réponses)
 
+
+### A modifier
+
 - Faire attention au 2 boutons supprimer et modifier
+- Impossible de Marked depuis les quizz all 
+- Avoir un boutton sous marked pour enlever les marked 
 
 
 #### 2éme partie
