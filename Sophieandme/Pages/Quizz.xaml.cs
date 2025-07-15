@@ -56,6 +56,7 @@ using MaterialDesignThemes.Wpf;
 using Microsoft.Web.WebView2.Core;
 using System.Windows.Media.Media3D;
 using System.Diagnostics.Metrics;
+using System.Text.Json;
 
 
 
@@ -73,6 +74,7 @@ namespace Sophieandme.Pages
     public partial class Quizz : System.Windows.Controls.Page
     {
         string conSource = "Data Source=..\\..\\..\\data_restored.db";
+        List<string> labels_list = ["Maths_label", "Physique_label", "SI_label", "Français_label", "Anglais_label", "Erreurs_label", "All_label"];
 
 
         // ##################################################################### Liste utiliser aprés mélange
@@ -101,6 +103,75 @@ namespace Sophieandme.Pages
         private const string _startTimeDisplay = "00:00";
         ResourceDictionary res = (ResourceDictionary)App.LoadComponent(new Uri("/Sophieandme;component/Style/ButtonStyle.xaml", UriKind.Relative));
 
+
+        //bool ensure = false;
+
+        //private void webView21_CoreWebView2InitializationCompleted(object sender, Microsoft.Web.WebView2.Core.CoreWebView2InitializationCompletedEventArgs e)
+        //{
+        //    ensure = true;
+        //}
+
+
+
+        public Quizz()
+        {
+            ResourceDictionary Myressodico = new ResourceDictionary();
+            InitializeComponent();
+            toolbar.Width = 240;
+            int i = 0;
+            tbTime.Text = _startTimeDisplay;
+            _stopwatch = new Stopwatch();
+            _timer = new System.Timers.Timer(1000);
+            webviewquizz.Visibility = Visibility.Visible;
+            _timer.Elapsed += OnTimerElapse;
+
+            _stopwatch.Start();
+            _timer.Start();
+
+            marked_list();
+        }
+
+        private async void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            await webviewquizz.EnsureCoreWebView2Async();
+            webviewquizz.CoreWebView2.Settings.IsStatusBarEnabled = false;
+            webviewquizz.CoreWebView2.Settings.AreDefaultContextMenusEnabled = false;
+            string urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTML_const\\quizz.html";
+            urif = urif.Replace("\\", "/");
+            System.Uri uri1 = new System.Uri(urif);
+            webviewquizz.Source = uri1 as System.Uri;
+            System.Diagnostics.Debug.WriteLine(webviewquizz.Source.ToString());
+            webviewquizz.CoreWebView2.NavigationCompleted += (sender, args) =>
+            {
+                webviewquizz.CoreWebView2.ExecuteScriptAsync("console.log('fonctionne');");
+                questionform(i, "question");
+            };
+        }
+
+
+        private void marked_list()
+        {
+            string query = "";
+            var connection = new SQLiteConnection(conSource);
+            query = "SELECT question  FROM Marked";
+
+            try
+            {
+                connection.Open();
+                var command = new SQLiteCommand(query, connection);
+                var reader = command.ExecuteReader();
+                Marked.Clear();
+                while (reader.Read())
+                {
+                    Marked.Add(reader.GetString(0));
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show(ex.ToString());
+                System.Diagnostics.Debug.WriteLine(ex.ToString());
+            }
+        }
 
         public void run_cmd(object command)
         {
@@ -145,6 +216,7 @@ namespace Sophieandme.Pages
 
         private void Bouton_click(object sender, RoutedEventArgs e)
         {
+
             System.Windows.Controls.Button boutonCLique = sender as System.Windows.Controls.Button;
             string valeur = boutonCLique?.Tag as string;
             _stopwatch.Reset();
@@ -153,94 +225,53 @@ namespace Sophieandme.Pages
             string nameindex = valeur;
             System.Diagnostics.Debug.WriteLine(nameindex);
             App.Current.Properties["nameindex"] = nameindex;
+            webviewquizz.Visibility = Visibility.Visible;
+            webviewall.Visibility = Visibility.Collapsed;
+            marked_list();
             retrievequizz(nameindex);
             shuffle();
-            questionform(i);
+            questionform(i,"question");
         }
-
-
-        public Quizz()
-        {
-            ResourceDictionary Myressodico = new ResourceDictionary();
-            InitializeComponent();
-            toolbar.Width = 240;
-            int i = 0;
-            tbTime.Text = _startTimeDisplay;
-            _stopwatch = new Stopwatch();
-            _timer = new System.Timers.Timer(1000);
-
-            _timer.Elapsed += OnTimerElapse;
-
-            _stopwatch.Start();
-            _timer.Start();
-        }
-
         private void OnTimerElapse (object sender, ElapsedEventArgs e)
         {
             App.Current.Dispatcher.Invoke(() => tbTime.Text = _stopwatch.Elapsed.ToString(@"mm\:ss" ));
         }
 
-
-
-
         // ################################################################################################################### Fonction de formation des questions
-        private async void questionform(int i)
+        private async void questionform(int i,string action)
         {
             Selection.Visibility = Visibility.Collapsed;
-            Count_text.Text = (i+1).ToString() + "/" + id.Count.ToString();
+            Count_text.Text = (i + 1).ToString() + "/" + id.Count.ToString();
             Question.Visibility = Visibility.Visible;
-            webviewques.Visibility = Visibility.Visible;
             Reponse_button.Visibility = Visibility.Visible;
-            webviewrep.Visibility = Visibility.Collapsed;
             Next_button.Visibility = Visibility.Collapsed;
             System.Diagnostics.Debug.WriteLine("#################################### question brut");
             System.Diagnostics.Debug.WriteLine(question[i].ToString());
-            create(question[i].ToString(),i,"q");
             List<string> countword = question[i].Split(' ').ToList();
-            if (Marked[i].ToString() == "1")
+            if (Marked.Contains(question[i]))
             {
                 Icon_Mark.IconFont = FontAwesome.Sharp.IconFont.Solid;
                 Marked_tgbutton.IsChecked = true;
-                System.Diagnostics.Debug.WriteLine("Marque");
             }
             else
             {
                 Icon_Mark.IconFont = FontAwesome.Sharp.IconFont.Regular;
             }
-            //webviewques.Height = 40*countword.Count();
 
 
-            string urif = "";
-
-            if (i == 0)
+            if (action == "question")
             {
-                //urif = "file:///C:/Users/Bastien/source/repos/Sophieandme/Sophieandme/HTML/Mathtq.html";
-                urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Mathtq.html";
-                urif = urif.Replace("\\", "/");
-
-            }
-
-            else if (i % 2 == 0)
-            {
-                //urif = "file:///C:/Users/Bastien/source/repos/Sophieandme/Sophieandme/HTML/Math0q.html";
-                urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Math0q.html";
-                urif = urif.Replace("\\", "/");
+                send_data(action, miseneformetext(question[i]), "" , url_question[i], "");
             }
             else
             {
-                //urif = "file:///C:/Users/Bastien/source/repos/Sophieandme/Sophieandme/HTML/Math1q.html";
-                urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Math1q.html";
-                urif = urif.Replace("\\", "/");
+                send_data(action, miseneformetext(question[i]), miseneformetext(repnse[i]), url_question[i], url_rep[i]);
             }
-            System.Diagnostics.Debug.WriteLine(" ################# question url : ", urif);
-            System.Uri uri1 = new System.Uri(urif);
-            webviewques.Source = uri1 as System.Uri;
-
         }
 
         public static string miseneformetext(string text)
         {
-            string question = text.Replace("$", "$$").Replace("$$$", "$").Replace("\\/", "/").Replace("<", "\\lt ").Replace(">", "\\gt ").Replace("\n", "<br>");
+            string question = text.Replace("$", "$$").Replace("$$$", "$").Replace("\\/", "/").Replace("<", "\\lt ").Replace(">", "\\gt ").Replace("\"","'");
             string valeurDebut = " \\( \\large ";
             string valeurFin = "\\) ";
             string questionf = "";
@@ -254,109 +285,12 @@ namespace Sophieandme.Pages
         }
 
 
-
-        private void create(string text,int i,string qor) {
-
-
-            string questionf = miseneformetext(text);
-            string htmlval = "";
-            string path = "";
-            string imgurl = "";
-            System.Diagnostics.Debug.WriteLine("#################################### question modifier html");
-            System.Diagnostics.Debug.WriteLine(questionf);
-            if (qor == "q")
-            {
-                if (url_question[i] == "")
-                {
-                    imgurl = "";
-
-                    webviewques.Height = 150;
-                    htmlval = "<!DOCTYPE html>\r\n<html>\r\n<head>\r\n  <meta charset=\"utf-8\">\r\n  <meta name=\"viewport\" content=\"width=device-width\">\r\n  <title>MathJax example</title>\r\n  <style>\r\n    p {\r\n    color: " + App.Current.Properties["html_text"] + ";\r\n    padding: 0.2cm;\r\n  }\r\n  </style>\r\n  <style>\r\n        body {\r\n      background: #" + App.Current.Properties["html_back"] + ";\r\n    }\r\n  </style>\r\n</head>\r\n  <body>\r\n  <script id=\"MathJax-script\" async src=\"https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js\"> </script> \r\n <script>\r\nwindow.MathJax = {\r\n  tex: {\r\n    inlineMath: [['$', '$'], ['\\\\(', '\\\\)']],\r\n    displayMath: [['$$', '$$'], ['\\\\[', '\\\\]']]\r\n  },\r\n  options: {\r\n    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],\r\n    renderActions: {\r\n      addMenu: [] // désactive le menu contextuel MathJax\r\n    }\r\n  }\r\n};\r\n</script> \r\n <p> " + questionf + " </p>\r\n  </body>    \r\n</html>";
-
-                }
-                else
-                {
-                    imgurl = "<img src=\"" + url_question[i].Replace("\\/", "/") + "\" >";
-                    htmlval = "<!DOCTYPE html>\r\n<html>\r\n<head>\r\n    <meta charset=\"utf-8\">\r\n    <meta name=\"viewport\" content=\"width=device-width\">\r\n    <title>MathJax example</title>\r\n    <style>\r\n        p {\r\n            color: " + App.Current.Properties["html_text"] + ";\r\n            padding: 0.2cm;\r\n        }\r\n    </style>\r\n    <style>\r\n        body {\r\n            background: #" + App.Current.Properties["html_back"] + ";\r\n        }\r\n\r\n        .container {\r\n            display: grid;\r\n            align-items: center;\r\n            grid-template-columns: 1fr 100fr 1fr;\r\n            column-gap: 5px;\r\n        }\r\n\r\n        img {\r\n            max-width: 350px;\r\n                    max-height: 230px;\r\n        }\r\n\r\n        .text {\r\n            font-size: 17px;\r\n            display: inline;\r\n        }\r\n    </style>\r\n</head>\r\n<body>\r\n    <script id=\"MathJax-script\" async src=\"https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js\"></script>\r\n <script>\r\nwindow.MathJax = {\r\n  tex: {\r\n    inlineMath: [['$', '$'], ['\\\\(', '\\\\)']],\r\n    displayMath: [['$$', '$$'], ['\\\\[', '\\\\]']]\r\n  },\r\n  options: {\r\n    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],\r\n    renderActions: {\r\n      addMenu: [] // désactive le menu contextuel MathJax\r\n    }\r\n  }\r\n};\r\n</script>   <div class=\"container\">\r\n  " + imgurl + "\r\n        <div class=\"text\">\r\n            <p> " + questionf + " </p>\r\n        </div>\r\n\r\n    </div>\r\n</body>\r\n</html>";
-                    webviewques.Height = 250;
-                }
-                //webviewques.NavigateToString(htmlval);
-            }
-
-            if (qor == "r")
-            {
-                if (url_rep[i] == "")
-                {
-                    webviewrep.Height = 250;
-                    imgurl = "";
-                    htmlval = "<!DOCTYPE html>\r\n<html>\r\n<head>\r\n  <meta charset=\"utf-8\">\r\n  <meta name=\"viewport\" content=\"width=device-width\">\r\n  <title>MathJax example</title>\r\n  <style>\r\n    p {\r\n  background: #" + App.Current.Properties["html_back_rep"] + ";\r\n  color: " + App.Current.Properties["html_text"] + ";\r\n    padding: 1cm;\r\n  }\r\n  </style>\r\n  <style>\r\n        body {\r\n      background: #" + App.Current.Properties["html_back"] + ";\r\n    }\r\n  </style>\r\n</head>\r\n  <body>\r\n  <script id=\"MathJax-script\" async src=\"https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js\"> </script> \r\n <script>\r\nwindow.MathJax = {\r\n  tex: {\r\n    inlineMath: [['$', '$'], ['\\\\(', '\\\\)']],\r\n    displayMath: [['$$', '$$'], ['\\\\[', '\\\\]']]\r\n  },\r\n  options: {\r\n    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],\r\n    renderActions: {\r\n      addMenu: [] // désactive le menu contextuel MathJax\r\n    }\r\n  }\r\n};\r\n</script>  <p> " + questionf + " </p>\r\n  </body>    \r\n</html>";
-
-                }
-                else
-                {
-                    imgurl = "<img src=\"" + url_rep[i].Replace("\\/","/") +  "\" >" ;
-                    htmlval = "<!DOCTYPE html>\r\n<html>\r\n<head>\r\n    <meta charset=\"utf-8\">\r\n    <meta name=\"viewport\" content=\"width=device-width\">\r\n    <title>MathJax example</title>\r\n    <style>\r\n        p {\r\n            color: " + App.Current.Properties["html_text"] + ";\r\n            padding: 0.2cm;\r\n        }\r\n    </style>\r\n    <style>\r\n        body {\r\n      background: #" + App.Current.Properties["html_back"] + ";\r\n                      }\r\n\r\n        .container {\r\n    background: #" + App.Current.Properties["html_back_rep"] + ";\r\n    padding: 0.2cm;\r\n     display: grid;\r\n            align-items: center;\r\n            grid-template-columns: 1fr 100fr 1fr;\r\n            column-gap: 5px;\r\n        }\r\n\r\n        img {\r\n            max-width: 350px;\r\n             max-height: 230px;\r\n        }\r\n\r\n        .text {\r\n            font-size: 17px;\r\n            display: inline;\r\n        }\r\n    </style>\r\n</head>\r\n<body>\r\n    <script id=\"MathJax-script\" async src=\"https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js\"></script>\r\n  <script>\r\nwindow.MathJax = {\r\n  tex: {\r\n    inlineMath: [['$', '$'], ['\\\\(', '\\\\)']],\r\n    displayMath: [['$$', '$$'], ['\\\\[', '\\\\]']]\r\n  },\r\n  options: {\r\n    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],\r\n    renderActions: {\r\n      addMenu: [] // désactive le menu contextuel MathJax\r\n    }\r\n  }\r\n};\r\n</script>   <div class=\"container\">\r\n  " + imgurl + "\r\n        <div class=\"text\">\r\n            <p> " + questionf + " </p>\r\n        </div>\r\n\r\n    </div>\r\n</body>\r\n</html>";
-                    webviewrep.Height = 230;
-                }
-                //webviewrep.NavigateToString(htmlval);
-            }
-
-
-            System.Diagnostics.Debug.WriteLine(imgurl);
-
-            /// ###############################     Pensez a adapter la couleur de l'arriére plan en fonction du théme choisis 
-            ///
-
-            if (i == 0)
-            {
-                path = "..\\..\\..\\HTMl\\Matht" + qor + ".html";
-                File.WriteAllText(path, htmlval);
-            }
-            else if (i % 2 == 0)
-            {
-                path = "..\\..\\..\\HTMl\\Math0" + qor + ".html";
-                File.WriteAllText(path, htmlval);
-
-            }
-            else
-            {
-                path = "..\\..\\..\\HTMl\\Math1" + qor + ".html";
-                File.WriteAllText(path, htmlval);
-            }
-
-
-
-        }
-
         private async void Reponse_button_Click(object sender, RoutedEventArgs e)
         {
-            webviewrep.Visibility=Visibility.Visible;
-            string urif = "";
-            create(repnse[i].ToString(), i, "r");
-
-            if (i == 0)
-            {
-                //urif = "file:///C:/Users/Bastien/source/repos/Sophieandme/Sophieandme/HTML/Mathtr.html";
-                urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Mathtr.html";
-                urif = urif.Replace("\\", "/");
-            }
-            else if (i % 2 == 0)
-            {
-                //urif = "file:///C:/Users/Bastien/source/repos/Sophieandme/Sophieandme/HTML/Math0r.html";
-                urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Math0r.html";
-                urif = urif.Replace("\\", "/");
-            }
-            else
-            {
-                //urif = "file:///C:/Users/Bastien/source/repos/Sophieandme/Sophieandme/HTML/Math1r.html";
-                urif = "file:///" + System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + "\\..\\..\\..\\HTMl\\Math1r.html";
-                urif = urif.Replace("\\", "/");
-            }
-            System.Diagnostics.Debug.WriteLine(" ################# reponse url : ", urif);
-            System.Uri uri1 = new System.Uri(urif);
-            webviewrep.Source = uri1 as System.Uri;
+            questionform(i, "resp");
             Reponse_button.Visibility = Visibility.Collapsed;
             Next_button.Visibility = Visibility.Visible;
+
         }
 
 
@@ -392,9 +326,8 @@ namespace Sophieandme.Pages
             }
             else
             {
-                //Count_text.Text = i.ToString() + "/" + id.Count.ToString() ;
-                questionform(i);
-                //System.Diagnostics.Debug.WriteLine(i.ToString());
+                questionform(i,"question");
+                Marked_tgbutton.IsChecked = false;
             }
         }
         private void Back_btn_Click(object sender, RoutedEventArgs e)
@@ -411,12 +344,12 @@ namespace Sophieandme.Pages
             string query = "";
             if (App.Current.Properties["matier"] == "all")
             {
-                query = "SELECT id,question,reponse,image_question_url,image_answer_url,difficulty,Marked FROM " + nameindex;
+                query = "SELECT id,question,reponse,image_question_url,image_answer_url,difficulty FROM " + nameindex;
                 App.Current.Properties["matier"] = nameindex;
             }
             else
             {
-                query = "SELECT id,question,reponse,image_question_url,image_answer_url,difficulty,Marked  FROM " + App.Current.Properties["matier"].ToString() + " WHERE name = \"" + nameindex + "\"";
+                query = "SELECT id,question,reponse,image_question_url,image_answer_url,difficulty  FROM " + App.Current.Properties["matier"].ToString() + " WHERE name = \"" + nameindex + "\"";
             }
             try
             {
@@ -429,7 +362,6 @@ namespace Sophieandme.Pages
                 Aurl_question.Clear();
                 Aurl_rep.Clear();
                 Adifficulty.Clear();
-                AMarked.Clear();
                 while (reader.Read())
                 {
                     Aid.Add(reader.GetString(0));
@@ -438,7 +370,6 @@ namespace Sophieandme.Pages
                     Aurl_question.Add(reader.GetString(3));
                     Aurl_rep.Add(reader.GetString(4));
                     Adifficulty.Add(reader.GetString(5));
-                    AMarked.Add(reader.GetString(6));
                 }
             }
             catch (Exception ex)
@@ -471,7 +402,6 @@ namespace Sophieandme.Pages
             url_question.Clear();
             url_rep.Clear();
             difficulty.Clear();
-            Marked.Clear();
             var random = new Random();
             var indices = new List<int>();
             for (int i = 0 ; i < Aid.Count ; i++)
@@ -498,7 +428,6 @@ namespace Sophieandme.Pages
                 url_question.Add(Aurl_question[i]);
                 url_rep.Add(Aurl_rep[i]);
                 difficulty.Add(Adifficulty[i]);
-                Marked.Add(AMarked[i]);
             }
             System.Diagnostics.Debug.WriteLine("Test3");
         }
@@ -543,19 +472,17 @@ namespace Sophieandme.Pages
 
         private void Restart_Click(object sender, RoutedEventArgs e)
         {
+            marked_list();
             stopwatchlogic();
             retrievequizz(App.Current.Properties["nameindex"].ToString());
             shuffle();
-            questionform(i);
+            questionform(i,"question");
             toolbar.Width = 240;
             Quizzgrid.Visibility = Visibility.Collapsed;
             Endquizz.Visibility = Visibility.Collapsed;
             tbTime.Visibility = Visibility.Collapsed;
         }
 
-
-
-        
         private void Allresp()
         {
             string start = "<!DOCTYPE html>\r\n<html>\r\n<head>\r\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\r\n   <style>\r\n  img{\r\n  max-width: 60%;\r\n  max-height: 60%;\r\n  max-height: 7cm;\r\n  margin-top: 0.4cm;\r\n  border-radius: 3%;\r\n} .card {\r\n    margin-top: 0.2cm;\r\n     margin-left: 0.2cm;  \r\n box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);\r\n  transition: 0.3s;\r\n    background-color: #" + App.Current.Properties["html_back_rep"] + ";\r\n   width: 40%;\r\n  border-radius: 5px;\r\n  display: inline-block;\r\n  max-width: 13cm;\r\n}\r\n\r p {\r\n    color: " + App.Current.Properties["html_text"] + ";\r\n    padding: 0.2cm;\r\n  }\r\n   \n.card:hover {\r\n  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);\r\n}\r\n\r\n\r\n.container {\r\n  padding: 2px 16px;\r\n}" + "body {\r\n    color: #" + App.Current.Properties["html_back_rep"] + ";\r\n    background-color: #" + App.Current.Properties["html_back"] + ";\r\n}\r\n" + " \r\n</style>\r\n</head>\r\n<body> <script id=\"MathJax-script\" async src=\"https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js\"> </script> \r\n ";
@@ -585,12 +512,6 @@ namespace Sophieandme.Pages
             System.Diagnostics.Debug.WriteLine(path);
             File.WriteAllText(path, start);
         }
-
-
-
-
-
-
 
         private void Timer_Checked(object sender, RoutedEventArgs e)
         {
@@ -637,7 +558,7 @@ namespace Sophieandme.Pages
 
         private void Marquer_Checked(object sender, RoutedEventArgs e)
         {
-            List<string> Mat = ["Physique", "Mathématiques", "Français", "Anglais", "Erreurs", "SI"];
+            
             string query = "";
             Icon_Mark.IconFont = FontAwesome.Sharp.IconFont.Solid;
 
@@ -656,7 +577,7 @@ namespace Sophieandme.Pages
                         if (count == 0)
                         {
                             string mat = "\"" + App.Current.Properties["matier"].ToString() + "\",";
-                            string quest = "\"" + question[i] + "\",";
+                            string quest = "\"" + question[i].Replace("\\/", "/") + "\",";
                             string rep = "\"" + repnse[i] + "\",";
                             string question_img = "\"" + url_question[i] + "\",";
                             string reponse_img = "\"" + url_rep[i] + "\"";
@@ -727,96 +648,7 @@ namespace Sophieandme.Pages
             connection.Close();
         }
 
-        private void RadioButton_Checked(object sender, RoutedEventArgs e)
-        {
-            Updateform(Maths,e);
-            Maths_label.Visibility = Visibility.Visible;
-            Physique_label.Visibility = Visibility.Collapsed;
-            SI_label.Visibility = Visibility.Collapsed;
-            Français_label.Visibility = Visibility.Collapsed;
-            Anglais_label.Visibility = Visibility.Collapsed;
-            Erreurs_label.Visibility = Visibility.Collapsed;
-            All_label.Visibility = Visibility.Collapsed;
-            
-        }
-        private void Physique_Checked(object sender, RoutedEventArgs e)
-        {
-            Updateform(Physique, e);
-            Maths_label.Visibility = Visibility.Collapsed;
-            Physique_label.Visibility = Visibility.Visible;
-            SI_label.Visibility = Visibility.Collapsed;
-            Français_label.Visibility = Visibility.Collapsed;
-            Anglais_label.Visibility = Visibility.Collapsed;
-            Erreurs_label.Visibility = Visibility.Collapsed;
-            All_label.Visibility = Visibility.Collapsed;
-        }
 
-        private void Si_Checked(object sender, RoutedEventArgs e)
-        {
-            Updateform(SI, e);
-            Maths_label.Visibility = Visibility.Collapsed;
-            Physique_label.Visibility = Visibility.Collapsed;
-            SI_label.Visibility = Visibility.Visible;
-            Français_label.Visibility = Visibility.Collapsed;
-            Anglais_label.Visibility = Visibility.Collapsed;
-            Erreurs_label.Visibility = Visibility.Collapsed;
-            All_label.Visibility = Visibility.Collapsed;
-        }
-
-        private void All_Checked(object sender, RoutedEventArgs e)
-        {
-            Updateform(All, e);
-            ButtonContainer.Children.Clear();
-            Name.Clear();
-            List<string> Matier = ["Mathématiques", "Physique", "SI"];
-            ChargerButton(Matier,sender);
-            App.Current.Properties["matier"] = "all";
-            Maths_label.Visibility = Visibility.Collapsed;
-            Physique_label.Visibility = Visibility.Collapsed;
-            SI_label.Visibility = Visibility.Collapsed;
-            Français_label.Visibility = Visibility.Collapsed;
-            Anglais_label.Visibility = Visibility.Collapsed;
-            Erreurs_label.Visibility = Visibility.Collapsed;
-            All_label.Visibility = Visibility.Visible;
-        }
-
-
-
-
-        private async void webviewques_NavigationCompleted(object sender, Microsoft.Web.WebView2.Core.CoreWebView2NavigationCompletedEventArgs e)
-        {
-            ajustehautevaleur(sender, e);
-        }
-
-        private async void webviewrep_NavigationCompleted(object sender, Microsoft.Web.WebView2.Core.CoreWebView2NavigationCompletedEventArgs e)
-        {
-
-            ajustehautevaleur(sender, e);
-
-        }
-
-        private async Task ajustehautevaleur(object sender, CoreWebView2NavigationCompletedEventArgs e)
-        {
-            try
-            {
-                Microsoft.Web.WebView2.Wpf.WebView2 mywebview = sender as Microsoft.Web.WebView2.Wpf.WebView2;
-                string result = await mywebview.ExecuteScriptAsync("document.body.scrollHeight.toString()");
-                if (int.TryParse(result.Trim('"'), out int height)) 
-                {
-                    mywebview.Height = height+50;
-                    System.Diagnostics.Debug.WriteLine(height);
-                }
-            }
-            catch  (Exception ex)
-            { 
-                System.Diagnostics.Debug.WriteLine(ex.Message);
-            }
-        }
-
-        private void Page_Loaded(object sender, RoutedEventArgs e)
-        {
-            
-        }
 
 
         private void Resppaper_Click(object sender, RoutedEventArgs e)
@@ -825,41 +657,83 @@ namespace Sophieandme.Pages
             win.Show();
         }
 
-       
+        private void RadioButton_Checked(object sender, RoutedEventArgs e)
+        {
+            Updateform(Maths, e);
+            clear_label("Maths_label",this);
+
+        }
+        private void Physique_Checked(object sender, RoutedEventArgs e)
+        {
+            Updateform(Physique, e);
+            clear_label("Physique_label", this);
+        }
+
+        private void Si_Checked(object sender, RoutedEventArgs e)
+        {
+            Updateform(SI, e);
+            clear_label("SI_label", this);
+        }
+
+        private void All_Checked(object sender, RoutedEventArgs e)
+        {
+            Updateform(All, e);
+            ButtonContainer.Children.Clear();
+            Name.Clear();
+            List<string> Matier = ["Mathématiques", "Physique", "SI"];
+            ChargerButton(Matier, sender);
+            App.Current.Properties["matier"] = "all";
+            clear_label("All_label", this);
+        }
+
         private void Français_Checked(object sender, RoutedEventArgs e)
         {
             Updateform(Français, e);
-            Maths_label.Visibility = Visibility.Collapsed;
-            Physique_label.Visibility = Visibility.Collapsed;
-            SI_label.Visibility = Visibility.Collapsed;
-            Français_label.Visibility = Visibility.Visible;
-            Anglais_label.Visibility = Visibility.Collapsed;
-            Erreurs_label.Visibility = Visibility.Collapsed;
-            All_label.Visibility = Visibility.Collapsed;
+            clear_label("Français_label", this);
         }
 
         private void Anglais_Checked(object sender, RoutedEventArgs e)
         {
             Updateform(Anglais, e);
-            Maths_label.Visibility = Visibility.Collapsed;
-            Physique_label.Visibility = Visibility.Collapsed;
-            SI_label.Visibility = Visibility.Collapsed;
-            Français_label.Visibility = Visibility.Collapsed;
-            Anglais_label.Visibility = Visibility.Visible;
-            Erreurs_label.Visibility = Visibility.Collapsed;
-            All_label.Visibility = Visibility.Collapsed;
+            clear_label("Anglais_label", this);
         }
 
         private void Erreur_Checked(object sender, RoutedEventArgs e)
         {
             Updateform(Erreur, e);
-            Maths_label.Visibility = Visibility.Collapsed;
-            Physique_label.Visibility = Visibility.Collapsed;
-            SI_label.Visibility = Visibility.Collapsed;
-            Français_label.Visibility = Visibility.Collapsed;
-            Anglais_label.Visibility = Visibility.Collapsed;
-            Erreurs_label.Visibility = Visibility.Visible;
-            All_label.Visibility = Visibility.Collapsed;
+            clear_label("Erreurs_label", this);
+        }
+
+        private void clear_label(string aimlab, FrameworkElement root)
+        {
+            foreach (var item in labels_list)
+            {
+                var label = root.FindName(item) as System.Windows.Controls.Label;
+                if (item == aimlab)
+                {
+                    label.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    label.Visibility = Visibility.Collapsed;
+                }
+            }
+        }
+
+        private async void send_data(string action, string question, string rep, string quest_url, string rep_url)
+        {
+            //string jsCode = $"updatequizz('{action}','{question}','{rep}','{quest_url}','{rep_url}')";
+            //System.Diagnostics.Debug.WriteLine(jsCode);
+            var args = new[] { action, question, rep, quest_url.Replace("\\", "/"), rep_url.Replace("\\", "/") };
+            string jsCall = $"updatequizz({JsonSerializer.Serialize(args[0])}, {JsonSerializer.Serialize(args[1])}, {JsonSerializer.Serialize(args[2])}, {JsonSerializer.Serialize(args[3])}, {JsonSerializer.Serialize(args[4])})";
+            System.Diagnostics.Debug.WriteLine(jsCall);
+            System.Diagnostics.Debug.WriteLine(webviewquizz.Source.ToString());
+
+            try
+            {
+                await webviewquizz.CoreWebView2.ExecuteScriptAsync(jsCall);
+            }
+            catch { }
         }
     }
 }

@@ -1,34 +1,45 @@
 const questions = [
-  "Soit  \\( \\large f \\in \\mathcal{L}(E,F)\\), avec  \\( \\large f\\)  bijective. Comparer les dimensions de E et F.",
-  "Donner une primitive de  \\( \\large f\\)  définie par  \\( \\large f(x)=\\dfrac{x}{x^2+1}\\)"
+    "Soit  \\( \\large f \\in \\mathcal{L}(E,F)\\), avec  \\( \\large f\\)  bijective. Comparer les dimensions de E et F.",
+    "Donner une primitive de  \\( \\large f\\)  définie par  \\( \\large f(x)=\\dfrac{x}{x^2+1}\\)"
 ];
 
 const answers = [
-  "\\( \\large \\dim E= \\dim F\\)",
-  "\\( \\large F(x)=\\dfrac{1}{2} \\ln(x^2+1)\\)"
+    "\\( \\large \\dim E= \\dim F\\)",
+    "\\( \\large F(x)=\\dfrac{1}{2} \\ln(x^2+1)\\)"
 ];
 
 
-/*createcard(questions,answers);*/
-
-function createcard(questarr,reparr)
-{
+function createcard(questarr, reparr, Qimg, Rimg) {
     const divmain = document.getElementById("main")
     divmain.innerHTML = "";
 
 
     questarr.forEach((question, index) => {
 
+        let img1 = "";
+        let img2 = ""
         const answer = reparr[index];
+        const quest_img = Qimg[index].replace("\\/", "/");
+        const rep_img = Rimg[index].replace("\\/", "/");
         console.log(question)
         console.log(answer)
-        const val = "\"" +  question +  "\"";
-        
+        const val = "\"" + question + "\"";
 
-    let card = document.createElement("div");
-    card.className = "card";
-    
-    card.innerHTML = `
+        if (quest_img !== "") {
+            img1 = `<img src= ${quest_img} >`;
+        }
+        if (rep_img !== "") {
+            img2 = `<img src= ${rep_img} >`;
+        }
+
+        console.log(img1)
+        console.log(img2)
+
+
+        let card = document.createElement("div");
+        card.className = "card";
+
+        card.innerHTML = `
     <button class="bin-button" value=${val} onclick="get_val(this)">
       <svg class="bin-top" viewBox="0 0 39 7" fill="none" xmlns="http://www.w3.org/2000/svg">
         <line y1="5" x2="39" y2="5" stroke="white" stroke-width="4"></line>
@@ -44,33 +55,36 @@ function createcard(questarr,reparr)
       </svg>
     </button>
     <div class="container">
+        ${img1}
       <p>${question}</p>
       <hr>
+      ${img2}
       <p>${answer}</p>
     </div>
   `;
 
         divmain.appendChild(card)
-       
     });
-    if (window.MathJax) MathJax.typeset();
+    if (window.MathJax) {
+        MathJax.typeset();
+    }
 }
 
-function get_val(button){
-    
+function get_val(button) {
+
     const card = button.closest(".card");
 
- if (card) {
-    card.classList.add("fade-out"); // Lance l'animation
+    if (card) {
+        card.classList.add("fade-out"); // Lance l'animation
 
-    // Attend la fin de l'animation avant de supprimer le DOM
-    setTimeout(() => {
-      card.remove();
-    }, 200); // 400ms = même durée que dans le CSS
-  }
+        // Attend la fin de l'animation avant de supprimer le DOM
+        setTimeout(() => {
+            card.remove();
+        }, 200); // 400ms = même durée que dans le CSS
+    }
     const id = button.value;
     const action = "Delete";
-    const data = {action,id };
+    const data = { action, id };
     console.log(data);
     window.chrome.webview.postMessage(data);
 }

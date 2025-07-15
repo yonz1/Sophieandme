@@ -34,6 +34,7 @@ namespace Sophieandme.Pages
     {
     string conSource = "Data Source=..\\..\\..\\data_restored.db";
         string Tempsource = "Data Source=..\\..\\..\\user_value.db";
+        
 
 
         // ##################################################################### Liste utiliser aprés mélange
@@ -432,7 +433,7 @@ namespace Sophieandme.Pages
         {
             string query = "";
             var connection = new SQLiteConnection(conSource);
-                query = "SELECT id,question,reponse,image_question_url,image_answer_url,difficulty,Marked  FROM " + App.Current.Properties["matier"].ToString() + " WHERE id = \"100\" AND name =\"" + App.Current.Properties["nameindex"].ToString() + "\"";
+            query = "SELECT id,question,reponse,image_question_url,image_answer_url,difficulty,Marked  FROM " + App.Current.Properties["matier"].ToString() + " WHERE id = \"100\" AND name =\"" + App.Current.Properties["nameindex"].ToString() + "\"";
 
             try
             {
@@ -542,7 +543,6 @@ namespace Sophieandme.Pages
                 var reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    ////Testbox.Items.Add(reader.GetString(0));
                     string y = reader.GetString(0);
                     if (!Name.Contains(y))
                     {
@@ -550,10 +550,7 @@ namespace Sophieandme.Pages
                     }
                 }
             }
-            catch (Exception ex)
-            {
-                //Testbox.Items.Add(e.ToString());
-            }
+            catch (Exception ex){ }
 
             ChargerButton1(Name, 1);
 

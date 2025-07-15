@@ -543,10 +543,6 @@
                 Grid.Row="1"
                 CanContentScroll="True"
                 VerticalScrollBarVisibility="Hidden">
-                <!--<Grid
-                    Grid.Row="1"
-                    MaxHeight="880"
-                    Margin="100,70,100,20">-->
                 <Grid>
                     <DockPanel
                         x:Name="Panelquizz"
@@ -554,19 +550,9 @@
                         Panel.ZIndex="0"
                         LastChildFill="True">
                         <wv2:WebView2
-                            x:Name="webviewques"
+                            x:Name="webviewquizz"
                             MinHeight="30"
-                            VerticalAlignment="Top"
                             DockPanel.Dock="Top"
-                            NavigationCompleted="webviewques_NavigationCompleted"
-                            Source="file:///C:/Users/Bastien/source/repos/Sophieandme/Sophieandme/Math.html"
-                            Visibility="Visible" />
-                        <wv2:WebView2
-                            x:Name="webviewrep"
-                            MinHeight="30"
-                            VerticalAlignment="Top"
-                            DockPanel.Dock="Top"
-                            NavigationCompleted="webviewrep_NavigationCompleted"
                             Source="file:///C:/Users/Bastien/source/repos/Sophieandme/Sophieandme/Math.html"
                             Visibility="Visible" />
                     </DockPanel>

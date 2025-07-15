@@ -133,7 +133,7 @@ namespace Sophieandme.Pages
             System.Diagnostics.Debug.WriteLine("Test1");
             Getmarked(mat);
             System.Diagnostics.Debug.WriteLine("Test2");
-            send_data(questionaf, reponseaf);
+            send_data(questionaf, reponseaf, url_questionaf, url_repaf);
             
         }
 
@@ -838,11 +838,13 @@ namespace Sophieandme.Pages
             
         }
 
-        private async void send_data(List<string> question,List<string> rep)
+        private async void send_data(List<string> question,List<string> rep,List<string> quest_url,List<string> rep_url)
         { 
             string json = JsonSerializer.Serialize(question);
             string json2 = JsonSerializer.Serialize(rep);
-            string jsCode = $"createcard({json},{json2})";
+            string json3 = JsonSerializer.Serialize(quest_url);
+            string json4 = JsonSerializer.Serialize(rep_url);
+            string jsCode = $"createcard({json},{json2},{json3},{json4})";
             System.Diagnostics.Debug.WriteLine(jsCode);
             await webviewall.CoreWebView2.ExecuteScriptAsync(jsCode);
         }
